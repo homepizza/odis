@@ -20,6 +20,14 @@ class TaskBoardController extends AbstractController
     }
 
     /**
+     * @Route("/", name="tasks_board")
+     */
+    public function index()
+    {
+        return $this->redirectToRoute('tasks');
+    }
+
+    /**
      * Список задач (общий)
      *
      * @Route("/tasks", name="tasks")
