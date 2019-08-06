@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block body %}
+    <div class="o-page o-page--center">
+        <div class="o-page__card o-page__card--horizontal">
+            <div class="c-card c-login-horizontal">
+                <div class="c-login__content-wrapper">
+                    <header class="c-login__header">
+                        <a class="c-login__icon c-login__icon--rounded c-login__icon--left" href="{{ path('login') }}">
+{#                            <img src="{{ asset('media/app/logo-login.svg') }}" alt="Dashboard's Logo">#}
+                        </a>
+                        <h2 class="c-login__title">Авторизация</h2>
+
+                        {% if error %}
+                            <span class="c-badge c-badge--danger">{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+                        {% endif %}
+                    </header>
+
+
+                    <form method="post" class="c-login__content">
+                        <div class="c-field u-mb-small">
+                            <label class="c-field__label" for="input1">Телефон</label>
+                            <input class="c-input" type="text" id="inputUuid" name="uuid"
+                                   value="{{ last_username }}" placeholder="9221111111"
+                                   required autofocus
+                            >
+                        </div>
+
+                        <div class="c-field u-mb-small">
+                            <label class="c-field__label" for="input2">Пароль</label>
+                            <input class="c-input" type="password" id="inputPassword" name="password"
+                                   placeholder="123456 :)" required
+                            >
+                        </div>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+
+                        <button class="c-btn c-btn--success c-btn--fullwidth" type="submit">Войти в аккаунт</button>
+
+                        <span class="c-divider u-mv-small"></span>
+
+                        <a class="c-btn c-btn--secondary c-btn--fullwidth is-disabled">Создать аккаунт</a>
+                    </form>
+                </div>
+
+                <div class="c-login__content-image">
+{#                    <img src="{{ asset('media/app/logo-board5.jpg') }}" alt="Welcome to Dashboard UI Kit">#}
+
+                    <h3>Менеджер задач.</h3>
+                    <p class="u-text-large">
+                        Добро пожаловать в менеджер задач,
+                        он призван сделать разработку более прозрачной,
+                        а развитие нашей информационной системы эффективным.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
