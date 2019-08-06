@@ -2,4 +2,9 @@
 
 {% block body %}
     <h1 align="center">TaskBoard</h1>
+    <div ref="words" data-words="{{ words|join(',') }}">
+    <div id="app">
+        <words></words>
+        <w2></w2>
+    </div>
 {% endblock %}

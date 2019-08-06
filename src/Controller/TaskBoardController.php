@@ -34,6 +34,9 @@ class TaskBoardController extends AbstractController
      */
     public function list()
     {
-        return $this->render('tasks/demo.html.twig');
+        $words = ['sky', 'cloud', 'wood', 'rock', 'forest', 'mountain', 'breeze'];
+        return $this->render('tasks/demo.html.twig', [
+            'words' => $words
+        ]);
     }
 }

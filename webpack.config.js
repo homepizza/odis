@@ -13,6 +13,7 @@ Encore
     //.setManifestKeyPrefix('build/')
 
     .addEntry('theme', './assets/theme/theme.js')
+    .addEntry('vueapp', './assets/vueapp.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -49,6 +50,7 @@ Encore
 
     // uncomment if you're having problems with a jQuery plugin
     .autoProvidejQuery()
+    .enableVueLoader()
 
     // uncomment if you use API Platform Admin (composer req api-admin)
     //.enableReactPreset()
