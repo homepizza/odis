@@ -13,7 +13,7 @@ Encore
     //.setManifestKeyPrefix('build/')
 
     .addEntry('theme', './assets/theme/theme.js')
-    .addEntry('vueapp', './assets/vueapp.js')
+    .addEntry('app', './assets/vueapp.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
