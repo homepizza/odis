@@ -27,6 +27,7 @@
         methods: {
             Test: function () {
                 console.log('TEST');
+                this.$store.commit('increment');
             }
         }
     };

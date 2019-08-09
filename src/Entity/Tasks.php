@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -70,6 +72,16 @@ class Tasks
      * @ORM\Column(type="text", nullable=false)
      */
     private $body;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Attachments", mappedBy="task")
+     */
+    private $attachments;
+
+    public function __construct()
+    {
+        $this->attachments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -192,6 +204,37 @@ class Tasks
     public function setBody(?string $body): self
     {
         $this->body = $body;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Attachments[]
+     */
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
+    }
+
+    public function addAttachment(Attachments $attachment): self
+    {
+        if (!$this->attachments->contains($attachment)) {
+            $this->attachments[] = $attachment;
+            $attachment->setTask($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttachment(Attachments $attachment): self
+    {
+        if ($this->attachments->contains($attachment)) {
+            $this->attachments->removeElement($attachment);
+            // set the owning side to null (unless already changed)
+            if ($attachment->getTask() === $this) {
+                $attachment->setTask(null);
+            }
+        }
 
         return $this;
     }

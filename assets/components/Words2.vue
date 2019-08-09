@@ -6,6 +6,8 @@
         <ul>
             <li :key="word.id" v-for="word in words">{{ word }}</li>
         </ul>
+        <p>Текст теста</p>
+        <p>{{ count }}</p>
     </div>
 </template>
 
@@ -18,10 +20,14 @@
             };
         },
         mounted() {
-            console.log('123');
             let el = document.querySelector("div[data-words]");
             let mywords = el.dataset.words.split(",");
             this.words.push.apply(this.words, mywords);
+        },
+        computed: {
+            count() {
+                return this.$store.state.count;
+            }
         }
     };
 </script>
