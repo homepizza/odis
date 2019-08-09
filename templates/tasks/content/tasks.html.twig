@@ -15,411 +15,103 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row u-mb-large">
-        <div class="col-sm-12">
-            <div class="c-table-responsive@desktop">
-                <table class="c-table" id="datatable">
+    <div class="container" style="max-width: 96%; padding-top: 170px;">
+        <div class="row u-mb-large">
+            <div class="col-sm-12">
+                <div class="c-table-responsive@desktop">
+                    <table class="c-table" id="datatable">
 
-                    <caption class="c-table__title">
-                        Список задач <small>Всего задач: 56</small>
+                        <caption class="c-table__title">
+                            Список задач <small>Всего задач: 56</small>
 
-                        <a class="c-table__title-action" href="#!">
-                            <i class="fa fa-cloud-download"></i>
-                        </a>
-                    </caption>
+                            <a class="c-table__title-action" style="display: none;">
+                                <i class="fa fa-cloud-download"></i>
+                            </a>
+                        </caption>
 
-                    <thead class="c-table__head c-table__head--slim">
-                    <tr class="c-table__row">
-                        <th class="c-table__cell c-table__cell--head">Номер</th>
-                        <th class="c-table__cell c-table__cell--head no-sort">Задача</th>
-                        <th class="c-table__cell c-table__cell--head">Срок</th>
-                        <th class="c-table__cell c-table__cell--head no-sort">Исполнитель</th>
-                        <th class="c-table__cell c-table__cell--head no-sort">Автор</th>
-                        <th class="c-table__cell c-table__cell--head no-sort">Статус</th>
-                        <th class="c-table__cell c-table__cell--head">Приоритет</th>
-                        <th class="c-table__cell c-table__cell--head no-sort">Тип</th>
-                        <th class="c-table__cell c-table__cell--head no-sort">Направление</th>
-                        <th class="c-table__cell c-table__cell--head no-sort">
-                            <span class="u-hidden-visually">Действия</span>
-                        </th>
-                    </tr>
-                    </thead>
+                        <thead class="c-table__head c-table__head--slim">
+                        <tr class="c-table__row">
+                            <th class="c-table__cell c-table__cell--head">Номер</th>
+                            <th class="c-table__cell c-table__cell--head no-sort">Задача</th>
+                            <th class="c-table__cell c-table__cell--head">Срок</th>
+                            <th class="c-table__cell c-table__cell--head no-sort">Исполнитель</th>
+                            <th class="c-table__cell c-table__cell--head no-sort">Автор</th>
+                            <th class="c-table__cell c-table__cell--head no-sort">Статус</th>
+                            <th class="c-table__cell c-table__cell--head">Приоритет</th>
+                            <th class="c-table__cell c-table__cell--head no-sort">Тип</th>
+                            <th class="c-table__cell c-table__cell--head no-sort">Направление</th>
+                            <th class="c-table__cell c-table__cell--head no-sort">
+                                <span class="u-hidden-visually">Действия</span>
+                            </th>
+                        </tr>
+                        </thead>
 
-                    <tbody>
-                    <tr class="c-table__row c-table__row--danger">
-                        <td class="c-table__cell">
-                            <small class="u-block u-text-mute">#1228</small>
-                        </td>
-                        <td class="c-table__cell" style="white-space: normal;">
-                            <a href="task.html">Сайт дал сохранить заказ, хотя API возвращал datetime_want_allow - false</a>
-                            <small class="u-block u-text-mute"></small>
-                        </td>
+                        <tbody>
+                            <tr class="c-table__row c-table__row--danger">
+                                <td class="c-table__cell">
+                                    <small class="u-block u-text-mute">#1228</small>
+                                </td>
+                                <td class="c-table__cell" style="white-space: normal;">
+                                    <a href="{{ path('tasks_view', {'id': 1238}) }}">Сайт дал сохранить заказ, хотя API возвращал datetime_want_allow - false</a>
+                                    <small class="u-block u-text-mute"></small>
+                                </td>
 
-                        <td class="c-table__cell">
-                            10.08.2019
-                            <small class="u-block u-text-danger"></small>
-                        </td>
+                                <td class="c-table__cell">
+                                    10.08.2019
+                                    <small class="u-block u-text-danger"></small>
+                                </td>
 
-                        <td class="c-table__cell">
-                            <div class="o-media">
-                                <div class="o-media__img u-mr-xsmall">
-                                    Александр Малоземов
-                                </div>
-                            </div>
-                        </td>
+                                <td class="c-table__cell">
+                                    <div class="o-media">
+                                        <div class="o-media__img u-mr-xsmall">
+                                            Александр Малоземов
+                                        </div>
+                                    </div>
+                                </td>
 
-                        <td class="c-table__cell">
-                            Евгений Солдатов
-                        </td>
+                                <td class="c-table__cell">
+                                    Евгений Солдатов
+                                </td>
 
-                        <td class="c-table__cell">
-                            <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>Запрос данных
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--warning">Средний</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--success">Техподдержка</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--primary">Прием заказов</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <div class="c-dropdown dropdown">
-                                <button class="c-btn c-btn--secondary has-dropdown dropdown-toggle" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Задача</button>
-                                <div class="c-dropdown__menu dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-info u-mr-xsmall"></i>
-                                        В работе
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
-                                        Запрос данных
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
-                                        Согласование
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-primary u-mr-xsmall"></i>
-                                        Отменено
-                                    </a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="c-table__row c-table__row--danger">
-                        <td class="c-table__cell">
-                            <small class="u-block u-text-mute">#1225</small>
-                        </td>
-                        <td class="c-table__cell" style="white-space: normal;">
-                            <a href="task.html">Модернизация отчета по начислению/списанию баллов</a>
-                            <small class="u-block u-text-mute"></small>
-                        </td>
-
-                        <td class="c-table__cell">
-                            11.08.2019
-                            <small class="u-block u-text-danger"></small>
-                        </td>
-
-                        <td class="c-table__cell">
-                            <div class="o-media">
-                                <div class="o-media__img u-mr-xsmall">
-                                    Александр Малоземов
-                                </div>
-                            </div>
-                        </td>
-
-                        <td class="c-table__cell">
-                            Евгений Солдатов
-                        </td>
-
-                        <td class="c-table__cell">
-                            <i class="fa fa-circle-o u-color-success u-mr-xsmall"></i>Новая
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--danger">Высокий</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--success">Доработка</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--primary">Доставка</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <div class="c-dropdown dropdown">
-                                <button class="c-btn c-btn--secondary has-dropdown dropdown-toggle" id="dropdownMenuButton1228" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Задача</button>
-                                <div class="c-dropdown__menu dropdown-menu" aria-labelledby="dropdownMenuButton1228">
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-info u-mr-xsmall"></i>
-                                        В работе
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
-                                        Запрос данных
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
-                                        Согласование
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-primary u-mr-xsmall"></i>
-                                        Отменено
-                                    </a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="c-table__row c-table__row--danger">
-                        <td class="c-table__cell">
-                            <small class="u-block u-text-mute">#1228</small>
-                        </td>
-                        <td class="c-table__cell" style="white-space: normal;">
-                            <a href="task.html">В бланке по текущей смене нельзя поменять нагрузку на 0:15</a>
-                            <small class="u-block u-text-mute"></small>
-                        </td>
-
-                        <td class="c-table__cell">
-                            30.08.2019
-                            <small class="u-block u-text-danger"></small>
-                        </td>
-
-                        <td class="c-table__cell">
-                            <div class="o-media">
-                                <div class="o-media__img u-mr-xsmall">
-                                    Александр Малоземов
-                                </div>
-                            </div>
-                        </td>
-
-                        <td class="c-table__cell">
-                            Евгений Солдатов
-                        </td>
-
-                        <td class="c-table__cell">
-                            <i class="fa fa-circle-o u-color-success u-mr-xsmall"></i>Новая
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--info">Низкий</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--success">Доработка</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--primary">Доставка</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <div class="c-dropdown dropdown">
-                                <button class="c-btn c-btn--secondary has-dropdown dropdown-toggle" id="dropdownMenuButton1229" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Задача</button>
-                                <div class="c-dropdown__menu dropdown-menu" aria-labelledby="dropdownMenuButton1229">
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-info u-mr-xsmall"></i>
-                                        В работе
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
-                                        Запрос данных
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
-                                        Согласование
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-primary u-mr-xsmall"></i>
-                                        Отменено
-                                    </a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="c-table__row c-table__row--danger">
-                        <td class="c-table__cell">
-                            <small class="u-block u-text-mute">#1226</small>
-                        </td>
-                        <td class="c-table__cell" style="white-space: normal;">
-                            <a href="task.html">Сибирский (дублер) тракт по Яндексу как Сибирский тракт, из-за чего маршруты строятся короче</a>
-                            <small class="u-block u-text-mute"></small>
-                        </td>
-
-                        <td class="c-table__cell">
-                            24.08.2019
-                            <small class="u-block u-text-danger"></small>
-                        </td>
-
-                        <td class="c-table__cell">
-                            <div class="o-media">
-                                <div class="o-media__img u-mr-xsmall">
-                                    Александр Малоземов
-                                </div>
-                            </div>
-                        </td>
-
-                        <td class="c-table__cell">
-                            Евгений Солдатов
-                        </td>
-
-                        <td class="c-table__cell">
-                            <i class="fa fa-circle-o u-color-success u-mr-xsmall"></i>Новая
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--info">Низкий</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--success">Доработка</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--primary">Доставка</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <div class="c-dropdown dropdown">
-                                <button class="c-btn c-btn--secondary has-dropdown dropdown-toggle" id="dropdownMenuButton1230" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Задача</button>
-                                <div class="c-dropdown__menu dropdown-menu" aria-labelledby="dropdownMenuButton1230">
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-info u-mr-xsmall"></i>
-                                        В работе
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
-                                        Запрос данных
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
-                                        Согласование
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-primary u-mr-xsmall"></i>
-                                        Отменено
-                                    </a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="c-table__row c-table__row--danger">
-                        <td class="c-table__cell">
-                            <small class="u-block u-text-mute">#1228</small>
-                        </td>
-                        <td class="c-table__cell" style="white-space: normal;">
-                            <a href="task.html">Отвязать улицы от филиалов</a>
-                            <small class="u-block u-text-mute"></small>
-                        </td>
-
-                        <td class="c-table__cell">
-                            19.08.2019
-                            <small class="u-block u-text-danger"></small>
-                        </td>
-
-                        <td class="c-table__cell">
-                            <div class="o-media">
-                                <div class="o-media__img u-mr-xsmall">
-                                    Александр Малоземов
-                                </div>
-                            </div>
-                        </td>
-
-                        <td class="c-table__cell">
-                            Евгений Солдатов
-                        </td>
-
-                        <td class="c-table__cell">
-                            <i class="fa fa-circle-o u-color-success u-mr-xsmall"></i>Новая
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--danger">Высокий</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--success">Доработка</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--primary">Доставка</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <div class="c-dropdown dropdown">
-                                <button class="c-btn c-btn--secondary has-dropdown dropdown-toggle" id="dropdownMenuButton1231" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Задача</button>
-                                <div class="c-dropdown__menu dropdown-menu" aria-labelledby="dropdownMenuButton1231">
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-info u-mr-xsmall"></i>
-                                        В работе
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
-                                        Запрос данных
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
-                                        Согласование
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-primary u-mr-xsmall"></i>
-                                        Отменено
-                                    </a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="c-table__row c-table__row--danger">
-                        <td class="c-table__cell">
-                            <small class="u-block u-text-mute">#1230</small>
-                        </td>
-                        <td class="c-table__cell" style="white-space: normal;">
-                            <a href="task.html">2 конкурентных заказа на одно время - неверное время доставки</a>
-                            <small class="u-block u-text-mute"></small>
-                        </td>
-
-                        <td class="c-table__cell">
-                            17.08.2019
-                            <small class="u-block u-text-danger"></small>
-                        </td>
-
-                        <td class="c-table__cell">
-                            <div class="o-media">
-                                <div class="o-media__img u-mr-xsmall">
-                                    Александр Малоземов
-                                </div>
-                            </div>
-                        </td>
-
-                        <td class="c-table__cell">
-                            Евгений Солдатов
-                        </td>
-
-                        <td class="c-table__cell">
-                            <i class="fa fa-circle-o u-color-success u-mr-xsmall"></i>Новая
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--danger">Высокий</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--success">Доработка</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <span class="c-badge c-badge--primary">Доставка</span>
-                        </td>
-                        <td class="c-table__cell">
-                            <div class="c-dropdown dropdown">
-                                <button class="c-btn c-btn--secondary has-dropdown dropdown-toggle" id="dropdownMenuButton12321" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Задача</button>
-                                <div class="c-dropdown__menu dropdown-menu" aria-labelledby="dropdownMenuButton1232">
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-info u-mr-xsmall"></i>
-                                        В работе
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
-                                        Запрос данных
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
-                                        Согласование
-                                    </a>
-                                    <a class="c-dropdown__item dropdown-item" href="#">
-                                        <i class="fa fa-circle-o u-color-primary u-mr-xsmall"></i>
-                                        Отменено
-                                    </a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                                <td class="c-table__cell">
+                                    <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>Запрос данных
+                                </td>
+                                <td class="c-table__cell">
+                                    <span class="c-badge c-badge--warning">Средний</span>
+                                </td>
+                                <td class="c-table__cell">
+                                    <span class="c-badge c-badge--success">Техподдержка</span>
+                                </td>
+                                <td class="c-table__cell">
+                                    <span class="c-badge c-badge--primary">Прием заказов</span>
+                                </td>
+                                <td class="c-table__cell">
+                                    <div class="c-dropdown dropdown">
+                                        <button class="c-btn c-btn--secondary has-dropdown dropdown-toggle" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Задача</button>
+                                        <div class="c-dropdown__menu dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <a class="c-dropdown__item dropdown-item" href="#">
+                                                <i class="fa fa-circle-o u-color-info u-mr-xsmall"></i>
+                                                В работе
+                                            </a>
+                                            <a class="c-dropdown__item dropdown-item" href="#">
+                                                <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
+                                                Запрос данных
+                                            </a>
+                                            <a class="c-dropdown__item dropdown-item" href="#">
+                                                <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
+                                                Согласование
+                                            </a>
+                                            <a class="c-dropdown__item dropdown-item" href="#">
+                                                <i class="fa fa-circle-o u-color-primary u-mr-xsmall"></i>
+                                                Отменено
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

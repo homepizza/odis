@@ -1,0 +1,240 @@
+{% extends 'tasks/layout.html.twig' %}
+
+{% block title %} Задача №{{ id }} {% endblock %}
+
+{% block toolbar %}
+    <div class="c-toolbar u-mb-medium">
+        <h3 class="c-toolbar__title has-divider">Задача №{{ id }}</h3>
+        <h5 class="c-toolbar__meta u-mr-auto">Просмотр и управление задачей</h5>
+        {{ include('tasks/blocks/actions_task.html.twig') }}
+    </div>
+{% endblock %}
+
+{% block content %}
+    <main style="padding-top: 170px;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-4">
+                    <div class="c-card u-p-medium u-mb-medium">
+                        <h5 class="u-h6 u-mb-medium">Детали задачи</h5>
+
+                        <table class="u-width-100">
+                            <tbody>
+                            <tr>
+                                <td class="u-pb-xsmall u-color-primary u-text-small">Автор</td>
+                                <td class="u-pb-xsmall u-text-right u-text-mute u-text-small">Иван Задачников</td>
+                            </tr>
+                            <tr>
+                                <td class="u-pb-xsmall u-color-primary u-text-small">Исполнитель</td>
+                                <td class="u-pb-xsmall u-text-right u-text-mute u-text-small">Дмитрий Исполнев</td>
+                            </tr>
+                            <tr>
+                                <td class="u-pb-xsmall u-color-primary u-text-small">Статус</td>
+                                <td class="u-pb-xsmall u-text-right u-text-mute u-text-small">
+                                    <i class="fa fa-circle-o u-color-warning"></i>
+                                    Согласование
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="u-color-primary u-text-small">Приоритет</td>
+                                <td class="u-text-right u-text-mute u-text-small">
+                                    <span class="c-badge c-badge--warning c-badge--xsmall">Средний</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="u-color-primary u-text-small">Тип</td>
+                                <td class="u-text-right u-text-mute u-text-small">
+                                    <span class="c-badge c-badge--success c-badge--xsmall">Доработка</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="u-color-primary u-text-small">Направление</td>
+                                <td class="u-text-right u-text-mute u-text-small">
+                                    <span class="c-badge c-badge--primary c-badge--xsmall">Прием заказов</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="c-divider u-mv-small"></div>
+
+                        <div class="u-flex u-justify-between u-align-items-center">
+                            <p>Срок выполнения</p>
+
+                            <div style="display: flex;">
+                                <a class="c-nav__link" style="margin-right: 10px; padding-top: 3px;">
+                                    <i class="fa fa-link"></i>
+                                    Решение
+                                </a>
+                                <span class="c-badge c-badge--danger">10.08.2019</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="c-card u-mb-medium">
+
+                        <div class="u-p-medium">
+                            <h5 class="u-h6 u-mb-medium">Участвуют в задаче</h5>
+                            <div class="o-media u-mb-small">
+                                <div class="o-media__img u-mr-xsmall">
+                                    <div class="c-avatar c-avatar--xsmall">
+                                        <img class="c-avatar__img" src="{{ asset('media/theme/user5.png') }}" alt="Profile Title">
+                                    </div>
+                                </div>
+                                <div class="o-media__body">
+                                    <h6 class="u-text-small u-mb-zero">Иван Задачников</h6>
+                                    <p class="u-text-mute u-text-xsmall">Автор</p>
+                                </div>
+                            </div><!-- // .o-media -->
+
+                            <div class="o-media u-mb-small">
+                                <div class="o-media__img u-mr-xsmall">
+                                    <div class="c-avatar c-avatar--xsmall">
+                                        <img class="c-avatar__img" src="{{ asset('media/theme/user5.png') }}" alt="Profile Title">
+                                    </div>
+                                </div>
+                                <div class="o-media__body">
+                                    <h6 class="u-text-small u-mb-zero">Дмитрий Исполнев</h6>
+                                    <p class="u-text-mute u-text-xsmall">Исполнитель</p>
+                                </div>
+                            </div><!-- // .o-media -->
+
+                            <div class="o-media u-mb-small">
+                                <div class="o-media__img u-mr-xsmall">
+                                    <div class="c-avatar c-avatar--xsmall">
+                                        <img class="c-avatar__img" src="{{ asset('media/theme/user5.png') }}" alt="Profile Title">
+                                    </div>
+                                </div>
+                                <div class="o-media__body">
+                                    <h6 class="u-text-small u-mb-zero">Татьяна Как</h6>
+                                    <p class="u-text-mute u-text-xsmall">Обсуждение</p>
+                                </div>
+                            </div><!-- // .o-media -->
+
+                            <div class="o-media">
+                                <div class="o-media__img u-mr-xsmall">
+                                    <div class="c-avatar c-avatar--xsmall">
+                                        <img class="c-avatar__img" src="{{ asset('media/theme/user5.png') }}" alt="Profile Title">
+                                    </div>
+                                </div>
+                                <div class="o-media__body">
+                                    <h6 class="u-text-small u-mb-zero">Михаил Нормальнов</h6>
+                                    <p class="u-text-mute u-text-xsmall">Обсуждение</p>
+                                </div>
+                            </div><!-- // .o-media -->
+                        </div>
+
+                        <div class="u-pv-small  u-border-top u-text-center">
+                            <a class="u-text-mute u-text-uppercase u-text-xsmall" href="#">Сообщений: 12</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-8">
+                    <article class="c-stage">
+                        <div class="c-stage__header o-media u-justify-start">
+                            <div class="c-stage__icon o-media__img">
+                                <i class="fa fa-laptop"></i>
+                            </div>
+                            <div class="c-stage__header-title o-media__body">
+                                <h6 class="u-mb-zero">Модернизация отчета по начислению/списанию баллов</h6>
+                                <p class="u-text-xsmall u-text-mute">Была в работе: 05.08.2019 | Ожидается через: 10 дней(-я)</p>
+                            </div>
+                        </div>
+
+                        <div class="c-stage__panel u-p-medium">
+
+                            <p class="u-text-mute u-text-uppercase u-text-small u-mb-xsmall">Описание</p>
+                            <p class="u-mb-medium">Надо отчееет, чем быстрее тем лучше, но можно не быстрее :)</p>
+
+                            <p class="u-text-mute u-text-uppercase u-text-small u-mb-xsmall">Прикрепленные файлы</p>
+                            <div class="row u-mb-medium">
+                                <div class="col-md-6 col-lg-4">
+                                    <ul>
+                                        <li class="u-mb-xsmall u-text-small u-color-primary">
+                                            <i class="fa fa-file-image-o u-text-mute u-mr-xsmall"></i>
+                                            <a href="">Пример отчета.png</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-6 col-lg-8">
+                                    <ul>
+                                        <li class="u-mb-xsmall u-text-small u-color-primary">
+                                            <i class="fa fa-file-text-o u-text-mute u-mr-xsmall"></i>
+                                            <a href="">Отчет.xlsx</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <p class="u-text-mute u-text-uppercase u-mb-medium">Прикрепление файлов (На редактировании)</p>
+
+                                    <form action="/file-upload" class="dropzone" id="custom-dropzone" style="height: 180px;">
+                                        <div class="dz-message" data-dz-message>
+                                            <i class="dz-icon fa fa-cloud-upload"></i>
+                                            <span>Перетащите файл в окно или загрузите по клику</span>
+                                        </div>
+
+                                        <div class="fallback">
+                                            <input name="file" type="file" multiple>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 20px;"></div>
+
+                        </div><!-- // .c-stage__panel -->
+                        <!--                        <div class="c-stage__label c-stage__panel&#45;&#45;mute c-alert&#45;&#45;info">-->
+                        <!--                            <i class="c-stage__label-icon fa fa-info"></i>-->
+                        <!--                            <p class="c-stage__label-title">Общее обсуждение</p>-->
+                        <!--                        </div>-->
+
+                        <!-- Comment 1 -->
+                        <div class="c-stage__panel u-p-medium">
+                            <div class="o-media u-mb-small">
+                                <div class="o-media__img u-mr-xsmall">
+                                    <div class="c-avatar c-avatar--xsmall">
+                                        <img class="c-avatar__img" src="{{ asset('media/theme/user5.png') }}" alt="Profile Title">
+                                    </div>
+
+                                </div>
+                                <div class="o-media__body">
+                                    <h6 class="u-mb-zero u-text-small">Иван Задачников</h6>
+                                    <p class="u-text-mute u-text-xsmall">04.08.2019 11:22</p>
+                                </div>
+                            </div>
+                            <p class="u-mb-xsmall">Быстрее пожалуйста..</p>
+                        </div>
+
+                        <!-- Comment 2-->
+                        <div class="c-stage__panel u-p-medium">
+                            <div class="o-media u-mb-small">
+                                <div class="o-media__img u-mr-xsmall">
+                                    <div class="c-avatar c-avatar--xsmall">
+                                        <img class="c-avatar__img" src="{{ asset('media/theme/user5.png') }}" alt="Profile Title">
+                                    </div>
+
+                                </div>
+                                <div class="o-media__body">
+                                    <h6 class="u-mb-zero u-text-small">Михаил Нормальнов</h6>
+                                    <p class="u-text-mute u-text-xsmall">05.08.2019 13:23</p>
+                                </div>
+                            </div><!-- // .o-media -->
+
+                            <p class="u-mb-xsmall">Отлично, супер! Только надо передалть....</p>
+                        </div>
+
+                    </article><!-- // .c-stage -->
+                    <div class="c-post">
+                        <textarea class="c-post__content">I am currently writing a dissertation about whether Web Designers should know how to code their designs or just be the best designer they can be and I was wondering if I could get your thoughts on on this question and if coding is essential to a Web Designer.</textarea>
+
+                        <div class="c-post__toolbar">
+
+                            <a class="c-btn c-btn--success u-float-right" href="#" >Опубликовать</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- // .container -->
+    </main><!-- // .o-page__content -->
+{% endblock %}
