@@ -25,6 +25,7 @@
         "jquery": "^3.4.1",
         "jquery-match-height": "^0.7.2",
         "jqvmap": "^1.5.1",
+        "locale": "^0.1.0",
         "moment": "^2.18.1",
         "node-sass": "^4.12.0",
         "sass-loader": "^7.1.0",

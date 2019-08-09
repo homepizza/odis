@@ -3,4 +3,6 @@
 require('./scss/main.scss');
 
 // JS
-require('./js/main');
+require('./js/vendor/jquery.dataTables');
+// require('./js/main');
+require('./js/dist/main');

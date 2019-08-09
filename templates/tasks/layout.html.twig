@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div style="position: fixed; z-index: 1; width: 100%;">
+        {{ include('tasks/blocks/header.html.twig') }}
+        {% block toolbar %}{% endblock %}
+    </div>
+    {% block filters %}{% endblock %}
+    <div class="container" style="max-width: 96%; padding-top: 170px;">
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}
