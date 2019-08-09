@@ -1,5 +1,7 @@
 <template>
-    <p style="text-align: center" v-if="count <= 17">{{ message }}</p>
+    <p style="text-align: center;" v-bind:style="{background: color, width: '280px', margin: '0 auto'}">
+        {{ message }}
+    </p>
 </template>
 
 <script>
@@ -14,6 +16,9 @@
             count() {
                 console.log('123');
                 return this.$store.state.count;
+            },
+            color() {
+                return this.$store.state.count < 17 ? 'white' :  '#1A83D2';
             }
         }
     }
