@@ -1,14 +1,29 @@
 import Vue from 'vue';
-import Words from "./components/Words";
+import Axios from 'axios';
+import vSelect from 'vue-select';
 import store from "./store/store";
+import DetailsCreate from "./components/DetailsCreate";
+import TaskCreate from "./components/TaskCreate";
 
-Vue.component('words', Words);
+Vue.prototype.$http = Axios;
+Vue.component('v-select', vSelect);
+Vue.component('details-create', DetailsCreate);
+Vue.component('task-create', TaskCreate);
 
 new Vue({el: '#app',
     store,
     methods: {
-        say: function () {
-            console.log(this.$store.state.NewTask.count);
+        createTask: function () {
+            console.log('Создание задачи');
+        },
+        editTask: function () {
+
+        }
+    },
+    computed: {
+        accessCreateTask() {
+            let task = store.state.Task;
+            return task.title && task.description && task.priority && task.type && task.area;
         }
     }
 });

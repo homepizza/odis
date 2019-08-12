@@ -12,88 +12,13 @@
 
 {% block content %}
     <main style="padding-top: 170px;">
-        <words></words>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-4">
-                    <div class="c-card u-p-medium u-mb-medium">
-                        <h5 class="u-h6 u-mb-medium">Детали задачи</h5>
-
-                        <table class="u-width-100">
-                            <tbody>
-                            <tr>
-                                <td class="u-pb-xsmall u-color-primary u-text-small">Автор</td>
-                                <td class="u-pb-xsmall u-text-right u-text-mute u-text-small">Иван Задачников</td>
-                            </tr>
-                            <tr>
-                                <td class="u-color-primary u-text-small" style="width: 308px;">Приоритет</td>
-                                <td class="u-text-mute u-text-small">
-                                    <select class="c-select" id="select12">
-                                        <option>Низкий</option>
-                                        <option>Средний</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="u-color-primary u-text-small">Тип</td>
-                                <td class="u-text-mute u-text-small">
-                                    <select class="c-select" id="select13">
-                                        <option>Доработка</option>
-                                        <option>Техподдержка</option>
-                                        <option>Развитие</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="u-color-primary u-text-small">Направление</td>
-                                <td class="u-text-mute u-text-small">
-                                    <select class="c-select" id="select14">
-                                            <option>Маркетинг</option>
-                                            <option>Доставка</option>
-                                            <option>Прием заказов</option>
-                                            <option>Отчеты и данные</option>
-                                            <option>Кухня</option>
-                                            <option>Учет</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <details-create></details-create>
                 </div>
                 <div class="col-xl-8">
-                    <article class="c-stage">
-                        <div class="c-stage__header o-media u-justify-start">
-                            <div class="c-stage__header-title o-media__body" style="width: 80%;">
-                                <input type="text" class="c-input large" value="Модернизация отчета по начислению/списанию баллов" placeholder="Заголовк задачи">
-                            </div>
-                        </div>
-
-                        <div class="c-stage__panel u-p-medium">
-
-                            <p class="u-text-mute u-text-uppercase u-text-small u-mb-xsmall">Описание</p>
-                            <textarea name="desr" id="desr-new" class="c-input" cols="30" rows="10">Надо отчееет, чем быстрее тем лучше, но можно не быстрее :)
-                            </textarea>
-
-                            <div class="row" style="margin-top: 20px;">
-                                <div class="col-12">
-                                    <p class="u-text-mute u-text-uppercase u-mb-medium">Прикрепление файлов</p>
-
-                                    <form action="/file-upload" class="dropzone" id="custom-dropzone" style="height: 180px;">
-                                        <div class="dz-message" data-dz-message>
-                                            <i class="dz-icon fa fa-cloud-upload"></i>
-                                            <span>Перетащите файл в окно или загрузите по клику</span>
-                                        </div>
-
-                                        <div class="fallback">
-                                            <input name="file" type="file" multiple>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-top: 20px;"></div>
-                        </div>
-                    </article>
+                    <task-create></task-create>
                 </div>
             </div>
         </div>

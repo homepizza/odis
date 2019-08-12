@@ -19,36 +19,36 @@ class Tasks
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", fetch="EAGER")
      */
     private $asignee;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Priorities")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Priorities", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $priority;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Statuses")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Statuses", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $status;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Types")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Types", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\DomainAreas")
+     * @ORM\ManyToOne(targetEntity="App\Entity\DomainAreas", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $area;

@@ -1,6 +1,7 @@
 
 // SASS styles
 require('./scss/main.scss');
+require('vue-select/dist/vue-select.css');
 
 // JS
 require('./js/vendor/jquery.dataTables');
