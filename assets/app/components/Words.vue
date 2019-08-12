@@ -19,11 +19,6 @@
                 words: []
             };
         },
-        mounted() {
-            let el = document.querySelector("div[data-words]");
-            let mywords = el.dataset.words.split(",");
-            this.words.push.apply(this.words, mywords);
-        },
         methods: {
             Test: function () {
                 console.log('TEST');
