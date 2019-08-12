@@ -14,7 +14,12 @@ new Vue({el: '#app',
     store,
     methods: {
         createTask: function () {
-            console.log('Создание задачи');
+            let task = store.getters.getTask;
+            this.$http.post('/tasks/new', task).then(response => {
+                if (response.status === 200) {
+                    window.open('/tasks', '_self');
+                }
+            });
         },
         editTask: function () {
 

@@ -24,7 +24,21 @@ const mutations = {
     }
 };
 
+const getters = {
+    getTask: state => {
+        let Task = {
+            title: state.title,
+            description: state.description,
+            priority: state.priority,
+            type: state.priority,
+            area: state.area
+        };
+        return Task;
+    }
+};
+
 export default {
     state,
-    mutations
+    mutations,
+    getters
 }
