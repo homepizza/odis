@@ -3,7 +3,8 @@ const state = {
     description: null,
     priority: null,
     type: null,
-    area: null
+    area: null,
+    attachments: []
 };
 
 const mutations = {
@@ -21,6 +22,9 @@ const mutations = {
     },
     setArea (state, area) {
         state.area = area
+    },
+    setAttachments (state, attachments) {
+        state.attachments = attachments
     }
 };
 
@@ -31,7 +35,8 @@ const getters = {
             description: state.description,
             priority: state.priority,
             type: state.priority,
-            area: state.area
+            area: state.area,
+            attachments: state.attachments
         };
         return Task;
     }

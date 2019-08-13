@@ -21,16 +21,25 @@
                 <div class="col-12">
                     <p class="u-text-mute u-text-uppercase u-mb-medium">Прикрепление файлов</p>
 
-                    <form action="/file-upload" class="dropzone" id="custom-dropzone" style="height: 150px;">
-                        <div class="dz-message" data-dz-message>
-                            <i class="dz-icon fa fa-cloud-upload"></i>
-                            <span>Перетащите файл в окно или загрузите по клику</span>
-                        </div>
+<!--                    <form action="/task/attach" class="dropzone" id="custom-dropzone" style="height: 150px;">-->
+<!--                        <div class="dz-message" data-dz-message>-->
+<!--                            <i class="dz-icon fa fa-cloud-upload"></i>-->
+<!--                            <span>Перетащите файл в окно или загрузите по клику</span>-->
+<!--                        </div>-->
 
-                        <div class="fallback">
-                            <input name="file" type="file" multiple>
-                        </div>
-                    </form>
+<!--                        <div class="fallback">-->
+<!--                            <input name="file" type="file" multiple>-->
+<!--                        </div>-->
+<!--                    </form>-->
+                    <vue-dropzone
+                            class="dropzone"
+                            ref="dropzone"
+                            id="custom-dropzone"
+                            :options="dropzoneOptions"
+                            @vdropzone-success="afterCompletedFiles"
+                            @vdropzone-removed-file="removedFile"
+                    >
+                    </vue-dropzone>
                 </div>
             </div>
             <div class="row" style="margin-top: 20px;"></div>
@@ -39,11 +48,9 @@
 </template>
 
 <script>
-    // Import this component
     import Trumbowyg from 'vue-trumbowyg';
-
-    // Import editor css
     import 'trumbowyg/dist/ui/trumbowyg.css';
+    import vue2Dropzone from 'vue2-dropzone'
 
     export default {
         name: "TaskCreate",
@@ -51,9 +58,14 @@
             return {
                 title: null,
                 description: null,
-                content: null,
-                config: {
-
+                files: [],
+                config: {},
+                dropzoneOptions: {
+                    url: '/task/attach',
+                    thumbnailWidth: 150,
+                    maxFilesize: 30,
+                    addRemoveLinks: true,
+                    maxFiles: 7
                 }
             }
         },
@@ -63,10 +75,23 @@
             },
             setDescription: function () {
                 this.$store.commit('setDescription', this.description);
+            },
+            afterCompletedFiles: function (file, response) {
+                this.files[file.name] = response.link;
+                this.$store.commit('setAttachments', this.files)
+            },
+            removedFile: function (file) {
+                let delFile = {link: this.files[file.name]};
+                console.log(delFile);
+                this.$http.patch('/task/attach', delFile).then(response => {
+                    delete this.files[file.name];
+                    this.$store.commit('setAttachments', this.files);
+                });
             }
         },
         components: {
-            Trumbowyg
+            Trumbowyg,
+            vueDropzone: vue2Dropzone
         }
     }
 </script>
