@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Attachments;
 use App\Entity\Tasks;
 use App\Repository\StatusesRepository AS Statuses;
 use App\Repository\PrioritiesRepository AS Priorities;
@@ -70,7 +71,16 @@ class TasksController extends AbstractController
             $task->setBody($taskData['description']);
             $this->em->persist($task);
             $this->em->flush();
-            unset($task);
+
+            if (!empty($taskData['attachments'])) {
+                foreach ($taskData['attachments'] as $link) {
+                    $attachment = new Attachments();
+                    $attachment->setLink($link);
+                    $attachment->setTask($task);
+                    $this->em->persist($attachment);
+                }
+                $this->em->flush();
+            }
 
             return $this->json([], 200);
         }

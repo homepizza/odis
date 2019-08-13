@@ -4,6 +4,7 @@ import vSelect from 'vue-select';
 import store from "./store/store";
 import DetailsCreate from "./components/DetailsCreate";
 import TaskCreate from "./components/TaskCreate";
+import {mapState} from "vuex";
 
 Vue.prototype.$http = Axios;
 Vue.component('v-select', vSelect);

@@ -4,7 +4,7 @@ const state = {
     priority: null,
     type: null,
     area: null,
-    attachments: []
+    attachments: new Map()
 };
 
 const mutations = {
@@ -36,7 +36,7 @@ const getters = {
             priority: state.priority,
             type: state.priority,
             area: state.area,
-            attachments: state.attachments
+            attachments: [...state.attachments.values()]
         };
         return Task;
     }

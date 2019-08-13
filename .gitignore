@@ -10,6 +10,7 @@
 
 /.idea
 /.vscode
+/public/uploads/
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/

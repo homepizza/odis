@@ -58,7 +58,7 @@
             return {
                 title: null,
                 description: null,
-                files: [],
+                files: new Map(),
                 config: {},
                 dropzoneOptions: {
                     url: '/task/attach',
@@ -77,14 +77,13 @@
                 this.$store.commit('setDescription', this.description);
             },
             afterCompletedFiles: function (file, response) {
-                this.files[file.name] = response.link;
+                this.files.set(file.name, response.link);
                 this.$store.commit('setAttachments', this.files)
             },
             removedFile: function (file) {
-                let delFile = {link: this.files[file.name]};
-                console.log(delFile);
+                let delFile = { link: this.files.get(file.name) };
                 this.$http.patch('/task/attach', delFile).then(response => {
-                    delete this.files[file.name];
+                    this.files.delete(file.name);
                     this.$store.commit('setAttachments', this.files);
                 });
             }
