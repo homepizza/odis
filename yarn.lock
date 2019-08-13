@@ -3876,7 +3876,7 @@ jquery-match-height@^0.7.2:
   resolved "https://registry.yarnpkg.com/jquery-match-height/-/jquery-match-height-0.7.2.tgz#f8d9f3ba5314daab109cf07408674be204be5f0e"
   integrity sha1-+NnzulMU2qsQnPB0CGdL4gS+Xw4=
 
-jquery@>=1.7, jquery@^3.3.1, jquery@^3.4.1:
+jquery@>=1.7, jquery@>=1.8, jquery@^3.3.1, jquery@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
   integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
@@ -6642,6 +6642,11 @@ trim-right@^1.0.1:
   dependencies:
     glob "^7.1.2"
 
+trumbowyg@^2.14.0:
+  version "2.18.0"
+  resolved "https://registry.yarnpkg.com/trumbowyg/-/trumbowyg-2.18.0.tgz#623f2743796549926655c3476bf7230627ef4950"
+  integrity sha512-0C6J3uYE3a9JO1IZdlOVQqTEvzvPA798jHM1Wxiixsr+UIFQNP+fFVYSZqTlO5i3WIiWHJzk3klRczyhHDUnKA==
+
 tslib@^1.9.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
@@ -6928,6 +6933,14 @@ vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
+
+vue-trumbowyg@^3.4.2:
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/vue-trumbowyg/-/vue-trumbowyg-3.4.2.tgz#46eec0d176f6cec3d91bc0e317f7a9a47b7d2ec2"
+  integrity sha512-5iyuloAQ0F6z8qM9ciZOetQE8FqFxKi3+SAJZkJaEgUUh9Er4nhkwcKWWvbuVl5ie/+NWR8xzklUmTmQRvQBAw==
+  dependencies:
+    jquery ">=1.8"
+    trumbowyg "^2.14.0"
 
 vue@^2.6.10:
   version "2.6.10"

@@ -77,6 +77,11 @@ ol {
 	list-style-type: none;
 }
 
+.trumbowyg-editor ul, ol {
+	list-style-type: revert !important;
+	margin-left: 16px;
+}
+
 
 /**
  * Remove trailing margins from nested lists.
