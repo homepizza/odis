@@ -20,17 +20,6 @@
             <div class="row" style="margin-top: 20px;">
                 <div class="col-12">
                     <p class="u-text-mute u-text-uppercase u-mb-medium">Прикрепление файлов</p>
-
-<!--                    <form action="/task/attach" class="dropzone" id="custom-dropzone" style="height: 150px;">-->
-<!--                        <div class="dz-message" data-dz-message>-->
-<!--                            <i class="dz-icon fa fa-cloud-upload"></i>-->
-<!--                            <span>Перетащите файл в окно или загрузите по клику</span>-->
-<!--                        </div>-->
-
-<!--                        <div class="fallback">-->
-<!--                            <input name="file" type="file" multiple>-->
-<!--                        </div>-->
-<!--                    </form>-->
                     <vue-dropzone
                             class="dropzone"
                             ref="dropzone"
