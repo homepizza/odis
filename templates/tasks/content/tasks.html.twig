@@ -47,68 +47,71 @@
                         </thead>
 
                         <tbody>
-                            <tr class="c-table__row c-table__row--danger">
-                                <td class="c-table__cell">
-                                    <small class="u-block u-text-mute">#1228</small>
-                                </td>
-                                <td class="c-table__cell" style="white-space: normal;">
-                                    <a href="{{ path('tasks_view', {'id': 1238}) }}">Сайт дал сохранить заказ, хотя API возвращал datetime_want_allow - false</a>
-                                    <small class="u-block u-text-mute"></small>
-                                </td>
+                            {% for task in tasks %}
+                                <tr class="c-table__row c-table__row--danger">
+                                    <td class="c-table__cell">
+                                        <small class="u-block u-text-mute">№{{ task.id }}</small>
+                                    </td>
+                                    <td class="c-table__cell" style="white-space: normal;">
+                                        <a href="{{ path('tasks_view', {'id': task.id}) }}">{{ task.title }}</a>
+                                        <small class="u-block u-text-mute"></small>
+                                    </td>
 
-                                <td class="c-table__cell">
-                                    10.08.2019
-                                    <small class="u-block u-text-danger"></small>
-                                </td>
+                                    <td class="c-table__cell">
+                                        {{ task.dueDate | date("d.m.Y") }}
+                                        <small class="u-block u-text-danger"></small>
+                                    </td>
 
-                                <td class="c-table__cell">
-                                    <div class="o-media">
-                                        <div class="o-media__img u-mr-xsmall">
-                                            Александр Малоземов
+                                    <td class="c-table__cell">
+                                        <div class="o-media">
+                                            <div class="o-media__img u-mr-xsmall">
+                                                {{ task.asignee }}
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
+                                    </td>
 
-                                <td class="c-table__cell">
-                                    Евгений Солдатов
-                                </td>
+                                    <td class="c-table__cell">
+                                        {{ task.author }}
+                                    </td>
 
-                                <td class="c-table__cell">
-                                    <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>Запрос данных
-                                </td>
-                                <td class="c-table__cell">
-                                    <span class="c-badge c-badge--warning">Средний</span>
-                                </td>
-                                <td class="c-table__cell">
-                                    <span class="c-badge c-badge--success">Техподдержка</span>
-                                </td>
-                                <td class="c-table__cell">
-                                    <span class="c-badge c-badge--primary">Прием заказов</span>
-                                </td>
-                                <td class="c-table__cell">
-                                    <div class="c-dropdown dropdown">
-                                        <button class="c-btn c-btn--secondary has-dropdown dropdown-toggle" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Задача</button>
-                                        <div class="c-dropdown__menu dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <a class="c-dropdown__item dropdown-item" href="#">
-                                                <i class="fa fa-circle-o u-color-info u-mr-xsmall"></i>
-                                                В работе
-                                            </a>
-                                            <a class="c-dropdown__item dropdown-item" href="#">
-                                                <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
-                                                Запрос данных
-                                            </a>
-                                            <a class="c-dropdown__item dropdown-item" href="#">
-                                                <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
-                                                Согласование
-                                            </a>
-                                            <a class="c-dropdown__item dropdown-item" href="#">
-                                                <i class="fa fa-circle-o u-color-primary u-mr-xsmall"></i>
-                                                Отменено
-                                            </a>
+                                    <td class="c-table__cell">
+                                        <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>{{ task.status.name }}
+                                    </td>
+                                    <td class="c-table__cell">
+                                        <span class="c-badge c-badge--warning">{{ task.priority.name }}</span>
+                                    </td>
+                                    <td class="c-table__cell">
+                                        <span class="c-badge c-badge--success">{{ task.type.name }}</span>
+                                    </td>
+                                    <td class="c-table__cell">
+                                        <span class="c-badge c-badge--primary">{{ task.area.name }}</span>
+                                    </td>
+                                    <td class="c-table__cell">
+                                        <div class="c-dropdown dropdown">
+                                            <button class="c-btn c-btn--secondary has-dropdown dropdown-toggle" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Задача</button>
+                                            <div class="c-dropdown__menu dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                <a class="c-dropdown__item dropdown-item" href="#">
+                                                    <i class="fa fa-circle-o u-color-info u-mr-xsmall"></i>
+                                                    В работе
+                                                </a>
+                                                <a class="c-dropdown__item dropdown-item" href="#">
+                                                    <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
+                                                    Запрос данных
+                                                </a>
+                                                <a class="c-dropdown__item dropdown-item" href="#">
+                                                    <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
+                                                    Согласование
+                                                </a>
+                                                <a class="c-dropdown__item dropdown-item" href="#">
+                                                    <i class="fa fa-circle-o u-color-primary u-mr-xsmall"></i>
+                                                    Отменено
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
                         </tbody>
                     </table>
                 </div>

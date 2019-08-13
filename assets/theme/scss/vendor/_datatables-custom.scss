@@ -113,7 +113,7 @@
 	margin-top: $spacer-small;
 	float: left;
 	color: $color-mute;
-	display: none;
+	//display: none;
 }
 
 .dataTables_empty {
@@ -122,7 +122,7 @@
 }
 
 .dataTables_paginate {
-	display: none;
+	display: flex;
 	margin-top: $spacer-small;
 	float: right;
 

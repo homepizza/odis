@@ -74,7 +74,7 @@ class Tasks
     private $body;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Attachments", mappedBy="task")
+     * @ORM\OneToMany(targetEntity="App\Entity\Attachments", mappedBy="task", fetch="EAGER")
      */
     private $attachments;
 

@@ -6,9 +6,11 @@ use App\Entity\Attachments;
 use App\Entity\Tasks;
 use App\Repository\StatusesRepository AS Statuses;
 use App\Repository\PrioritiesRepository AS Priorities;
+use App\Repository\TasksRepository;
 use App\Repository\TypesRepository AS Types;
 use App\Repository\DomainAreasRepository AS Areas;
 use Doctrine\ORM\EntityManagerInterface AS EM;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,14 +34,29 @@ class TasksController extends AbstractController
     }
 
     /**
+     * Корень
+     *
+     * @Route("/", name="tasks_index")
+     * @return Response
+     */
+    public function index(): Response
+    {
+        return $this->redirectToRoute('tasks');
+    }
+
+    /**
      * Список задач
      *
      * @Route("/tasks", name="tasks", methods={"GET"})
+     * @param TasksRepository $tasks
      * @return Response
      */
-    public function list(): Response
+    public function list(TasksRepository $tasks): Response
     {
-        return $this->render('tasks/content/tasks.html.twig');
+        $list = $tasks->notEqualStatuses(['Завершено', 'Отменено']);
+        return $this->render('tasks/content/tasks.html.twig', [
+            'tasks' => $list
+        ]);
     }
 
     /**
@@ -92,12 +109,15 @@ class TasksController extends AbstractController
      *
      * @Route("/tasks/{id}", name="tasks_view", methods={"GET"})
      * @param int $id
+     * @param TasksRepository $tasks
      * @return Response
      */
-    public function viewTask(int $id): Response
+    public function viewTask(int $id, TasksRepository $tasks): Response
     {
+        $task = $tasks->find($id);
         return $this->render('tasks/content/task_view.html.twig', [
-            'id' => $id
+            'id' => $id,
+            'task' => $task
         ]);
     }
 }
