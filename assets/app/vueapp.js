@@ -40,6 +40,8 @@ new Vue({el: '#app',
         },
         saveTask: function () {
             this.editTask();
+            let task = store.getters.getTask;
+            console.log(task);
         }
     },
     computed: {
