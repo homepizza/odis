@@ -50,7 +50,7 @@
                             {% for task in tasks %}
                                 <tr class="c-table__row c-table__row--danger">
                                     <td class="c-table__cell">
-                                        <small class="u-block u-text-mute">№{{ task.id }}</small>
+                                        <small class="u-block u-text-mute">{{ task.id }}</small>
                                     </td>
                                     <td class="c-table__cell" style="white-space: normal;">
                                         <a href="{{ path('tasks_view', {'id': task.id}) }}">{{ task.title }}</a>
@@ -58,7 +58,9 @@
                                     </td>
 
                                     <td class="c-table__cell">
-                                        {{ task.dueDate | date("d.m.Y") }}
+                                        {% if task.dueDate %}
+                                            {{ task.dueDate | date("d.m.Y") }}
+                                        {% endif %}
                                         <small class="u-block u-text-danger"></small>
                                     </td>
 
