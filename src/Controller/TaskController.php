@@ -127,6 +127,19 @@ class TaskController extends AbstractController
     }
 
     /**
+     * Данные текущей задачи
+     *
+     * @Route("/task/{id}/data", name="task_data", methods={"GET"})
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function taskData(int $id): JsonResponse
+    {
+        $task = $this->tasks->find($id);
+        return $this->json($task, 200);
+    }
+
+    /**
      * Информация о участниках задачи и их активности в комментариях
      *
      * @Route("/task/{id}/members", name="task_members", methods={"GET"})

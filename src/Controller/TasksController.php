@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Attachments;
+use App\Entity\HistoryStatuses;
 use App\Entity\Tasks;
 use App\Repository\StatusesRepository AS Statuses;
 use App\Repository\PrioritiesRepository AS Priorities;
@@ -89,6 +90,13 @@ class TasksController extends AbstractController
             $this->em->persist($task);
             $this->em->flush();
 
+            $history = new HistoryStatuses();
+            $history->setTask($task);
+            $history->setStatus($status);
+            $history->setDateStatus(new \DateTime());
+            $this->em->persist($history);
+            $this->em->flush();
+
             if (!empty($taskData['attachments'])) {
                 foreach ($taskData['attachments'] as $link) {
                     $attachment = new Attachments();
@@ -128,7 +136,6 @@ class TasksController extends AbstractController
         );
         return $this->render('tasks/content/task_view.html.twig', [
             'id' => $id,
-            'task' => $task,
             'edit' => $canEdit
         ]);
     }
