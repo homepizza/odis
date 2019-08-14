@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Axios from 'axios';
 import vSelect from 'vue-select';
 import moment from "moment";
+import VueSweetalert2 from "vue-sweetalert2";
 import store from "./store/store";
 import DetailsCreate from "./components/DetailsCreate";
 import TaskCreate from "./components/TaskCreate";
@@ -17,6 +18,7 @@ Vue.component('comments', Comments);
 Vue.component('task-members', TaskMembers);
 Vue.component('task', Task);
 
+Vue.use(VueSweetalert2);
 Vue.filter('formatDate', function(value) {
     if (value) {
         return moment(String(value)).format('DD.MM.YYYY HH:mm')
@@ -25,6 +27,11 @@ Vue.filter('formatDate', function(value) {
 
 new Vue({el: '#app',
     store,
+    data: function() {
+        return {
+            saved: false
+        }
+    },
     methods: {
         createTask: function () {
             let task = store.getters.getTask;
@@ -41,7 +48,13 @@ new Vue({el: '#app',
         saveTask: function () {
             this.editTask();
             let task = store.getters.getTask;
-            console.log(task);
+            this.$swal({
+                position: 'top',
+                type: 'success',
+                title: 'Сохранено!',
+                showConfirmButton: false,
+                timer: 1500
+            });
         }
     },
     computed: {
