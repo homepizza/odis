@@ -5,6 +5,7 @@
 {% block toolbar %}
     <div class="c-toolbar u-mb-medium">
         <h3 class="c-toolbar__title has-divider">Задача №{{ id }}</h3>
+        <span class="c-toolbar__title has-divider u-hidden-visually" task-number>{{ id }}</span>
         <h5 class="c-toolbar__meta u-mr-auto">Просмотр и управление задачей</h5>
         {{ include('tasks/blocks/actions_task.html.twig') }}
     </div>
@@ -70,63 +71,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="c-card u-mb-medium">
-
-                        <div class="u-p-medium">
-                            <h5 class="u-h6 u-mb-medium">Участвуют в задаче</h5>
-                            <div class="o-media u-mb-small">
-                                <div class="o-media__img u-mr-xsmall">
-                                    <div class="c-avatar c-avatar--xsmall">
-                                        <img class="c-avatar__img" src="{{ asset('media/theme/user5.png') }}" alt="Profile Title">
-                                    </div>
-                                </div>
-                                <div class="o-media__body">
-                                    <h6 class="u-text-small u-mb-zero">Иван Задачников</h6>
-                                    <p class="u-text-mute u-text-xsmall">Автор</p>
-                                </div>
-                            </div><!-- // .o-media -->
-
-                            <div class="o-media u-mb-small">
-                                <div class="o-media__img u-mr-xsmall">
-                                    <div class="c-avatar c-avatar--xsmall">
-                                        <img class="c-avatar__img" src="{{ asset('media/theme/user5.png') }}" alt="Profile Title">
-                                    </div>
-                                </div>
-                                <div class="o-media__body">
-                                    <h6 class="u-text-small u-mb-zero">Дмитрий Исполнев</h6>
-                                    <p class="u-text-mute u-text-xsmall">Исполнитель</p>
-                                </div>
-                            </div><!-- // .o-media -->
-
-                            <div class="o-media u-mb-small">
-                                <div class="o-media__img u-mr-xsmall">
-                                    <div class="c-avatar c-avatar--xsmall">
-                                        <img class="c-avatar__img" src="{{ asset('media/theme/user5.png') }}" alt="Profile Title">
-                                    </div>
-                                </div>
-                                <div class="o-media__body">
-                                    <h6 class="u-text-small u-mb-zero">Татьяна Как</h6>
-                                    <p class="u-text-mute u-text-xsmall">Обсуждение</p>
-                                </div>
-                            </div><!-- // .o-media -->
-
-                            <div class="o-media">
-                                <div class="o-media__img u-mr-xsmall">
-                                    <div class="c-avatar c-avatar--xsmall">
-                                        <img class="c-avatar__img" src="{{ asset('media/theme/user5.png') }}" alt="Profile Title">
-                                    </div>
-                                </div>
-                                <div class="o-media__body">
-                                    <h6 class="u-text-small u-mb-zero">Михаил Нормальнов</h6>
-                                    <p class="u-text-mute u-text-xsmall">Обсуждение</p>
-                                </div>
-                            </div><!-- // .o-media -->
-                        </div>
-
-                        <div class="u-pv-small  u-border-top u-text-center">
-                            <a class="u-text-mute u-text-uppercase u-text-xsmall" href="#">Сообщений: 12</a>
-                        </div>
-                    </div>
+                    <task-members></task-members>
                 </div>
                 <div class="col-xl-8">
                     <article class="c-stage">
@@ -171,54 +116,7 @@
 
                         </div>
                     </article>
-
-                    <div class="c-stage">
-                        <div class="c-stage__panel up-medium">
-                            <p class="u-text-mute u-text-uppercase u-text-small u-mb-xsmall" style="padding: 12px 0 0 30px;">
-                                Комментарии:
-                            </p>
-                        </div>
-                        <!-- Comment 1 -->
-                        <div class="c-stage__panel u-p-medium">
-                            <div class="o-media u-mb-small">
-                                <div class="o-media__img u-mr-xsmall">
-                                    <div class="c-avatar c-avatar--xsmall">
-                                        <img class="c-avatar__img" src="{{ asset('media/theme/user5.png') }}" alt="Profile Title">
-                                    </div>
-
-                                </div>
-                                <div class="o-media__body">
-                                    <h6 class="u-mb-zero u-text-small">Иван Задачников</h6>
-                                    <p class="u-text-mute u-text-xsmall">04.08.2019 11:22</p>
-                                </div>
-                            </div>
-                            <p class="u-mb-xsmall">Быстрее пожалуйста..</p>
-                        </div>
-                        <!-- Comment 2-->
-                        <div class="c-stage__panel u-p-medium">
-                            <div class="o-media u-mb-small">
-                                <div class="o-media__img u-mr-xsmall">
-                                    <div class="c-avatar c-avatar--xsmall">
-                                        <img class="c-avatar__img" src="{{ asset('media/theme/user5.png') }}" alt="Profile Title">
-                                    </div>
-
-                                </div>
-                                <div class="o-media__body">
-                                    <h6 class="u-mb-zero u-text-small">Михаил Нормальнов</h6>
-                                    <p class="u-text-mute u-text-xsmall">05.08.2019 13:23</p>
-                                </div>
-                            </div><!-- // .o-media -->
-
-                            <p class="u-mb-xsmall">Отлично, супер! Только надо передалть....</p>
-                        </div>
-                    </div>
-                    <div class="c-post">
-                        <textarea class="c-post__content">I am currently writing a dissertation about whether Web Designers should know how to code their designs or just be the best designer they can be and I was wondering if I could get your thoughts on on this question and if coding is essential to a Web Designer.</textarea>
-
-                        <div class="c-post__toolbar">
-                            <a class="c-btn c-btn--success u-float-right" href="#" >Опубликовать</a>
-                        </div>
-                    </div>
+                    <comments></comments>
                 </div>
             </div>
         </div><!-- // .container -->

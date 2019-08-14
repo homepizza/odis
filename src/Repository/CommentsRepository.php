@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Comments;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Comments|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +21,41 @@ class CommentsRepository extends ServiceEntityRepository
         parent::__construct($registry, Comments::class);
     }
 
-    // /**
-    //  * @return Comments[] Returns an array of Comments objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * Комментаторы (участники задачи) без тех, которые указаны
+     * (Например без автора и исполнителя)
+     *
+     * @param array $owners
+     * @param int $task
+     * @return mixed
+     */
+    public function members(int $task, array $owners=[])
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+        $qb = $this->createQueryBuilder('c');
+        $result = $qb->select('DISTINCT(c.user) AS id, u.fullname')
+            ->leftJoin('App:User', 'u', 'WITH', 'c.user=u.id')
+            ->where($qb->expr()->notIn('c.user', $owners))
+            ->andWhere('c.task = :id')
+            ->setParameter('id', $task)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+        return $result;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Comments
+    /**
+     * Число комментариев к задаче
+     *
+     * @param int $task
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function messages(int $task)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+            ->select('COUNT(c.id)')
+            ->andWhere('c.task = :id')
+            ->setParameter('id', $task)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getSingleScalarResult();
     }
-    */
 }

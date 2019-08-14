@@ -27,6 +27,11 @@ class Attachments
      */
     private $link;
 
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $filename;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class Attachments
     public function setLink(string $link): self
     {
         $this->link = $link;
+
+        return $this;
+    }
+
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
+
+    public function setFilename(?string $filename): self
+    {
+        $this->filename = $filename;
 
         return $this;
     }

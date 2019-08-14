@@ -4,7 +4,8 @@ const state = {
     priority: null,
     type: null,
     area: null,
-    attachments: new Map()
+    attachments: new Map(),
+    comments: false
 };
 
 const mutations = {
@@ -25,6 +26,9 @@ const mutations = {
     },
     setAttachments (state, attachments) {
         state.attachments = attachments
+    },
+    setNewComments (state, flag) {
+        state.comments = flag;
     }
 };
 

@@ -92,6 +92,9 @@ class TasksController extends AbstractController
             if (!empty($taskData['attachments'])) {
                 foreach ($taskData['attachments'] as $link) {
                     $attachment = new Attachments();
+                    $filename = explode('/', $link);
+                    $filename = $filename[count($filename)-1];
+                    $attachment->setFilename($filename);
                     $attachment->setLink($link);
                     $attachment->setTask($task);
                     $this->em->persist($attachment);

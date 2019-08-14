@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
+use App\Repository\CommentsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Repository\TasksRepository AS Tasks;
 use App\Repository\PrioritiesRepository AS Priorities;
@@ -124,5 +124,45 @@ class TaskController extends AbstractController
         }
 
         return $this->json(['link' => $link], 200);
+    }
+
+    /**
+     * Информация о участниках задачи и их активности в комментариях
+     *
+     * @Route("/task/{id}/members", name="task_members", methods={"GET"})
+     * @param int $id
+     * @param CommentsRepository $comments
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function membersInfo(int $id, CommentsRepository $comments): JsonResponse
+    {
+        $task = $this->tasks->find($id);
+        $messages = $comments->messages($task->getId());
+        $owners = !empty($task->getAsignee())
+            ? [$task->getAuthor()->getId(), $task->getAsignee()->getId()] :
+            [$task->getAuthor()->getId()];
+        $members = $comments->members($task->getId(), $owners);
+        foreach ($members as $k => $member) {
+            $member['usertype'] = 'Обсуждение';
+            $members[$k] = $member;
+        }
+        if (!empty($task->getAsignee())) {
+            $members[] = [
+                'id' => $task->getAsignee()->getId(),
+                'fullname' => $task->getAsignee()->getFullname(),
+                'usertype' => 'Исполнитель'
+            ];
+        }
+        $members[] = [
+            'id' => $task->getAuthor()->getId(),
+            'fullname' => $task->getAuthor()->getFullname(),
+            'usertype' => 'Автор'
+        ];
+
+        return $this->json([
+            'members' => array_reverse($members),
+            'messages' => $messages
+        ], 200);
     }
 }

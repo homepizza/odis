@@ -43,7 +43,7 @@
     <div class="c-dropdown u-ml-auto dropdown">
         <a  class="c-avatar c-avatar--xsmall has-dropdown dropdown-toggle" href="#" id="dropdwonMenuAvatar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="c-nav__link" style="margin-right: 10px;">
-                    <b>{{ app.user.username }}</b>
+                    <b ref="app.user">{{ app.user.username }}</b>
                 </span>
             <img class="c-avatar__img" src="{{ asset('media/theme/user1.png') }}" alt="Александр Малоземов">
         </a>
