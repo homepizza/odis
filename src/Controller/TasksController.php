@@ -117,10 +117,13 @@ class TasksController extends AbstractController
      */
     public function viewTask(int $id, TasksRepository $tasks): Response
     {
+        $user = $this->getUser();
         $task = $tasks->find($id);
+        $canEdit = in_array($user->getId(), [$task->getAuthor()->getId(), $task->getAsignee()->getId()]);
         return $this->render('tasks/content/task_view.html.twig', [
             'id' => $id,
-            'task' => $task
+            'task' => $task,
+            'edit' => $canEdit
         ]);
     }
 }

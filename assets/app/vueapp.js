@@ -7,6 +7,7 @@ import DetailsCreate from "./components/DetailsCreate";
 import TaskCreate from "./components/TaskCreate";
 import Comments from "./components/Comments";
 import TaskMembers from "./components/TaskMembers";
+import Task from "./components/Task";
 
 Vue.prototype.$http = Axios;
 Vue.component('v-select', vSelect);
@@ -14,6 +15,7 @@ Vue.component('details-create', DetailsCreate);
 Vue.component('task-create', TaskCreate);
 Vue.component('comments', Comments);
 Vue.component('task-members', TaskMembers);
+Vue.component('task', Task);
 
 Vue.filter('formatDate', function(value) {
     if (value) {
@@ -33,7 +35,11 @@ new Vue({el: '#app',
             });
         },
         editTask: function () {
-
+            let editMode = store.state.Task.edit;
+            store.commit('setEdit', !editMode);
+        },
+        saveTask: function () {
+            this.editTask();
         }
     },
     computed: {

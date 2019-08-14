@@ -1,11 +1,14 @@
-<button type="button" class="c-btn c-btn--info u-ml-small" data-toggle="modal">
-    <i class="fa fa-pencil u-mr-xsmall"></i>
-    Редактировать
-</button>
-<button type="button" class="c-btn c-btn--success u-ml-small" data-toggle="modal">
-    <i class="fa fa-save u-mr-xsmall"></i>
-    Сохранить изменения
-</button>
+{% if edit %}
+    <button v-if="!$store.state.Task.edit" @click="editTask" type="button" class="c-btn c-btn--info u-ml-small" data-toggle="modal">
+        <i class="fa fa-pencil u-mr-xsmall"></i>
+        Редактировать
+    </button>
+    <button v-if="$store.state.Task.edit" @click="saveTask" type="button" class="c-btn c-btn--success u-ml-small" data-toggle="modal">
+        <i class="fa fa-save u-mr-xsmall"></i>
+        Сохранить изменения
+    </button>
+{% endif %}
+
 <a href="{{ path('tasks') }}" class="c-btn c-btn--secondary u-ml-small">
     <i class="fa fa-share u-mr-xsmall"></i>
     К списку

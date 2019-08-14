@@ -4,8 +4,13 @@ const state = {
     priority: null,
     type: null,
     area: null,
+    asignee: null,
+    status: null,
+    dueDate: null,
+    solutionLink: null,
     attachments: new Map(),
-    comments: false
+    comments: false,
+    edit: false
 };
 
 const mutations = {
@@ -24,11 +29,26 @@ const mutations = {
     setArea (state, area) {
         state.area = area
     },
+    setAsignee (state, asignee) {
+        state.asignee = asignee;
+    },
+    setStatus (state, status) {
+        state.status = status;
+    },
+    setDueDate (state, dueDate) {
+        state.dueDate = dueDate;
+    },
+    setSolutionLink (state, solutionLink) {
+        state.solutionLink = solutionLink;
+    },
     setAttachments (state, attachments) {
         state.attachments = attachments
     },
     setNewComments (state, flag) {
         state.comments = flag;
+    },
+    setEdit (state, flag) {
+        state.edit = flag;
     }
 };
 
@@ -40,6 +60,10 @@ const getters = {
             priority: state.priority,
             type: state.priority,
             area: state.area,
+            asignee: state.asignee,
+            status: state.status,
+            dueDate: state.dueDate,
+            solutionLink: state.solutionLink,
             attachments: [...state.attachments.values()]
         };
         return Task;
