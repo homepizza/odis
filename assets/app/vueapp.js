@@ -26,6 +26,11 @@ Vue.filter('formatDate', function(value) {
         return moment(String(value)).format('DD.MM.YYYY HH:mm')
     }
 });
+Vue.filter('formatDueDate', function(value) {
+    if (value) {
+        return moment(String(value)).format('DD.MM.YYYY')
+    }
+});
 
 new Vue({el: '#app',
     store,

@@ -13,32 +13,43 @@
             <tr>
                 <td class="u-pb-xsmall u-color-primary u-text-small">Исполнитель</td>
                 <td class="u-pb-xsmall u-text-right u-text-mute u-text-small">
-                    {{ $store.state.Task.asignee.fullname }}
+                    <span v-if="(!$store.state.Task.edit || $store.state.Task.isAuthor) && $store.state.Task.asignee">
+                        {{ $store.state.Task.asignee.fullname }}
+                    </span>
+                    <div v-if="$store.state.Task.edit && !$store.state.Task.isAuthor" style="width: 212px; float: right">
+                        <v-select label="fullname" @input="setAsignee" :options="developers" v-model="asignee"></v-select>
+                    </div>
                 </td>
             </tr>
             <tr>
                 <td class="u-pb-xsmall u-color-primary u-text-small">Статус</td>
                 <td class="u-pb-xsmall u-text-right u-text-mute u-text-small">
-                    <i class="fa fa-circle-o u-color-warning"></i>
-                    Согласование
+                    <i class="fa fa-circle-o" v-bind:class="$store.state.Task.status.class"></i>
+                    {{ $store.state.Task.status.name }}
                 </td>
             </tr>
             <tr>
                 <td class="u-color-primary u-text-small">Приоритет</td>
                 <td class="u-text-right u-text-mute u-text-small">
-                    <span class="c-badge c-badge--warning c-badge--xsmall">Средний</span>
+                    <span class="c-badge c-badge--xsmall" v-bind:class="$store.state.Task.priority.class">
+                        {{ $store.state.Task.priority.name }}
+                    </span>
                 </td>
             </tr>
             <tr>
                 <td class="u-color-primary u-text-small">Тип</td>
                 <td class="u-text-right u-text-mute u-text-small">
-                    <span class="c-badge c-badge--success c-badge--xsmall">Доработка</span>
+                    <span class="c-badge c-badge--success c-badge--xsmall">
+                        {{ $store.state.Task.type.name }}
+                    </span>
                 </td>
             </tr>
             <tr>
                 <td class="u-color-primary u-text-small">Направление</td>
                 <td class="u-text-right u-text-mute u-text-small">
-                    <span class="c-badge c-badge--primary c-badge--xsmall">Прием заказов</span>
+                    <span class="c-badge c-badge--primary c-badge--xsmall">
+                        {{ $store.state.Task.area.name }}
+                    </span>
                 </td>
             </tr>
             </tbody>
@@ -54,7 +65,10 @@
                     <i class="fa fa-link"></i>
                     Решение
                 </a>
-                <span class="c-badge c-badge--danger">10.08.2019</span>
+                <span class="c-badge c-badge--danger" v-if="$store.state.Task.dueDate">
+                    {{ $store.state.Task.dueDate | formatDueDate }}
+                </span>
+                <span class="c-badge c-badge--danger" v-else>Не назначен</span>
             </div>
         </div>
     </div>
@@ -83,6 +97,7 @@
                 if (response.status === 200) {
                     let task = response.data.task;
                     this.author = task.author;
+                    this.asignee = task.asignee;
                 }
             });
         },
@@ -97,6 +112,12 @@
                 this.$http.get('/task/areas').then(response => (
                     this.areas = response.data
                 ));
+                this.$http.get('/task/developers').then(response => (
+                    this.developers = response.data
+                ));
+            },
+            setAsignee: function () {
+                this.$store.commit('setAsignee', this.asignee);
             }
         }
     }
