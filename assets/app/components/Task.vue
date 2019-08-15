@@ -93,7 +93,7 @@
                 }
             }
         },
-        mounted() {
+        created() {
             this.taskNumber = document.querySelector("span[task-number]").innerHTML;
             this.$http.get('/task/' + this.taskNumber + '/data').then(response => {
                 if (response.status === 200) {
@@ -106,6 +106,7 @@
                     this.description = task.body;
                     this.$store.commit('setTitle', this.title);
                     this.$store.commit('setDescription', this.description);
+                    this.$store.commit('setAuthor', task.author);
                     this.$store.commit('setAsignee', task.asignee);
                     this.$store.commit('setStatus', task.status);
                     this.$store.commit('setPriority', task.priority);

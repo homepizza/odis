@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\CommentsRepository;
 use App\Repository\StatusesRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -127,6 +128,25 @@ class TaskController extends AbstractController
         }
 
         return $this->json(['link' => $link], 200);
+    }
+
+    /**
+     * Все исполнители
+     *
+     * @Route("/task/developers", name="task_developers", methods={"GET"})
+     * @param UserRepository $users
+     * @return JsonResponse
+     */
+    public function developers(UserRepository $users): JsonResponse
+    {
+        $developers = [];
+        $users = $users->findAll();
+        foreach ($users as $user) {
+            if (in_array('ROLE_DEVELOPER', $user->getRoles())) {
+                $developers[] = $user;
+            }
+        }
+        return $this->json($developers, 200);
     }
 
     /**

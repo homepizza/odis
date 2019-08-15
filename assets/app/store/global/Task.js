@@ -1,10 +1,11 @@
 const state = {
+    author: {},
     title: null,
     description: null,
     priority: null,
     type: null,
     area: null,
-    asignee: null,
+    asignee: {},
     status: null,
     dueDate: null,
     solutionLink: null,
@@ -16,6 +17,9 @@ const state = {
 };
 
 const mutations = {
+    setAuthor (state, author) {
+        state.author = author
+    },
     setTitle (state, title) {
         state.title = title;
     },

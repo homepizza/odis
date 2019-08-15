@@ -6,11 +6,15 @@
             <tbody>
             <tr>
                 <td class="u-pb-xsmall u-color-primary u-text-small">Автор</td>
-                <td class="u-pb-xsmall u-text-right u-text-mute u-text-small">Иван Задачников</td>
+                <td class="u-pb-xsmall u-text-right u-text-mute u-text-small">
+                    {{ $store.state.Task.author.fullname }}
+                </td>
             </tr>
             <tr>
                 <td class="u-pb-xsmall u-color-primary u-text-small">Исполнитель</td>
-                <td class="u-pb-xsmall u-text-right u-text-mute u-text-small">Дмитрий Исполнев</td>
+                <td class="u-pb-xsmall u-text-right u-text-mute u-text-small">
+                    {{ $store.state.Task.asignee.fullname }}
+                </td>
             </tr>
             <tr>
                 <td class="u-pb-xsmall u-color-primary u-text-small">Статус</td>
@@ -65,11 +69,22 @@
                 statuses: [],
                 priorities: [],
                 types: [],
-                areas: []
+                areas: [],
+                taskNumber: '',
+                author: {},
+                asignee: {}
+
             }
         },
         created() {
+            this.taskNumber = document.querySelector("span[task-number]").innerHTML;
             this.loadData();
+            this.$http.get('/task/' + this.taskNumber + '/data').then(response => {
+                if (response.status === 200) {
+                    let task = response.data.task;
+                    this.author = task.author;
+                }
+            });
         },
         methods: {
             loadData: function () {
