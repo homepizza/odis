@@ -134,6 +134,10 @@ class TasksController extends AbstractController
                 (!empty($task->getAsignee()) ? $task->getAsignee()->getId() : 0)
             ]
         );
+        $canEdit = in_array('ROLE_DEVELOPER', $user->getRoles()) && empty($task->getAsignee())
+            ? true
+            : $canEdit
+        ;
         return $this->render('tasks/content/task_view.html.twig', [
             'id' => $id,
             'edit' => $canEdit

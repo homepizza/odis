@@ -24,8 +24,13 @@
             <tr>
                 <td class="u-pb-xsmall u-color-primary u-text-small">Статус</td>
                 <td class="u-pb-xsmall u-text-right u-text-mute u-text-small">
-                    <i class="fa fa-circle-o" v-bind:class="$store.state.Task.status.class"></i>
-                    {{ $store.state.Task.status.name }}
+                    <span v-if="!$store.state.Task.edit">
+                        <i class="fa fa-circle-o" v-bind:class="$store.state.Task.status.class"></i>
+                        {{ $store.state.Task.status.name }}
+                    </span>
+                    <div style="width: 212px; float: right" v-else>
+                        <v-select label="name" @input="setStatus" :options="statuses" v-model="status"></v-select>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -39,17 +44,23 @@
             <tr>
                 <td class="u-color-primary u-text-small">Тип</td>
                 <td class="u-text-right u-text-mute u-text-small">
-                    <span class="c-badge c-badge--success c-badge--xsmall">
+                    <span v-if="!$store.state.Task.edit" class="c-badge c-badge--success c-badge--xsmall">
                         {{ $store.state.Task.type.name }}
                     </span>
+                    <div style="width: 212px; float: right" v-else>
+                        <v-select label="name" @input="setType" :options="types" v-model="type"></v-select>
+                    </div>
                 </td>
             </tr>
             <tr>
                 <td class="u-color-primary u-text-small">Направление</td>
                 <td class="u-text-right u-text-mute u-text-small">
-                    <span class="c-badge c-badge--primary c-badge--xsmall">
+                    <span v-if="!$store.state.Task.edit" class="c-badge c-badge--primary c-badge--xsmall">
                         {{ $store.state.Task.area.name }}
                     </span>
+                    <div style="width: 212px; float: right" v-else>
+                        <v-select label="name" @input="setArea" :options="areas" v-model="area"></v-select>
+                    </div>
                 </td>
             </tr>
             </tbody>
@@ -86,18 +97,24 @@
                 areas: [],
                 taskNumber: '',
                 author: {},
-                asignee: {}
+                asignee: {},
+                status: {},
+                type: {},
+                area: {}
 
             }
         },
         created() {
             this.taskNumber = document.querySelector("span[task-number]").innerHTML;
-            this.loadData();
             this.$http.get('/task/' + this.taskNumber + '/data').then(response => {
                 if (response.status === 200) {
                     let task = response.data.task;
                     this.author = task.author;
                     this.asignee = task.asignee;
+                    this.status = task.status;
+                    this.type = task.type;
+                    this.area = task.area;
+                    this.loadData();
                 }
             });
         },
@@ -115,9 +132,21 @@
                 this.$http.get('/task/developers').then(response => (
                     this.developers = response.data
                 ));
+                this.$http.get('/workflow/status/' + this.status.id).then(response => (
+                    this.statuses = response.data
+                ));
             },
             setAsignee: function () {
                 this.$store.commit('setAsignee', this.asignee);
+            },
+            setStatus: function () {
+                this.$store.commit('setStatus', this.status)
+            },
+            setType: function () {
+                this.$store.commit('setType', this.type);
+            },
+            setArea: function () {
+                this.$store.commit('setArea', this.area);
             }
         }
     }

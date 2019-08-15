@@ -2,18 +2,28 @@
 
 namespace App\Controller;
 
+use App\Repository\WorkflowRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class WorkflowController extends AbstractController
 {
     /**
-     * @Route("/workflow", name="workflow")
+     * Доступные статусы от текущего
+     *
+     * @Route("/workflow/status/{id}", name="workflow")
+     * @param int $id
+     * @param WorkflowRepository $workflow
+     * @return JsonResponse
      */
-    public function index()
+    public function workflow(int $id, WorkflowRepository $workflow): JsonResponse
     {
-        return $this->render('workflow/index.html.twig', [
-            'controller_name' => 'WorkflowController',
-        ]);
+        $statuses = $workflow->findBy(['status' => $id]);
+        $result = [];
+        foreach ($statuses as $status) {
+            $result[] = $status->getAccess();
+        }
+        return $this->json($result, 200);
     }
 }
