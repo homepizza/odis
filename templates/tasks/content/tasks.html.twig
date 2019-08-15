@@ -40,9 +40,6 @@
                             <th class="c-table__cell c-table__cell--head">Приоритет</th>
                             <th class="c-table__cell c-table__cell--head no-sort">Тип</th>
                             <th class="c-table__cell c-table__cell--head no-sort">Направление</th>
-                            <th class="c-table__cell c-table__cell--head no-sort">
-                                <span class="u-hidden-visually">Действия</span>
-                            </th>
                         </tr>
                         </thead>
 
@@ -87,29 +84,6 @@
                                     </td>
                                     <td class="c-table__cell">
                                         <span class="c-badge c-badge--primary">{{ task.area.name }}</span>
-                                    </td>
-                                    <td class="c-table__cell">
-                                        <div class="c-dropdown dropdown">
-                                            <button class="c-btn c-btn--secondary has-dropdown dropdown-toggle" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Задача</button>
-                                            <div class="c-dropdown__menu dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                <a class="c-dropdown__item dropdown-item" href="#">
-                                                    <i class="fa fa-circle-o u-color-info u-mr-xsmall"></i>
-                                                    В работе
-                                                </a>
-                                                <a class="c-dropdown__item dropdown-item" href="#">
-                                                    <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
-                                                    Запрос данных
-                                                </a>
-                                                <a class="c-dropdown__item dropdown-item" href="#">
-                                                    <i class="fa fa-circle-o u-color-warning u-mr-xsmall"></i>
-                                                    Согласование
-                                                </a>
-                                                <a class="c-dropdown__item dropdown-item" href="#">
-                                                    <i class="fa fa-circle-o u-color-primary u-mr-xsmall"></i>
-                                                    Отменено
-                                                </a>
-                                            </div>
-                                        </div>
                                     </td>
                                 </tr>
                             {% endfor %}

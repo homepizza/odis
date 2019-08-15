@@ -31,6 +31,16 @@ class Priorities
      */
     private $comment;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $class;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $tableClass;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +78,30 @@ class Priorities
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getClass(): ?string
+    {
+        return $this->class;
+    }
+
+    public function setClass(?string $class): self
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
+    public function getTableClass(): ?string
+    {
+        return $this->tableClass;
+    }
+
+    public function setTableClass(?string $tableClass): self
+    {
+        $this->tableClass = $tableClass;
 
         return $this;
     }

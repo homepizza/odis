@@ -38,18 +38,30 @@
                 </trumbowyg>
             </div>
 
-            <p class="u-text-mute u-text-uppercase u-text-small u-mb-xsmall" v-if="attachments.length !== 0">
-                Прикрепленные файлы
-            </p>
-            <div class="row u-mb-medium" v-if="attachments.length !== 0">
-                <div class="col-md-6 col-lg-8">
-                    <ul>
-                        <li class="u-mb-xsmall u-text-small u-color-primary" v-for="attachment in attachments">
-                            <i class="fa fa-file-text-o u-text-mute u-mr-xsmall"></i>
-                            <a :href="attachment.link">{{ attachment.filename }}</a>
-                        </li>
-                    </ul>
+            <div v-if="!$store.state.Task.edit">
+                <p class="u-text-mute u-text-uppercase u-text-small u-mb-xsmall" v-if="attachments.length !== 0">
+                    Прикрепленные файлы
+                </p>
+                <div class="row u-mb-medium" v-if="attachments.length !== 0">
+                    <div class="col-md-6 col-lg-8">
+                        <ul>
+                            <li class="u-mb-xsmall u-text-small u-color-primary" v-for="attachment in attachments">
+                                <i class="fa fa-file-text-o u-text-mute u-mr-xsmall"></i>
+                                <a :href="attachment.link" target="_blank">{{ attachment.filename }}</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+            </div>
+            <div v-if="$store.state.Task.edit">
+                <vue-dropzone
+                        class="dropzone"
+                        ref="dropzone"
+                        id="custom-dropzone"
+                        :options="dropzoneOptions"
+                        @vdropzone-success="afterCompletedFiles"
+                >
+                </vue-dropzone>
             </div>
             <div class="row" style="margin-top: 20px;"></div>
         </div>
@@ -59,16 +71,26 @@
 <script>
     import Trumbowyg from 'vue-trumbowyg';
     import 'trumbowyg/dist/ui/trumbowyg.css';
+    import vue2Dropzone from 'vue2-dropzone';
+
     export default {
         name: "Task",
         data: function () {
             return {
-                config: {},
                 taskNumber: '',
                 task: '',
                 attachments: [],
                 title: '',
-                description: ''
+                description: '',
+                files: new Map(),
+                config: {},
+                dropzoneOptions: {
+                    url: '/task/attach',
+                    thumbnailWidth: 150,
+                    maxFilesize: 30,
+                    addRemoveLinks: false,
+                    maxFiles: 7
+                }
             }
         },
         beforeCreate() {
@@ -79,6 +101,15 @@
                     this.attachments = response.data.attachments;
                     this.title = response.data.title;
                     this.description = response.data.body;
+                    this.$store.commit('setTitle', this.title);
+                    this.$store.commit('setDescription', this.description);
+                    this.$store.commit('setAsignee', response.data.asignee);
+                    this.$store.commit('setStatus', response.data.status);
+                    this.$store.commit('setPriority', response.data.priority);
+                    this.$store.commit('setType', response.data.type);
+                    this.$store.commit('setArea', response.data.area);
+                    this.$store.commit('setDueDate', response.data.dueDate);
+                    this.$store.commit('setSolutionLink', response.data.solutionLink);
                 }
             });
         },
@@ -88,10 +119,16 @@
             },
             setDescription: function () {
                 this.$store.commit('setDescription', this.description);
+            },
+            afterCompletedFiles: function (file, response) {
+                this.files.set(file.name, response.link);
+                this.$store.commit('setAttachments', this.files);
+                this.attachments.push({link: response.link, filename: file.name});
             }
         },
         components: {
-            Trumbowyg
+            Trumbowyg,
+            vueDropzone: vue2Dropzone
         }
     }
 </script>

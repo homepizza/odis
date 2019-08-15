@@ -26,6 +26,11 @@ class Statuses
      */
     private $comment;
 
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $class;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -51,6 +56,18 @@ class Statuses
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getClass(): ?string
+    {
+        return $this->class;
+    }
+
+    public function setClass(?string $class): self
+    {
+        $this->class = $class;
 
         return $this;
     }
