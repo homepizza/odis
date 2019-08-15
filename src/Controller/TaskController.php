@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\CommentsRepository;
+use App\Repository\StatusesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,6 +15,8 @@ use App\Repository\PrioritiesRepository AS Priorities;
 use App\Repository\TypesRepository AS Types;
 use App\Repository\DomainAreasRepository AS Areas;
 use App\Utils\FileUploader;
+use App\Repository\HistoryStatusesRepository AS HistoryStatuses;
+use App\Repository\StatusesRepository AS Statuses;
 
 class TaskController extends AbstractController
 {
@@ -131,12 +134,17 @@ class TaskController extends AbstractController
      *
      * @Route("/task/{id}/data", name="task_data", methods={"GET"})
      * @param int $id
+     * @param HistoryStatuses $history
+     * @param Statuses $statuses
      * @return JsonResponse
      */
-    public function taskData(int $id): JsonResponse
+    public function taskData(int $id, HistoryStatuses $history, Statuses $statuses): JsonResponse
     {
         $task = $this->tasks->find($id);
-        return $this->json($task, 200);
+        $workStatus = $statuses->findBy(['name' => 'В работе']);
+        $hasWork = $history->findBy(['task' => $task, 'status' => $workStatus]);
+        $hasWork = !empty($hasWork);
+        return $this->json(['task' => $task, 'hasWork' => $hasWork], 200);
     }
 
     /**
@@ -150,11 +158,14 @@ class TaskController extends AbstractController
      */
     public function membersInfo(int $id, CommentsRepository $comments): JsonResponse
     {
+        $user = $this->getUser();
         $task = $this->tasks->find($id);
+        $isAuthor = $this->getUser()->getId() === $task->getAuthor()->getId();
+        $isAuthor = in_array('ROLE_DEVELOPER', $user->getRoles()) ? false : $isAuthor;
         $messages = $comments->messages($task->getId());
         $owners = !empty($task->getAsignee())
-            ? [$task->getAuthor()->getId(), $task->getAsignee()->getId()] :
-            [$task->getAuthor()->getId()];
+            ? [$task->getAuthor()->getId(), $task->getAsignee()->getId()]
+            : [$task->getAuthor()->getId()];
         $members = $comments->members($task->getId(), $owners);
         foreach ($members as $k => $member) {
             $member['usertype'] = 'Обсуждение';
@@ -174,8 +185,9 @@ class TaskController extends AbstractController
         ];
 
         return $this->json([
-            'members' => array_reverse($members),
-            'messages' => $messages
+            'members'  => array_reverse($members),
+            'messages' => $messages,
+            'author'   => $isAuthor
         ], 200);
     }
 }

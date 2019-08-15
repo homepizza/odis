@@ -93,23 +93,27 @@
                 }
             }
         },
-        beforeCreate() {
+        mounted() {
             this.taskNumber = document.querySelector("span[task-number]").innerHTML;
             this.$http.get('/task/' + this.taskNumber + '/data').then(response => {
                 if (response.status === 200) {
-                    this.task = response.data;
-                    this.attachments = response.data.attachments;
-                    this.title = response.data.title;
-                    this.description = response.data.body;
+                    let task = response.data.task;
+                    let hasWork = response.data.hasWork;
+
+                    this.task = task;
+                    this.attachments = task.attachments;
+                    this.title = task.title;
+                    this.description = task.body;
                     this.$store.commit('setTitle', this.title);
                     this.$store.commit('setDescription', this.description);
-                    this.$store.commit('setAsignee', response.data.asignee);
-                    this.$store.commit('setStatus', response.data.status);
-                    this.$store.commit('setPriority', response.data.priority);
-                    this.$store.commit('setType', response.data.type);
-                    this.$store.commit('setArea', response.data.area);
-                    this.$store.commit('setDueDate', response.data.dueDate);
-                    this.$store.commit('setSolutionLink', response.data.solutionLink);
+                    this.$store.commit('setAsignee', task.asignee);
+                    this.$store.commit('setStatus', task.status);
+                    this.$store.commit('setPriority', task.priority);
+                    this.$store.commit('setType', task.type);
+                    this.$store.commit('setArea', task.area);
+                    this.$store.commit('setDueDate', task.dueDate);
+                    this.$store.commit('setSolutionLink', task.solutionLink);
+                    this.$store.commit('setHasWork', hasWork);
                 }
             });
         },

@@ -9,6 +9,7 @@ import TaskCreate from "./components/TaskCreate";
 import Comments from "./components/Comments";
 import TaskMembers from "./components/TaskMembers";
 import Task from "./components/Task";
+import Details from "./components/Details";
 
 Vue.prototype.$http = Axios;
 Vue.component('v-select', vSelect);
@@ -17,6 +18,7 @@ Vue.component('task-create', TaskCreate);
 Vue.component('comments', Comments);
 Vue.component('task-members', TaskMembers);
 Vue.component('task', Task);
+Vue.component('task-details', Details);
 
 Vue.use(VueSweetalert2);
 Vue.filter('formatDate', function(value) {

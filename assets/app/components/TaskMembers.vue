@@ -51,6 +51,7 @@
                     let data = response.data;
                     this.members = data.members;
                     this.messages = data.messages;
+                    this.$store.commit('setISAuthor', data.author);
                 });
             }
         }
