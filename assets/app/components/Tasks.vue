@@ -89,6 +89,8 @@
 </template>
 
 <script>
+    import moment from 'moment';
+
     export default {
         name: "Tasks",
         data: function () {
@@ -107,11 +109,25 @@
         },
         methods: {
             sortNumber: function () {
+                let sorted = this.sortNumberState;
+                this.tasks.sort(function (obj, obj1) {
+                    let result = sorted ? obj.id - obj1.id : obj1.id - obj.id;
+                    return result;
+                });
                 this.sortNumberState = !this.sortNumberState;
                 this.$store.commit('setSortNumber', this.sortNumberState);
                 this.$store.commit('setSortDueDate', false);
             },
             sortDueDate: function () {
+                let sorted = this.sortDueDateState;
+                this.tasks.sort(function (first, second) {
+                    let dateFirst = new Date(first.dueDate);
+                    let dateSecond = new Date(second.dueDate);
+                    let result = sorted
+                        ? dateFirst - dateSecond
+                        : dateSecond - dateFirst;
+                    return result;
+                });
                 this.sortDueDateState = !this.sortDueDateState;
                 this.$store.commit('setSortDueDate', this.sortDueDateState);
                 this.$store.commit('setSortNumber', false);

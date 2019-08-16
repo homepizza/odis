@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Axios from 'axios';
 import vSelect from 'vue-select';
 import moment from "moment";
+import lodash from 'lodash'
 import VueSweetalert2 from "vue-sweetalert2";
 import Datepicker from 'vue2-datepicker';
 import store from "./store/store";
@@ -14,6 +15,7 @@ import Details from "./components/Details";
 import Tasks from "./components/Tasks";
 
 Vue.prototype.$http = Axios;
+Vue.prototype._ = lodash;
 Vue.component('v-select', vSelect);
 Vue.component('details-create', DetailsCreate);
 Vue.component('task-create', TaskCreate);
