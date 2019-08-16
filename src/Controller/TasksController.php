@@ -3,16 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\Attachments;
+use App\Entity\DomainAreas;
 use App\Entity\HistoryStatuses;
 use App\Entity\Tasks;
+use App\Repository\DomainAreasRepository;
 use App\Repository\StatusesRepository AS Statuses;
 use App\Repository\PrioritiesRepository AS Priorities;
 use App\Repository\TasksRepository;
 use App\Repository\TypesRepository AS Types;
 use App\Repository\DomainAreasRepository AS Areas;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface AS EM;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -113,6 +117,74 @@ class TasksController extends AbstractController
             return $this->json([], 200);
         }
         return $this->render('tasks/content/task_new.html.twig');
+    }
+
+    /**
+     * Обновление задачи
+     *
+     * @Route("/tasks/{id}/update", name="tasks_update", methods={"PUT"})
+     * @param int $id
+     * @param TasksRepository $tasks
+     * @param UserRepository $u
+     * @param Priorities $priorities
+     * @param Statuses $statuses
+     * @param Types $types
+     * @param Areas $areas
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function updateTask(
+        int $id,
+        TasksRepository $tasks,
+        UserRepository $u,
+        Priorities $priorities,
+        Statuses $statuses,
+        Types $types,
+        DomainAreasRepository $areas,
+        Request $request
+    ): JsonResponse
+    {
+        $taskData = json_decode($request->getContent(), true);
+        $task = $tasks->find($taskData['taskNumber']);
+        $user = $u->find($taskData['asignee']['id']);
+        $priority = $priorities->find($taskData['priority']['id']);
+        $status = $statuses->find($taskData['status']['id']);
+        $statusNew = $status->getId() !== $task->getStatus()->getId();
+        $type = $types->find($taskData['type']['id']);
+        $area = $areas->find($taskData['area']['id']);
+        $task->setAsignee($user);
+        $task->setPriority($priority);
+        $task->setStatus($status);
+        $task->setType($type);
+        $task->setArea($area);
+        $task->setDueDate(new \DateTime($taskData['dueDate']));
+        $task->setTitle($taskData['title']);
+        $task->setBody($taskData['description']);
+        $task->setSolutionLink($taskData['solutionLink']);
+        $this->em->flush();
+
+        if (!empty($taskData['attachments'])) {
+            foreach ($taskData['attachments'] as $link){
+                $filename = explode('/', $link);
+                $filename = $filename[count($filename)-1];
+                $attachment = new Attachments();
+                $attachment->setTask($task);
+                $attachment->setLink($link);
+                $attachment->setFilename($filename);
+                $this->em->persist($attachment);
+            }
+        }
+        if ($statusNew) {
+            $history = new HistoryStatuses();
+            $history->setTask($task);
+            $history->setStatus($status);
+            $history->setDateStatus(new \DateTime());
+            $this->em->persist($history);
+        }
+        $this->em->flush();
+
+        return $this->json($task, 200);
     }
 
     /**

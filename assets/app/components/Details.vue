@@ -24,6 +24,7 @@
             <tr>
                 <td class="u-pb-xsmall u-color-primary u-text-small">Статус</td>
                 <td class="u-pb-xsmall u-text-right u-text-mute u-text-small">
+                    <p class="u-hidden-visually">{{ needUpdate }}</p>
                     <span v-if="!$store.state.Task.edit">
                         <i class="fa fa-circle-o" v-bind:class="$store.state.Task.status.class"></i>
                         {{ $store.state.Task.status.name }}
@@ -36,7 +37,21 @@
             <tr>
                 <td class="u-color-primary u-text-small">Приоритет</td>
                 <td class="u-text-right u-text-mute u-text-small">
-                    <span class="c-badge c-badge--xsmall" v-bind:class="$store.state.Task.priority.class">
+                    <span class="c-badge c-badge--xsmall"
+                          v-if="!$store.state.Task.edit"
+                          v-bind:class="$store.state.Task.priority.class"
+                    >
+                        {{ $store.state.Task.priority.name }}
+                    </span>
+                    <div style="width: 212px; float: right"
+                         v-else-if="!($store.state.Task.hasWork && $store.state.Task.isAuthor)"
+                    >
+                        <v-select label="name" @input="setPriority" :options="priorities" v-model="priority"></v-select>
+                    </div>
+                    <span class="c-badge c-badge--xsmall"
+                          v-bind:class="$store.state.Task.priority.class"
+                          v-else
+                    >
                         {{ $store.state.Task.priority.name }}
                     </span>
                 </td>
@@ -71,8 +86,12 @@
         <div class="u-flex u-justify-between u-align-items-center">
             <p>Срок выполнения</p>
 
-            <div style="display: flex;">
-                <a class="c-nav__link" style="margin-right: 10px; padding-top: 3px;">
+            <div style="display: flex;" v-if="!$store.state.Task.edit || $store.state.Task.isAuthor">
+                <a :href="$store.state.Task.solutionLink"
+                   v-if="$store.state.Task.solutionLink"
+                   class="c-nav__link" style="margin-right: 10px; padding-top: 3px;"
+                   target="_blank"
+                >
                     <i class="fa fa-link"></i>
                     Решение
                 </a>
@@ -81,13 +100,51 @@
                 </span>
                 <span class="c-badge c-badge--danger" v-else>Не назначен</span>
             </div>
+            <div style="display: flex;" v-else-if="!$store.state.Task.isAuthor">
+                <div v-if="!linkInput">
+                    <a @click="linkToggle" class="c-nav__link" style="margin-right: 5px; padding-top: 7px;">
+                        <i class="fa fa-link"></i>
+                    </a>
+                    <date-picker v-model="dueDate"
+                                 :first-day-of-week="1"
+                                 @input="date2value"
+                                 valueType="format"
+                                 type="date"
+                                 format="DD.MM.YYYY"
+                                 lang="ru"
+                                 width="215px"
+                    >
+                    </date-picker>
+                </div>
+                <div v-else>
+                    <a @click="linkToggle" class="c-nav__link"
+                       style="margin-right: 10px; padding-top: 7px; float: left;"
+                    >
+                        <i class="fa fa-calendar"></i>
+                    </a>
+                    <input v-model="solutionLink"
+                           @input="setSolutionLink"
+                           type="text"
+                           class="c-input"
+                           style="width: 215px; height: 38px;"
+                           placeholder="Ссылка на решение"
+                    >
+                </div>
+
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+    import Datepicker from 'vue2-datepicker'
+    import moment from 'moment'
+
     export default {
         name: "Details",
+        components: {
+            Datepicker
+        },
         data: function () {
             return {
                 developers: [],
@@ -100,8 +157,11 @@
                 asignee: {},
                 status: {},
                 type: {},
-                area: {}
-
+                area: {},
+                priority: {},
+                dueDate: '',
+                solutionLink: '',
+                linkInput: false
             }
         },
         created() {
@@ -114,11 +174,34 @@
                     this.status = task.status;
                     this.type = task.type;
                     this.area = task.area;
+                    this.priority = task.priority;
+                    this.dueDate = moment(String(task.dueDate)).format('DD.MM.YYYY');
+                    this.solutionLink = task.solutionLink;
                     this.loadData();
                 }
             });
         },
+        computed: {
+            needUpdate() {
+                this.loadWorkflow();
+                this.$store.commit('setWorkflow', false);
+                return this.$store.state.Task.workflow;
+            }
+        },
         methods: {
+            linkToggle: function () {
+                this.linkInput = !this.linkInput;
+            },
+            date2value: function (sourceValue) {
+                if (sourceValue) {
+                    let value = moment(sourceValue, "DD.MM.YYYY").format('YYYY-MM-DDTHH:mm:ss.SSS');
+                    this.$store.commit('setDueDate', value);
+                }
+                else {
+                    this.$store.commit('setDueDate', '');
+                }
+
+            },
             loadData: function () {
                 this.$http.get('/task/priorities').then(response => (
                     this.priorities = response.data
@@ -132,6 +215,9 @@
                 this.$http.get('/task/developers').then(response => (
                     this.developers = response.data
                 ));
+                this.loadWorkflow();
+            },
+            loadWorkflow: function () {
                 this.$http.get('/workflow/status/' + this.status.id).then(response => (
                     this.statuses = response.data
                 ));
@@ -147,11 +233,17 @@
             },
             setArea: function () {
                 this.$store.commit('setArea', this.area);
+            },
+            setPriority: function () {
+                this.$store.commit('setPriority', this.priority);
+            },
+            setSolutionLink: function () {
+                this.$store.commit('setSolutionLink', this.solutionLink);
             }
         }
     }
 </script>
 
-<style scoped>
+<style>
 
 </style>

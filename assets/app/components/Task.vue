@@ -115,6 +115,7 @@
                     this.$store.commit('setDueDate', task.dueDate);
                     this.$store.commit('setSolutionLink', task.solutionLink);
                     this.$store.commit('setHasWork', hasWork);
+                    this.$store.commit('setTaskNumber', this.taskNumber);
                 }
             });
         },

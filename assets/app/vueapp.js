@@ -10,6 +10,7 @@ import Comments from "./components/Comments";
 import TaskMembers from "./components/TaskMembers";
 import Task from "./components/Task";
 import Details from "./components/Details";
+import Datepicker from 'vue2-datepicker';
 
 Vue.prototype.$http = Axios;
 Vue.component('v-select', vSelect);
@@ -21,6 +22,7 @@ Vue.component('task', Task);
 Vue.component('task-details', Details);
 
 Vue.use(VueSweetalert2);
+Vue.use(Datepicker);
 Vue.filter('formatDate', function(value) {
     if (value) {
         return moment(String(value)).format('DD.MM.YYYY HH:mm')
@@ -55,13 +57,19 @@ new Vue({el: '#app',
         saveTask: function () {
             this.editTask();
             let task = store.getters.getTask;
-            this.$swal({
-                position: 'top',
-                type: 'success',
-                title: 'Сохранено!',
-                showConfirmButton: false,
-                timer: 1500
+            this.$http.put('/tasks/' + task.taskNumber + '/update', task).then(response => {
+                if (response.status === 200) {
+                    store.commit('setWorkflow', true);
+                    this.$swal({
+                        position: 'top',
+                        type: 'success',
+                        title: 'Сохранено!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
             });
+
         }
     },
     computed: {

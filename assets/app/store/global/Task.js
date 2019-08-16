@@ -13,7 +13,9 @@ const state = {
     comments: false,
     edit: false,
     isAuthor: false,
-    hasWork: false
+    hasWork: false,
+    workflow: false,
+    taskNumber: null
 };
 
 const mutations = {
@@ -61,12 +63,19 @@ const mutations = {
     },
     setHasWork (state, flag) {
         state.hasWork = flag;
+    },
+    setWorkflow (state, flag) {
+        state.workflow = flag;
+    },
+    setTaskNumber (state, taskNumber) {
+        state.taskNumber = taskNumber;
     }
 };
 
 const getters = {
     getTask: state => {
         let Task = {
+            taskNumber: state.taskNumber,
             title: state.title,
             description: state.description,
             priority: state.priority,

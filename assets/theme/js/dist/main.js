@@ -31910,7 +31910,9 @@ $(function() {
 
     // 10. datepicker
     if($('[data-toggle="datepicker"]').length) {
-        $('[data-toggle="datepicker"]').datepicker();
+        $('[data-toggle="datepicker"]').datepicker({
+            format: 'dd-mm-yyyy'
+        });
     }
 
     // 11. Custom Bootstrap Popovers
