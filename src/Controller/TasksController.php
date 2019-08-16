@@ -147,7 +147,7 @@ class TasksController extends AbstractController
     {
         $taskData = json_decode($request->getContent(), true);
         $task = $tasks->find($taskData['taskNumber']);
-        $user = $u->find($taskData['asignee']['id']);
+        $user = !empty($taskData['asignee']) ? $u->find($taskData['asignee']['id']) : null;
         $priority = $priorities->find($taskData['priority']['id']);
         $status = $statuses->find($taskData['status']['id']);
         $statusNew = $status->getId() !== $task->getStatus()->getId();
@@ -174,6 +174,7 @@ class TasksController extends AbstractController
                 $attachment->setFilename($filename);
                 $this->em->persist($attachment);
             }
+            $this->em->flush();
         }
         if ($statusNew) {
             $history = new HistoryStatuses();
