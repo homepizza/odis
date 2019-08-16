@@ -50,7 +50,7 @@ class TasksController extends AbstractController
     }
 
     /**
-     * Список задач
+     * Список задач (страница)
      *
      * @Route("/tasks", name="tasks", methods={"GET"})
      * @param TasksRepository $tasks
@@ -62,6 +62,20 @@ class TasksController extends AbstractController
         return $this->render('tasks/content/tasks.html.twig', [
             'tasks' => $list
         ]);
+    }
+
+    /**
+     * Список задач (данные)
+     *
+     * @Route("/tasks/data", name="tasks_data", methods={"GET"})
+     * @param TasksRepository $tasks
+     * @return JsonResponse
+     */
+    public function listData(TasksRepository $tasks): JsonResponse
+    {
+        $list = $tasks->notEqualStatuses(['Завершено', 'Отменено']);
+        $number = count($list);
+        return $this->json(['tasks' => $list, 'number' => $number], 200);
     }
 
     /**
