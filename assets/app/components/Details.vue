@@ -183,7 +183,7 @@
         },
         computed: {
             needUpdate() {
-                this.loadWorkflow();
+                if(this.status.id !== undefined) { this.loadWorkflow(); }
                 this.$store.commit('setWorkflow', false);
                 return this.$store.state.Task.workflow;
             }
