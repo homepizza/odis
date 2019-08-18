@@ -15,8 +15,8 @@
                     <a @click="sortNumber" class="c-nav__link">
                         Номер
                         <i class="fa" :class="{
-                            'fa-sort-amount-desc': !$store.state.Tasks.sortNumber,
-                            'fa-sort-amount-asc': $store.state.Tasks.sortNumber
+                            'fa-sort-amount-desc': !sortNumberState,
+                            'fa-sort-amount-asc': sortNumberState
                         }">
                         </i>
                     </a>
@@ -26,8 +26,8 @@
                     <a @click="sortDueDate" class="c-nav__link">
                         Срок
                         <i class="fa" :class="{
-                            'fa-sort-amount-desc': !$store.state.Tasks.sortDueDate,
-                            'fa-sort-amount-asc': $store.state.Tasks.sortDueDate
+                            'fa-sort-amount-desc': !sortDueDateState,
+                            'fa-sort-amount-asc': sortDueDateState
                         }">
                         </i>
                     </a>
@@ -43,7 +43,7 @@
         </thead>
 
         <tbody>
-            <tr class="c-table__row" :class="task.priority.tableClass" v-for="task in tasks">
+            <tr class="c-table__row" :class="task.priority.tableClass" v-for="task in searchTasks">
                 <td class="c-table__cell">
                     <small class="u-block u-text-mute">{{ task.id }}</small>
                 </td>
@@ -93,15 +93,27 @@
 
     export default {
         name: "Tasks",
+        props: ['search'],
         data: function () {
             return {
                 tasks: [],
                 number: 0,
                 sortNumberState: false,
                 sortDueDateState: false
+
             }
         },
-        created() {
+        computed: {
+             searchTasks: function () {
+                 return this.tasks.filter(task => {
+                     let title = task.title.indexOf(this.search) !== -1;
+                     let author = task.author.username.indexOf(this.search) !== -1;
+                     let asignee = task.asignee.username.indexOf(this.search) !== -1;
+                     return title || author || asignee;
+                 });
+             }
+        },
+        beforeMount() {
             this.$http.get('/tasks/data').then(response => {
                 this.tasks = response.data.tasks;
                 this.number = response.data.number;
@@ -115,8 +127,7 @@
                     return result;
                 });
                 this.sortNumberState = !this.sortNumberState;
-                this.$store.commit('setSortNumber', this.sortNumberState);
-                this.$store.commit('setSortDueDate', false);
+                this.sortDueDateState = false;
             },
             sortDueDate: function () {
                 let sorted = this.sortDueDateState;
@@ -129,8 +140,7 @@
                     return result;
                 });
                 this.sortDueDateState = !this.sortDueDateState;
-                this.$store.commit('setSortDueDate', this.sortDueDateState);
-                this.$store.commit('setSortNumber', false);
+                this.sortNumberState = false;
             }
         }
     }
