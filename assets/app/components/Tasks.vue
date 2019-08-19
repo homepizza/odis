@@ -105,13 +105,22 @@
         },
         computed: {
              searchTasks: function () {
-                 return this.tasks.filter(task => {
-                     let title = task.title.indexOf(this.search) !== -1;
-                     let author = task.author.username.indexOf(this.search) !== -1;
-                     if (task.asignee === null) { task.asignee = {username: ''}; }
-                     let asignee = task.asignee.username.indexOf(this.search) !== -1;
-                     return title || author || asignee;
-                 });
+                 let filters = this.$store.state.Task.applyFilters;
+                 if (filters) {
+                     return this.tasks.filter(task => {
+                         console.log(task);
+                         return true;
+                     });
+                 } else {
+                     return this.tasks.filter(task => {
+                         let title = task.title.indexOf(this.search) !== -1;
+                         let author = task.author.username.indexOf(this.search) !== -1;
+                         if (task.asignee === null) { task.asignee = {username: ''}; }
+                         let asignee = task.asignee.username.indexOf(this.search) !== -1;
+                         return title || author || asignee;
+                     });
+                 }
+
              }
         },
         beforeMount() {
