@@ -14,3 +14,7 @@ Task manager for open development.
 `php bin/console d:f:l`
 
 `yarn encore production` - можно `prod`
+
+# Регистрация вручную
+
+Для ручной регистрации, есть таска `php bin/console user:new`  ключи `--developer` или `--author`
