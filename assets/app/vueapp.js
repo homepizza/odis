@@ -12,6 +12,7 @@ import TaskMembers from "./components/TaskMembers";
 import Task from "./components/Task";
 import Details from "./components/Details";
 import Tasks from "./components/Tasks";
+import Filters from "./components/Filters";
 
 Vue.prototype.$http = Axios;
 Vue.component('v-select', vSelect);
@@ -22,6 +23,7 @@ Vue.component('task-members', TaskMembers);
 Vue.component('task', Task);
 Vue.component('task-details', Details);
 Vue.component('tasks', Tasks);
+Vue.component('filters', Filters);
 
 Vue.use(VueSweetalert2);
 Vue.use(Datepicker);

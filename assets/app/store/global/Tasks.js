@@ -36,7 +36,37 @@ const mutations = {
     }
 };
 
+const actions = {
+    setFilters(context, data) {
+        context.commit('setFilterAuthor', data.author);
+        context.commit('setFilterAsignee', data.asignee);
+        context.commit('setFilterPriority', data.priority);
+        context.commit('setFilterType', data.type);
+        context.commit('setFilterArea', data.area);
+        context.commit('setFilterDueFrom', data.dueFrom);
+        context.commit('setFilterDueTo', data.dueTo);
+        context.commit('setApplyFilters', data.apply);
+    }
+};
+
+const getters = {
+    getFilters: state => {
+        let Filters = {
+            author: state.filterAuthor,
+            asignee: state.filterAsignee,
+            priority: state.filterPriority,
+            type: state.filterType,
+            area: state.filterArea,
+            dueFrom: state.filterDueFrom,
+            dueTo: state.filterDueTo
+        };
+        return Filters;
+    }
+};
+
 export default {
     state,
-    mutations
+    mutations,
+    actions,
+    getters
 }

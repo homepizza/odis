@@ -66,6 +66,7 @@ class TaskController extends AbstractController
      */
     public function priorities(): JsonResponse
     {
+        // TODO: Вынести в API все подобные
         $roles = $this->getUser()->getRoles();
         if (in_array("ROLE_AUTHOR", $roles)) {
             $id = $this->getUser()->getId();

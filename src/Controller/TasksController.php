@@ -88,6 +88,7 @@ class TasksController extends AbstractController
      */
     public function newTask(Request $request): Response
     {
+        // TODO: Часть вынести в TaskService
         $method = $request->getMethod();
         if ($method === 'POST') {
             $user = $this->getUser();
@@ -159,6 +160,7 @@ class TasksController extends AbstractController
         Request $request
     ): JsonResponse
     {
+        // TODO: Часть вынести в TaskService
         $taskData = json_decode($request->getContent(), true);
         $task = $tasks->find($taskData['taskNumber']);
         $user = !empty($taskData['asignee']) ? $u->find($taskData['asignee']['id']) : null;

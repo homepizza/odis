@@ -120,7 +120,6 @@
                          return title || author || asignee;
                      });
                  }
-
              }
         },
         beforeMount() {
