@@ -229,7 +229,7 @@
     .filter {
         z-index: 1;
         position: fixed;
-        margin-top: 15%;
+        margin-top: 12%;
         display: flex;
     }
     .filter-panel {
