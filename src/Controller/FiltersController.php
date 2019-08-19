@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Filters;
 use App\Repository\FiltersRepository;
+use App\Repository\StatusesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,10 +51,11 @@ class FiltersController extends AbstractController
      *
      * @Route("/filters/save", name="filters_save", methods={"POST"})
      * @param Request $request
+     * @param StatusesRepository $statuses
      * @return JsonResponse
      * @throws \Exception
      */
-    public function saveFilters(Request $request): JsonResponse
+    public function saveFilters(Request $request, StatusesRepository $statuses): JsonResponse
     {
         $user = $this->getUser();
         $data = json_decode($request->getContent(), true);
@@ -74,12 +76,16 @@ class FiltersController extends AbstractController
         // Доменная область (направление)
         $area = $this->areas->find($data['area']['id'] ?? 0);
 
+        // Статус
+        $status = $statuses->find($data['status']['id'] ?? 0);
+
         $filter->setAuthor($author);
         $filter->setAsignee($asignee);
         $filter->setPriority($priority);
         $filter->setType($type);
         $filter->setArea($area);
         $filter->setUser($user);
+        $filter->setStatus($status);
         $this->em->persist($filter);
         $this->em->flush();
 
@@ -108,5 +114,18 @@ class FiltersController extends AbstractController
     {
         $priorities = $this->priorities->findAll();
         return $this->json($priorities, 200);
+    }
+
+    /**
+     * Все статусы
+     *
+     * @Route("/filters/statuses", name="filters_statuses", methods={"GET"})
+     * @param StatusesRepository $status
+     * @return JsonResponse
+     */
+    public function statuses(StatusesRepository $status): JsonResponse
+    {
+        $statuses = $status->findAll();
+        return $this->json($statuses, 200);
     }
 }

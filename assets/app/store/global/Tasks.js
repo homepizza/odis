@@ -6,7 +6,8 @@ const state = {
     filterType: '',
     filterArea: '',
     filterDueFrom: '',
-    filterDueTo: ''
+    filterDueTo: '',
+    filterStatus: ''
 };
 
 const mutations = {
@@ -33,6 +34,9 @@ const mutations = {
     },
     setFilterDueTo (state, dueTo) {
         state.filterDueTo = dueTo;
+    },
+    setFilterStatus (state, status) {
+        state.filterStatus = status;
     }
 };
 
@@ -46,6 +50,7 @@ const actions = {
         context.commit('setFilterDueFrom', data.dueFrom);
         context.commit('setFilterDueTo', data.dueTo);
         context.commit('setApplyFilters', data.apply);
+        context.commit('setFilterStatus', data.status);
     }
 };
 
@@ -58,7 +63,8 @@ const getters = {
             type: state.filterType,
             area: state.filterArea,
             dueFrom: state.filterDueFrom,
-            dueTo: state.filterDueTo
+            dueTo: state.filterDueTo,
+            status: state.filterStatus
         };
         return Filters;
     }

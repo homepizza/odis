@@ -21,6 +21,12 @@
                           v-model="asignee"
                 >
                 </v-select>
+                <label class="c-field__label">Статус</label>
+                <v-select label="name"
+                          :options="statuses"
+                          v-model="status"
+                >
+                </v-select>
                 <label class="c-field__label">Приоритет</label>
                 <v-select label="name"
                           :options="priorities"
@@ -103,7 +109,9 @@
                 types: [],
                 type: {},
                 areas: [],
-                area: {}
+                area: {},
+                statuses: [],
+                status: {}
             }
         },
         beforeMount() {
@@ -115,6 +123,9 @@
             });
             this.$http.get('/filters/priorities').then(response => {
                 this.priorities = response.data;
+            });
+            this.$http.get('/filters/statuses').then(response => {
+                this.statuses = response.data;
             });
             this.$http.get('/task/types').then(response => {
                 this.types = response.data;
@@ -158,6 +169,7 @@
                     this.area = this.filter.area;
                     this.dueFrom = this.filter.dueFrom ;
                     this.dueTo = this.filter.dueTo;
+                    this.status = this.filter.status;
                 } else {
                     this.author = {};
                     this.asignee = {};
@@ -166,6 +178,7 @@
                     this.area = {};
                     this.dueFrom = '';
                     this.dueTo = '';
+                    this.status = {};
                 }
                 this.applyBtn = false;
             },
@@ -178,7 +191,8 @@
                     area: this.area,
                     dueFrom: this.dueFrom,
                     dueTo: this.dueTo,
-                    apply: true
+                    apply: true,
+                    status: this.status
                 };
                 this.applyBtn = true;
                 this.$store.dispatch('setFilters', data);

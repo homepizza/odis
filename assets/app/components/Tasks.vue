@@ -112,7 +112,7 @@
                      let filtersState = this.$store.getters.getFilters;
                      this.$store.commit('setApplyFilters', false);
                      return this.tasks.filter(task => {
-                         let author, asignee, priority, type, area, due = true;
+                         let author, asignee, priority, type, area, due, status = true;
                          if (filtersState.author !== null && filtersState.author.hasOwnProperty('id')) {
                             author = task.author.hasOwnProperty('id')
                                 ? task.author.id === filtersState.author.id
@@ -139,6 +139,11 @@
                                  ? task.area.id === filtersState.area.id
                                  : false;
                          } else { area = true; }
+                         if (filtersState.status !== null && filtersState.status.hasOwnProperty('id')) {
+                             status = task.status.hasOwnProperty('id')
+                                 ? task.status.id === filtersState.status.id
+                                 : false;
+                         } else { status = true; }
                          let dueFromNull = filtersState.dueFrom !== null;
                          let dueToNull  =  filtersState.dueTo !== null;
                          let dueDateNull = task.dueDate !== null;
@@ -160,7 +165,7 @@
                              } else { due = false; }
                          } else { due = true; }
 
-                         let result = author && asignee && priority && type && area && due;
+                         let result = author && asignee && priority && type && area && due && status;
                          return result;
                      });
                  } else {

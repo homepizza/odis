@@ -62,6 +62,11 @@ class Filters
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Statuses")
+     */
+    private $status;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -171,6 +176,18 @@ class Filters
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getStatus(): ?Statuses
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Statuses $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
