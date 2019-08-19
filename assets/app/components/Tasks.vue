@@ -108,6 +108,7 @@
         computed: {
              searchTasks: function () {
                  let filters = this.$store.state.Tasks.applyFilters;
+                 let search = this.search;
                  if (filters) {
                      let filtersState = this.$store.getters.getFilters;
                      this.$store.commit('setApplyFilters', false);
@@ -171,9 +172,9 @@
                  } else {
                      return this.tasks.filter(task => {
                          let title = task.title.indexOf(this.search) !== -1;
-                         let author = task.author.username.indexOf(this.search) !== -1;
+                         let author = task.author.username.indexOf(search) !== -1;
                          if (task.asignee === null) { task.asignee = {username: ''}; }
-                         let asignee = task.asignee.username.indexOf(this.search) !== -1;
+                         let asignee = task.asignee.username.indexOf(search) !== -1;
                          return title || author || asignee;
                      });
                  }
