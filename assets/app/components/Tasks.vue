@@ -89,7 +89,9 @@
 </template>
 
 <script>
-    import moment from 'moment';
+    import Moment from 'moment';
+    import { extendMoment } from 'moment-range';
+    const moment = extendMoment(Moment);
 
     export default {
         name: "Tasks",
@@ -105,11 +107,61 @@
         },
         computed: {
              searchTasks: function () {
-                 let filters = this.$store.state.Task.applyFilters;
+                 let filters = this.$store.state.Tasks.applyFilters;
                  if (filters) {
+                     let filtersState = this.$store.getters.getFilters;
+                     this.$store.commit('setApplyFilters', false);
                      return this.tasks.filter(task => {
-                         console.log(task);
-                         return true;
+                         let author, asignee, priority, type, area, due = true;
+                         if (filtersState.author !== null && filtersState.author.hasOwnProperty('id')) {
+                            author = task.author.hasOwnProperty('id')
+                                ? task.author.id === filtersState.author.id
+                                : false;
+                         } else { author = true; }
+                         if (filtersState.asignee !== null && filtersState.asignee.hasOwnProperty('id')) {
+                             asignee = task.asignee.hasOwnProperty('id')
+                                 ? task.asignee.id === filtersState.asignee.id
+                                 : false;
+                         } else { asignee = true; }
+                         if (filtersState.priority !== null && filtersState.priority.hasOwnProperty('id')) {
+                             priority = task.priority.hasOwnProperty('id')
+                                 ? task.priority.id === filtersState.priority.id
+                                 : false;
+                         }
+                         else { priority = true; }
+                         if (filtersState.type !== null && filtersState.type.hasOwnProperty('id')) {
+                              type = task.type.hasOwnProperty('id')
+                                 ? task.type.id === filtersState.type.id
+                                 : false;
+                         } else { type = true; }
+                         if (filtersState.area !== null && filtersState.area.hasOwnProperty('id')) {
+                             area = task.area.hasOwnProperty('id')
+                                 ? task.area.id === filtersState.area.id
+                                 : false;
+                         } else { area = true; }
+                         let dueFromNull = filtersState.dueFrom !== null;
+                         let dueToNull  =  filtersState.dueTo !== null;
+                         let dueDateNull = task.dueDate !== null;
+                         if (dueFromNull && dueToNull && (filtersState.dueFrom.length > 0) && (filtersState.dueTo.length > 0)) {
+                             if (dueDateNull && task.dueDate.length > 0) {
+                                var startDate = new Date(filtersState.dueFrom);
+                                var endDate = new Date(filtersState.dueTo);
+                                var date = new Date(task.dueDate);
+                                var range = moment.range(startDate, endDate);
+                                due = range.contains(date);
+                             } else { due = false; }
+                         } else if (dueFromNull && filtersState.dueFrom.length > 0) {
+                                if (dueDateNull && task.dueDate.length > 0) {
+                                    due = moment(task.dueDate).isAfter(filtersState.dueFrom);
+                                } else { due = false; }
+                         } else if (dueToNull && filtersState.dueTo.length > 0)  {
+                             if (dueDateNull && task.dueDate.length > 0) {
+                                    due = moment(task.dueDate).isBefore(filtersState.dueTo);
+                             } else { due = false; }
+                         } else { due = true; }
+
+                         let result = author && asignee && priority && type && area && due;
+                         return result;
                      });
                  } else {
                      return this.tasks.filter(task => {

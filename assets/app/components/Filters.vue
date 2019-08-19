@@ -39,7 +39,7 @@
                           v-model="area"
                 >
                 </v-select>
-                <label class="c-field__label">Срок от</label>
+                <label class="c-field__label" v-if="false">Срок от</label>
                 <date-picker v-model="dueFrom"
                              :first-day-of-week="1"
                              @input="date2valueFrom"
@@ -48,9 +48,10 @@
                              format="DD.MM.YYYY"
                              lang="ru"
                              width="236px"
+                             v-if="false"
                 >
                 </date-picker>
-                <label class="c-field__label">Срок до</label>
+                <label class="c-field__label" v-if="false">Срок до</label>
                 <date-picker v-model="dueTo"
                              :first-day-of-week="1"
                              @input="date2valueTo"
@@ -59,6 +60,7 @@
                              format="DD.MM.YYYY"
                              lang="ru"
                              width="236px"
+                             v-if="false"
                 >
                 </date-picker>
                 <div class="row filters-btn">
