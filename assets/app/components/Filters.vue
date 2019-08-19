@@ -105,6 +105,9 @@
             }
         },
         beforeMount() {
+            this.$http.get('/filters').then(response => {
+                this.filters = response.data;
+            });
             this.$http.get('/filters/users').then(response => {
                 this.users = response.data;
             });
@@ -123,25 +126,46 @@
                 return !this.$store.state.Tasks.applyFilters;
             },
             saveButton: function () {
-                return this.applyBtn && (!this.filter.hasOwnProperty('name'));
+                let filterStatus = (this.filter !== null) ? this.filter.hasOwnProperty('name') : false;
+                return this.applyBtn && (!filterStatus);
             }
         },
         methods: {
             saveFilter: function () {
                 this.applyBtn = false;
-                // TODO: Запрос на сохранение фильтров (getter of Store) + push в Список готовых филтров
                 let filters = this.$store.getters.getFilters;
                 filters.name = this.filterName;
                 this.$http.post('/filters/save', filters).then(response => {
-                    console.log(response.data);
-                    // PUSH
+                    if (response.status === 200) {
+                        // this.filters.push(response.data); // Почему то не работает, ... =(
+                        this.$http.get('/filters').then(response => {
+                            this.filters = response.data;
+                        });
+                    }
                 });
             },
             openFilters: function () {
                 this.openFilter = !this.openFilter;
             },
             setFilter: function () {
-                // TODO: назначает модели (главную filter и параметров)
+                if (this.filter !== null) {
+                    this.author = this.filter.author;
+                    this.asignee = this.filter.asignee;
+                    this.priority = this.filter.priority;
+                    this.type = this.filter.type;
+                    this.area = this.filter.area;
+                    this.dueFrom = this.filter.dueFrom ;
+                    this.dueTo = this.filter.dueTo;
+                } else {
+                    this.author = {};
+                    this.asignee = {};
+                    this.priority = {};
+                    this.type = {};
+                    this.area = {};
+                    this.dueFrom = '';
+                    this.dueTo = '';
+                }
+                this.applyBtn = false;
             },
             applyFilters: function() {
                 let data = {
@@ -196,7 +220,7 @@
         background-color: #fff;
         border: 1px solid #e6eaee;
         width: 274px;
-        height: 650px;
+        height: 678px;
     }
     .filter-icon {
         cursor: pointer;

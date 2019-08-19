@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Filters;
+use App\Repository\FiltersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,10 +35,14 @@ class FiltersController extends AbstractController
      * Получить список сохраненных фильтров
      *
      * @Route("/filters", name="filters", methods={"GET"})
+     * @param FiltersRepository $filter
+     * @return JsonResponse
      */
-    public function filters(): JsonResponse
+    public function filters(FiltersRepository $filter): JsonResponse
     {
-        return $this->json([], 200);
+        $user = $this->getUser();
+        $fitlers = $filter->findBy(['user' => $user]);
+        return $this->json($fitlers, 200);
     }
 
     /**
@@ -78,7 +83,7 @@ class FiltersController extends AbstractController
         $this->em->persist($filter);
         $this->em->flush();
 
-        return $this->json([], 200);
+        return $this->json($filter, 200);
     }
 
     /**
