@@ -72,9 +72,6 @@ new Vue({el: '#app',
                     });
                 }
             });
-        },
-        setSearch: function () {
-            this.$store.commit('setFilterSearch', this.search);
         }
     },
     computed: {
