@@ -1,6 +1,6 @@
 <template>
-    <div class="filter">
-        <div class="filter-panel" v-show="openFilter">
+    <div class="filter js-page-sidebar">
+        <div class="filter-panel c-sidebar c-sidebar--light" v-show="openFilter">
             <div class="filters">
                 <label class="c-field__label">Готовые фильтры</label>
                 <v-select label="name"
@@ -45,7 +45,7 @@
                           v-model="area"
                 >
                 </v-select>
-                <label class="c-field__label" v-if="false">Срок от</label>
+                <label class="c-field__label">Срок от</label>
                 <date-picker v-model="dueFrom"
                              :first-day-of-week="1"
                              @input="date2valueFrom"
@@ -54,10 +54,9 @@
                              format="DD.MM.YYYY"
                              lang="ru"
                              width="236px"
-                             v-if="false"
                 >
                 </date-picker>
-                <label class="c-field__label" v-if="false">Срок до</label>
+                <label class="c-field__label">Срок до</label>
                 <date-picker v-model="dueTo"
                              :first-day-of-week="1"
                              @input="date2valueTo"
@@ -66,7 +65,6 @@
                              format="DD.MM.YYYY"
                              lang="ru"
                              width="236px"
-                             v-if="false"
                 >
                 </date-picker>
                 <div class="row filters-btn">
@@ -167,8 +165,8 @@
                     this.priority = this.filter.priority;
                     this.type = this.filter.type;
                     this.area = this.filter.area;
-                    this.dueFrom = this.filter.dueFrom ;
-                    this.dueTo = this.filter.dueTo;
+                    this.dueFrom = (this.filter.dueFrom !== null) ? this.date2TextValue(this.filter.dueFrom) : this.filter.dueFrom,
+                    this.dueTo = (this.filter.dueTo !== null) ? this.date2TextValue(this.filter.dueTo) : this.filter.dueTo,
                     this.status = this.filter.status;
                 } else {
                     this.author = {};
@@ -189,8 +187,8 @@
                     priority: this.priority,
                     type: this.type,
                     area: this.area,
-                    dueFrom: this.dueFrom,
-                    dueTo: this.dueTo,
+                    dueFrom:  (this.dueFrom !== null && this.dueFrom.length > 0) ? this.date2ValueFormat(this.dueFrom) : '',
+                    dueTo: (this.dueTo !== null && this.dueTo.length > 0) ? this.date2ValueFormat(this.dueTo) : '',
                     apply: true,
                     status: this.status
                 };
@@ -215,6 +213,12 @@
                     this.$store.commit('setFilterDueTo', '');
                 }
             },
+            date2ValueFormat: function (value) {
+                return moment(String(value), "DD.MM.YYYY").format('YYYY-MM-DDTHH:mm:ss.SSS');
+            },
+            date2TextValue: function (value) {
+                return moment(String(value)).format('DD.MM.YYYY');
+            }
         }
     }
 </script>
@@ -223,13 +227,13 @@
     .filters {
         width: 236px;
         margin: 0 auto;
-        padding-top: 24px;
-        padding-bottom: 25px;
+        padding-top: 10px;
+        padding-bottom: 64px;
     }
     .filter {
         z-index: 1;
         position: fixed;
-        margin-top: 12%;
+        margin-top: 11%;
         display: flex;
     }
     .filter-panel {
@@ -246,6 +250,7 @@
         margin-left: -2px;
         height: 45px;
         z-index: -1;
+        margin-top: 10px;
     }
     .filters-btn {
         margin: 0 auto;
