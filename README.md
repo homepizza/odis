@@ -7,6 +7,8 @@ Task manager for open development.
 
 `sudo chmod -R 777 public`
 
+`sudo chmod -R 777 var`
+
 в `.env` - `prod` + `dsn to database`
 
 `php bin/console d:m:m`
