@@ -10,7 +10,7 @@
                     v-if="$store.state.Task.edit"
                     @change="setTitle"
                     v-model="title"
-                    placeholder="Заголовк задачи"
+                    placeholder="Заголовок задачи"
                     style="width: 100%;"
                 >
                 <p class="u-text-xsmall u-text-mute" v-show="false">

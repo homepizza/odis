@@ -3,7 +3,7 @@
         <div class="c-stage__header o-media u-justify-start">
             <div class="c-stage__header-title o-media__body" style="width: 80%;">
                 <input type="text" class="c-input large"
-                       @change="setTitle" v-model="title" placeholder="Заголовк задачи"
+                       @change="setTitle" v-model="title" placeholder="Заголовок задачи"
                 >
             </div>
         </div>
