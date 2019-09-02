@@ -1,5 +1,5 @@
 <template>
-    <div class="c-card u-p-medium u-mb-medium">
+    <div class="c-card u-p-medium" style="margin-bottom: 10px;">
         <h5 class="u-h6 u-mb-medium">Детали задачи</h5>
 
         <table class="u-width-100">

@@ -169,6 +169,20 @@ class TaskController extends AbstractController
     }
 
     /**
+     * История статусов текущей задачи
+     *
+     * @Route("/task/{id}/history", name="task_history", methods={"GET"})
+     * @param int $id
+     * @param HistoryStatuses $history
+     * @return JsonResponse
+     */
+    public function taskHistory(int $id, HistoryStatuses $history): JsonResponse
+    {
+        $statuses = $history->findBy(['task' => $id]);
+        return $this->json($statuses, 200);
+    }
+
+    /**
      * Информация о участниках задачи и их активности в комментариях
      *
      * @Route("/task/{id}/members", name="task_members", methods={"GET"})

@@ -33,6 +33,11 @@ class HistoryStatuses
      */
     private $dateStatus;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $asignee;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +75,18 @@ class HistoryStatuses
     public function setDateStatus(\DateTimeInterface $dateStatus): self
     {
         $this->dateStatus = $dateStatus;
+
+        return $this;
+    }
+
+    public function getAsignee(): ?User
+    {
+        return $this->asignee;
+    }
+
+    public function setAsignee(?User $asignee): self
+    {
+        $this->asignee = $asignee;
 
         return $this;
     }

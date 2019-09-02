@@ -15,6 +15,7 @@ const state = {
     isAuthor: false,
     hasWork: false,
     workflow: false,
+    taskHistory: false,
     taskNumber: null
 };
 
@@ -66,6 +67,9 @@ const mutations = {
     },
     setWorkflow (state, flag) {
         state.workflow = flag;
+    },
+    setTaskHistory (state, flag) {
+        state.taskHistory = flag;
     },
     setTaskNumber (state, taskNumber) {
         state.taskNumber = taskNumber;

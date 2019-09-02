@@ -13,6 +13,7 @@ import Task from "./components/Task";
 import Details from "./components/Details";
 import Tasks from "./components/Tasks";
 import Filters from "./components/Filters";
+import TaskHistory from "./components/TaskHistory";
 
 Vue.prototype.$http = Axios;
 Vue.component('v-select', vSelect);
@@ -24,6 +25,7 @@ Vue.component('task', Task);
 Vue.component('task-details', Details);
 Vue.component('tasks', Tasks);
 Vue.component('filters', Filters);
+Vue.component('task-history', TaskHistory);
 
 Vue.use(VueSweetalert2);
 Vue.use(Datepicker);
@@ -65,6 +67,7 @@ new Vue({el: '#app',
             this.$http.put('/tasks/' + task.taskNumber + '/update', task).then(response => {
                 if (response.status === 200) {
                     store.commit('setWorkflow', true);
+                    store.commit('setTaskHistory', true);
                     this.$swal({
                         position: 'top',
                         type: 'success',

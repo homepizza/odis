@@ -197,6 +197,7 @@ class TasksController extends AbstractController
             $history->setTask($task);
             $history->setStatus($status);
             $history->setDateStatus(new \DateTime());
+            $history->setAsignee($user);
             $this->em->persist($history);
         }
         $this->em->flush();
