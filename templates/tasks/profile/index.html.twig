@@ -1,0 +1,203 @@
+{% extends 'tasks/layout.html.twig' %}
+
+{% block title %}Личный профиль{% endblock %}
+
+{% block toolbar %}
+    <div class="c-toolbar u-mb-medium">
+        <h3 class="c-toolbar__title has-divider">Ваши данные</h3>
+        <h5 class="c-toolbar__meta u-mr-auto">Редактирование личного профиля</h5>
+
+    </div>
+{% endblock %}
+
+{% block content %}
+    <main>
+        <div class="container" style="padding-top: 170px;">
+            <div class="row u-mb-large">
+                <div class="col-12">
+                    <div class="c-tabs">
+
+                        <ul class="c-tabs__list c-tabs__list--splitted nav nav-tabs" id="myTab" role="tablist">
+                            <li class="c-tabs__item"><a class="c-tabs__link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Основная информация</a></li>
+
+                            <li class="c-tabs__item"><a class="c-tabs__link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Личные данные</a></li>
+                        </ul>
+
+                        <div class="c-tabs__content tab-content" id="nav-tabContent">
+                            <div class="c-tabs__pane active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                <div class="row">
+                                    <div class="col-lg-2 u-text-center">
+                                        <div class="c-avatar c-avatar--xlarge u-inline-block">
+                                            <img class="c-avatar__img" src="img/avatar-200.jpg" alt="Аватар">
+                                        </div>
+
+                                        <a class="u-block u-color-primary" href="#">Edit Avatar</a>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <div class="c-field u-mb-small">
+                                            <label class="c-field__label" for="firstName">Имя</label>
+                                            <input class="c-input" type="text" id="firstName" placeholder="Введите ваше имя и фамилию">
+                                        </div>
+
+                                        <div class="c-field u-mb-small">
+                                            <label class="c-field__label" for="bio">О себе</label>
+                                            <textarea class="c-input" id="bio">Jason is a tech savy Architect and Entrepreneur, maintaining a keen interest in software and design tools, such as parametric modelling (Rhino/Grasshopper) and BIM. </textarea>
+                                        </div>
+
+                                        <div class="c-field u-mb-small">
+                                            <label class="c-field__label" for="lastName">Телефон</label>
+                                            <input class="c-input" type="text" id="lastName" placeholder="Введите ваш номер телефона">
+                                        </div>
+
+
+                                        <div class="c-field u-mb-small">
+                                            <label class="c-field__label" for="email">E-mail</label>
+                                            <input class="c-input" id="email" type="email" placeholder="Введите ваш e-mail">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-5">
+                                        <div class="c-field u-mb-small">
+                                            <label class="c-field__label" for="companyName">Должность в компании</label>
+                                            <input class="c-input" id="companyName" type="text" placeholder="Администратор">
+                                        </div>
+
+                                        <div class="c-field u-mb-small">
+                                            <label class="c-field__label" for="website">День рождения</label>
+                                            <input class="c-input" id="website" type="text" placeholder="01.01.2019">
+                                        </div>
+
+                                        <label class="c-field__label" for="socialProfile">Ваши мессенджеры?</label>
+
+                                        <div class="c-field has-addon-left u-mb-small">
+                                                <span class="c-field__addon u-bg-twitter">
+                                                    <i class="fa fa-twitter u-color-white"></i>
+                                                </span>
+                                            <input class="c-input" id="socialProfile" type="text" placeholder="telegram">
+                                        </div>
+
+                                        <div class="c-field has-addon-left">
+                                                <span class="c-field__addon u-bg-facebook">
+                                                    <i class="fa fa-facebook u-color-white"></i>
+                                                </span>
+                                            <input class="c-input" type="text" placeholder="@username">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="c-tabs__pane" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                <div class="row">
+                                    <div class="col-lg-2 u-text-center">
+                                        <div class="c-avatar c-avatar--xlarge u-inline-block">
+                                            <img class="c-avatar__img" src="img/avatar2-200.jpg" alt="Avatar">
+                                        </div>
+                                        <a class="u-block u-color-primary" href="#">Edit Avatar</a>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <div class="c-field u-mb-small">
+                                            <label class="c-field__label" for="firstNameOther">First Name</label>
+                                            <input class="c-input" type="text" id="firstNameOther" placeholder="Jason">
+                                        </div>
+
+                                        <div class="c-field u-mb-small">
+                                            <label class="c-field__label" for="lastNameOther">Last Name</label>
+                                            <input class="c-input" type="text" id="lastNameOther" placeholder="Clark">
+                                        </div>
+
+                                        <div class="c-field u-mb-small">
+                                            <label class="c-field__label" for="bioOther">Bio</label>
+                                            <textarea class="c-input" id="bioOther">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem dignissimos, et qui, dolorem aspernatur quos vitae delectus libero quam inventore.</textarea>
+                                        </div>
+
+                                        <div class="c-field u-mb-small">
+                                            <label class="c-field__label" for="emailOther">E-mail Address</label>
+                                            <input class="c-input" id="emailOther" type="email" placeholder="jason@clark.com">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-5">
+                                        <div class="c-field u-mb-small">
+                                            <label class="c-field__label" for="companyNameOther">Company Name</label>
+                                            <input class="c-input" id="companyNameOther" type="text" placeholder="Dashboard Ltd.">
+                                        </div>
+
+                                        <div class="c-field u-mb-small">
+                                            <label class="c-field__label" for="websiteOther">Website</label>
+                                            <input class="c-input" id="websiteOther" type="text" placeholder="zawiastudio.com">
+                                        </div>
+
+                                        <label class="c-field__label" for="socialProfileOther">Social Profiles</label>
+
+                                        <div class="c-field has-addon-left u-mb-small">
+                                                <span class="c-field__addon u-bg-twitter">
+                                                    <i class="fa fa-twitter u-color-white"></i>
+                                                </span>
+                                            <input class="c-input" id="socialProfileOther" type="text" placeholder="Clark">
+                                        </div>
+
+                                        <div class="c-field has-addon-left">
+                                                <span class="c-field__addon u-bg-facebook">
+                                                    <i class="fa fa-facebook u-color-white"></i>
+                                                </span>
+                                            <input class="c-input" type="text" placeholder="Clark">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- // .col-12 -->
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="c-card u-p-medium u-mb-medium">
+
+                        <div class="u-flex u-justify-between u-align-items-center u-mb-small">
+                            <h4 class="u-h5 u-mb-zero u-text-bold">Как пользоваться системой задач?</h4>
+                            <a class="u-text-small" href="#">Visit FAQ Page</a>
+                        </div>
+
+                        <ul>
+                            <li class="u-mb-xsmall">
+                                <a class="u-text-small u-text-dark" href="#">How can I connect my bank account?</a>
+                            </li>
+
+                            <li class="u-mb-xsmall">
+                                <a class="u-text-small u-text-dark" href="#">Why Dashboard doesn’t show any data?</a>
+                            </li>
+                            <li>
+                                <a class="u-text-small u-text-dark" href="#">If I change my avatar in one version will it appears in next version?</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="c-card u-p-medium u-mb-medium">
+
+                        <div class="u-flex u-justify-between u-align-items-center u-mb-small">
+                            <h4 class="u-h5 u-mb-zero u-text-bold">Зачем заполнять профиль?</h4>
+                            <a class="u-text-small" href="#">Visit FAQ Page</a>
+                        </div>
+
+                        <ul>
+                            <li class="u-mb-xsmall">
+                                <a class="u-text-small u-text-dark" href="#">How can I connect my bank account?</a>
+                            </li>
+
+                            <li class="u-mb-xsmall">
+                                <a class="u-text-small u-text-dark" href="#">Why Dashboard doesn’t show any data?</a>
+                            </li>
+                            <li>
+                                <a class="u-text-small u-text-dark" href="#">If I change my avatar in one version will it appears in next version?</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div><!-- // .container -->
+    </main>
+{% endblock %}
