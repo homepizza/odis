@@ -83,6 +83,11 @@ class Tasks
      */
     private $solutionLink;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $value;
+
     public function __construct()
     {
         $this->attachments = new ArrayCollection();
@@ -252,6 +257,18 @@ class Tasks
     public function setSolutionLink(?string $solutionLink): self
     {
         $this->solutionLink = $solutionLink;
+
+        return $this;
+    }
+
+    public function getValue(): ?string
+    {
+        return $this->value;
+    }
+
+    public function setValue(?string $value): self
+    {
+        $this->value = $value;
 
         return $this;
     }

@@ -82,7 +82,32 @@
         </table>
 
         <div class="c-divider u-mv-small"></div>
-
+        <div class="u-flex u-justify-between u-align-items-center" style="padding-bottom: 10px;">
+            <p>Время выполнения</p>
+            <div v-if="!$store.state.Task.edit">
+                <span class="c-badge c-badge--secondary" v-if="timeValue">
+                    <span v-if="timeValue.D">{{ timeValue.D }} д </span>
+                    <span v-if="timeValue.H">{{ timeValue.H }} ч </span>
+                    <span v-if="timeValue.m">{{ timeValue.m }} мин</span>
+                </span>
+                <span class="c-badge c-badge--secondary" v-else>Не оценена</span>
+            </div>
+            <div v-if="$store.state.Task.edit" class="time-values">
+                <input v-model="timeDay"
+                       @change="setTimeValue"
+                       type="text"
+                       class="c-input day-input"
+                       placeholder="Дни"
+                >
+                <vue-timepicker v-if="$store.state.Task.edit"
+                                v-model="timeValue"
+                                placeholder="Часы, Минуты"
+                                @change="setTimeValue"
+                                format="H:m"
+                >
+                </vue-timepicker>
+            </div>
+        </div>
         <div class="u-flex u-justify-between u-align-items-center">
             <p>Срок выполнения</p>
 
@@ -138,12 +163,15 @@
 
 <script>
     import Datepicker from 'vue2-datepicker'
+    import VueTimepicker from 'vue2-timepicker'
+    import 'vue2-timepicker/dist/VueTimepicker.css'
     import moment from 'moment'
 
     export default {
         name: "Details",
         components: {
-            Datepicker
+            Datepicker,
+            VueTimepicker
         },
         data: function () {
             return {
@@ -161,7 +189,13 @@
                 priority: {},
                 dueDate: '',
                 solutionLink: '',
-                linkInput: false
+                linkInput: false,
+                timeValue: {
+                    D: '0',
+                    H: '0',
+                    m: '0'
+                },
+                timeDay: '0'
             }
         },
         created() {
@@ -175,6 +209,8 @@
                     this.type = task.type;
                     this.area = task.area;
                     this.priority = task.priority;
+                    this.timeValue = JSON.parse(task.value);
+                    this.timeDay = this.timeValue ? this.timeValue.D : 0;
                     this.dueDate = moment(String(task.dueDate)).format('DD.MM.YYYY');
                     this.solutionLink = task.solutionLink;
                     this.loadData();
@@ -189,6 +225,10 @@
             }
         },
         methods: {
+            setTimeValue: function () {
+                this.timeValue.D = this.timeDay;
+                this.$store.commit('setTimeValue', this.timeValue);
+            },
             linkToggle: function () {
                 this.linkInput = !this.linkInput;
             },
@@ -245,5 +285,27 @@
 </script>
 
 <style>
-
+    .display-time {
+        border-radius: 5px;
+        width: 144px !important;
+        font-size: 14px !important;
+        height: 33px !important;
+    }
+    .vue__time-picker {
+        width: 144px;
+    }
+    .select-list {
+        width: 144px !important;
+    }
+    .vue__time-picker .dropdown {
+        width: 144px !important;
+    }
+    .time-values {
+        display: flex;
+    }
+    .day-input {
+        width: 58px;
+        height: 33px;
+        margin-right: 10px;
+    }
 </style>

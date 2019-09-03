@@ -68,9 +68,8 @@
                     if (response.status === 200) {
                         let comment = response.data;
                         this.comments.push(comment);
-                        this.$store.commit('setNewComments', true);
-                    } else {
                         this.userComment = '';
+                        this.$store.commit('setNewComments', true);
                     }
                 });
             }

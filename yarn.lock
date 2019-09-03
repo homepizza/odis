@@ -6985,6 +6985,11 @@ vue2-dropzone@^3.6.0:
   dependencies:
     dropzone "^5.5.1"
 
+vue2-timepicker@^0.2.2-rc.0:
+  version "0.2.2-rc.0"
+  resolved "https://registry.yarnpkg.com/vue2-timepicker/-/vue2-timepicker-0.2.2-rc.0.tgz#e29336dcdbcb5f161dd81adb51b24b5489d5c8d9"
+  integrity sha512-d59dnf5BqnPycI1c+iq4WGef3V3gaH0jMKwOptkfkMtsFf88BZIWOLrpVjC8EnNonpyUbjD72LOXQYkzwfwtjQ==
+
 vue@^2.6.10:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"

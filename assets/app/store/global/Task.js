@@ -7,6 +7,7 @@ const state = {
     area: {},
     asignee: {},
     status: {},
+    timeValue: {},
     dueDate: null,
     solutionLink: null,
     attachments: new Map(),
@@ -43,6 +44,9 @@ const mutations = {
     },
     setStatus (state, status) {
         state.status = status;
+    },
+    setTimeValue (state, timeValue) {
+        state.timeValue = timeValue;
     },
     setDueDate (state, dueDate) {
         state.dueDate = dueDate;
@@ -87,6 +91,7 @@ const getters = {
             area: state.area,
             asignee: state.asignee,
             status: state.status,
+            timeValue: state.timeValue,
             dueDate: state.dueDate,
             solutionLink: state.solutionLink,
             attachments: [...state.attachments.values()]

@@ -41,6 +41,7 @@
         "vue-trumbowyg": "^3.4.2",
         "vue2-datepicker": "^2.12.0",
         "vue2-dropzone": "^3.6.0",
+        "vue2-timepicker": "^0.2.2-rc.0",
         "vuex": "^3.1.1"
     }
 }

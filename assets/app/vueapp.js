@@ -4,6 +4,7 @@ import vSelect from 'vue-select';
 import moment from "moment";
 import VueSweetalert2 from "vue-sweetalert2";
 import Datepicker from 'vue2-datepicker';
+import VueTimepicker from 'vue2-timepicker';
 import store from "./store/store";
 import DetailsCreate from "./components/DetailsCreate";
 import TaskCreate from "./components/TaskCreate";
@@ -29,6 +30,7 @@ Vue.component('task-history', TaskHistory);
 
 Vue.use(VueSweetalert2);
 Vue.use(Datepicker);
+Vue.use(VueTimepicker);
 Vue.filter('formatDate', function(value) {
     if (value) {
         return moment(String(value)).format('DD.MM.YYYY HH:mm')

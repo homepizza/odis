@@ -169,6 +169,7 @@ class TasksController extends AbstractController
         $statusNew = $status->getId() !== $task->getStatus()->getId();
         $type = $types->find($taskData['type']['id']);
         $area = $areas->find($taskData['area']['id']);
+        $task->setValue(json_encode($taskData['timeValue']));
         $task->setAsignee($user);
         $task->setPriority($priority);
         $task->setStatus($status);
