@@ -175,7 +175,7 @@ class TasksController extends AbstractController
         $task->setStatus($status);
         $task->setType($type);
         $task->setArea($area);
-        $task->setDueDate(new \DateTime($taskData['dueDate']));
+        $task->setDueDate(is_null($taskData['dueDate']) ? null : new \DateTime($taskData['dueDate']));
         $task->setTitle($taskData['title']);
         $task->setBody($taskData['description']);
         $task->setSolutionLink($taskData['solutionLink']);

@@ -45,7 +45,13 @@
         <tbody>
             <tr class="c-table__row" :class="task.priority.tableClass" v-for="task in searchTasks">
                 <td class="c-table__cell">
-                    <small class="u-block u-text-mute">{{ task.id }}</small>
+                    <small class="u-block u-text-mute">
+                        {{ task.id }}
+                        <span style="margin-left: 25px;" v-if="checkTimeValue(task.value)">
+                            <i class="fa fa-search"></i> Не оценена!
+                        </span>
+                    </small>
+
                 </td>
                 <td class="c-table__cell" style="white-space: normal;">
                     <a :href="'/' + 'tasks' + '/' +task.id">{{ task.title }}</a>
@@ -208,6 +214,18 @@
                 });
                 this.sortDueDateState = !this.sortDueDateState;
                 this.sortNumberState = false;
+            },
+            checkTimeValue: function (value) {
+                if (value) {
+                    let tVal = JSON.parse(value);
+                    let D = parseInt(tVal.D) > 0;
+                    let H = parseInt(tVal.H) > 0;
+                    let m = parseInt(tVal.m) > 0;
+                    return !(D || H || m);
+                }
+                else {
+                    return true;
+                }
             }
         }
     }

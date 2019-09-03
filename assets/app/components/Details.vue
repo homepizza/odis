@@ -211,7 +211,7 @@
                     this.priority = task.priority;
                     this.timeValue = task.value ? JSON.parse(task.value) : this.timeValue;
                     this.timeDay = this.timeValue ? this.timeValue.D : 0;
-                    this.dueDate = moment(String(task.dueDate)).format('DD.MM.YYYY');
+                    this.dueDate = task.dueDate ? moment(String(task.dueDate)).format('DD.MM.YYYY') : this.dueDate;
                     this.solutionLink = task.solutionLink;
                     this.setTimeValue();
                     this.loadData();
@@ -247,7 +247,6 @@
                 else {
                     this.$store.commit('setDueDate', '');
                 }
-
             },
             loadData: function () {
                 this.$http.get('/task/priorities').then(response => (
