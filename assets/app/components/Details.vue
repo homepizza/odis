@@ -84,15 +84,15 @@
         <div class="c-divider u-mv-small"></div>
         <div class="u-flex u-justify-between u-align-items-center" style="padding-bottom: 10px;">
             <p>Время выполнения</p>
-            <div v-if="!$store.state.Task.edit">
-                <span class="c-badge c-badge--secondary" v-if="timeValue">
-                    <span v-if="timeValue.D">{{ timeValue.D }} д </span>
+            <div v-if="!$store.state.Task.edit || $store.state.Task.isAuthor">
+                <span class="c-badge c-badge--secondary" v-if="timeValueNotNull()">
+                    <span v-if="timeValue.D.length > 0">{{ timeValue.D }} д </span>
                     <span v-if="timeValue.H">{{ timeValue.H }} ч </span>
                     <span v-if="timeValue.m">{{ timeValue.m }} мин</span>
                 </span>
                 <span class="c-badge c-badge--secondary" v-else>Не оценена</span>
             </div>
-            <div v-if="$store.state.Task.edit" class="time-values">
+            <div v-else-if="!$store.state.Task.isAuthor" class="time-values">
                 <input v-model="timeDay"
                        @change="setTimeValue"
                        type="text"
@@ -209,10 +209,11 @@
                     this.type = task.type;
                     this.area = task.area;
                     this.priority = task.priority;
-                    this.timeValue = JSON.parse(task.value);
+                    this.timeValue = task.value ? JSON.parse(task.value) : this.timeValue;
                     this.timeDay = this.timeValue ? this.timeValue.D : 0;
                     this.dueDate = moment(String(task.dueDate)).format('DD.MM.YYYY');
                     this.solutionLink = task.solutionLink;
+                    this.setTimeValue();
                     this.loadData();
                 }
             });
@@ -225,8 +226,14 @@
             }
         },
         methods: {
+            timeValueNotNull: function () {
+                let D = parseInt(this.timeValue.D) > 0;
+                let H = parseInt(this.timeValue.H) > 0;
+                let m = parseInt(this.timeValue.m) > 0;
+                return D || H || m;
+            },
             setTimeValue: function () {
-                this.timeValue.D = this.timeDay;
+                this.timeValue.D = this.timeDay === undefined ? 0 : this.timeDay;
                 this.$store.commit('setTimeValue', this.timeValue);
             },
             linkToggle: function () {
