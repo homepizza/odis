@@ -87,7 +87,7 @@ const getters = {
             title: state.title,
             description: state.description,
             priority: state.priority,
-            type: state.priority,
+            type: state.type,
             area: state.area,
             asignee: state.asignee,
             status: state.status,
