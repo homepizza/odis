@@ -26,81 +26,7 @@
 
                         <div class="c-tabs__content tab-content" id="nav-tabContent">
                             <div class="c-tabs__pane active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                <div class="row">
-                                    <div class="col-lg-2 u-text-center">
-                                        <div class="c-avatar c-avatar--xlarge u-inline-block">
-                                            <img class="c-avatar__img" src="{{ asset('media/theme/user1.png') }}" alt="Аватар">
-                                        </div>
-
-                                        <a class="u-block u-color-primary" href="#" v-if="false">Редактировать</a>
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <div class="c-field u-mb-small">
-                                            <label class="c-field__label" for="firstName">Имя</label>
-                                            <input class="c-input" type="text" id="firstName" placeholder="Введите ваше имя и фамилию">
-                                        </div>
-
-                                        <div class="c-field u-mb-small">
-                                            <label class="c-field__label" for="bio">О себе</label>
-                                            <textarea class="c-input" id="bio" placeholder="Пару слов о себе"></textarea>
-                                        </div>
-
-                                        <div class="c-field u-mb-small">
-                                            <label class="c-field__label" for="lastName">Телефон</label>
-                                            <input class="c-input" type="text" id="lastName" placeholder="Введите ваш номер телефона">
-                                        </div>
-
-
-                                        <div class="c-field u-mb-small">
-                                            <label class="c-field__label" for="email">E-mail</label>
-                                            <input class="c-input" id="email" type="email" placeholder="Введите ваш e-mail">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-5">
-                                        <div class="c-field u-mb-small">
-                                            <label class="c-field__label" for="companyName">Должность в компании</label>
-                                            <input class="c-input" id="companyName" type="text" placeholder="Администратор">
-                                        </div>
-
-                                        <div class="c-field u-mb-small">
-                                            <label class="c-field__label" for="website">День рождения</label>
-                                            <input class="c-input" id="website" type="text" placeholder="01.01.2019">
-                                        </div>
-
-                                        <label class="c-field__label" for="socialProfile">Ваши мессенджеры?</label>
-
-                                        <div class="c-field has-addon-left u-mb-small">
-                                                <span class="c-field__addon u-bg-twitter">
-                                                    <i class="fa fa-twitter u-color-white"></i>
-                                                </span>
-                                            <input class="c-input" id="socialProfile" type="text" placeholder="telegram">
-                                        </div>
-
-                                        <div class="c-field has-addon-left">
-                                                <span class="c-field__addon u-bg-facebook">
-                                                    <i class="fa fa-facebook u-color-white"></i>
-                                                </span>
-                                            <input class="c-input" type="text" placeholder="WhatsApp">
-                                        </div>
-
-                                        <label class="c-field__label" style="margin-top: 30px;">Уведомления</label>
-                                        <div class="c-field has-addon-left">
-                                            <div class="c-choice c-choice--checkbox">
-                                                <input class="c-choice__input" id="email-notify" name="checkboxes" type="checkbox">
-                                                <label class="c-choice__label" for="email-notify">E-mail</label>
-                                            </div>
-                                            <div class="c-choice c-choice--checkbox" style="margin-left: 13px;">
-                                                <input class="c-choice__input" id="telegram-notify" name="checkboxes" type="checkbox">
-                                                <label class="c-choice__label" for="telegram-notify">Telegram</label>
-                                            </div>
-                                            <div class="c-choice c-choice--checkbox" style="margin-left: 13px;">
-                                                <input class="c-choice__input" id="whatsapp-notify" name="checkboxes" type="checkbox">
-                                                <label class="c-choice__label" for="whatsapp-notify">WhatsApp</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <profile-info></profile-info>
                             </div>
 
                             <div class="c-tabs__pane" id="nav-poll" role="tabpanel" aria-labelledby="nav-poll-tab">
@@ -125,7 +51,7 @@
 
                         <div class="u-flex u-justify-between u-align-items-center u-mb-small">
                             <h4 class="u-h5 u-mb-zero u-text-bold">Как пользоваться системой задач?</h4>
-                            <a class="u-text-small" target="_blank" href="http://192.168.1.221:8090/pages/viewpage.action?pageId=1048616">Перейти в Инструкции</a>
+                            <a class="u-text-small" target="_blank" href="http://192.168.1.221:8090/pages/viewpage.action?pageId=10387549">Перейти к Инструкции</a>
                         </div>
 
                         <ul>

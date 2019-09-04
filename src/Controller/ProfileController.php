@@ -14,4 +14,9 @@ class ProfileController extends AbstractController
     {
         return $this->render('tasks/profile/index.html.twig');
     }
+
+    public function saveProfile()
+    {
+
+    }
 }

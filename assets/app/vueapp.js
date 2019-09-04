@@ -15,6 +15,7 @@ import Details from "./components/Details";
 import Tasks from "./components/Tasks";
 import Filters from "./components/Filters";
 import TaskHistory from "./components/TaskHistory";
+import ProfileGeneral from "./components/ProfileGeneral";
 
 Vue.prototype.$http = Axios;
 Vue.component('v-select', vSelect);
@@ -27,6 +28,7 @@ Vue.component('task-details', Details);
 Vue.component('tasks', Tasks);
 Vue.component('filters', Filters);
 Vue.component('task-history', TaskHistory);
+Vue.component('profile-info', ProfileGeneral);
 
 Vue.use(VueSweetalert2);
 Vue.use(Datepicker);
@@ -88,6 +90,13 @@ new Vue({el: '#app',
                 showConfirmButton: false,
                 timer: 1500
             });
+            // this.$swal({
+            //     position: 'center',
+            //     type: 'error',
+            //     title: 'Ошибка сохранения!',
+            //     showConfirmButton: false,
+            //     timer: 1500
+            // });
         }
     },
     computed: {
