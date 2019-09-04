@@ -79,12 +79,24 @@ new Vue({el: '#app',
                     });
                 }
             });
+        },
+        saveProfile: function () {
+            this.$swal({
+                position: 'center',
+                type: 'success',
+                title: 'Сохранено!',
+                showConfirmButton: false,
+                timer: 1500
+            });
         }
     },
     computed: {
         accessCreateTask() {
             let task = store.state.Task;
             return task.title && task.description && task.priority && task.type && task.area;
+        },
+        accessSaveProfile() {
+            return true;
         }
     }
 });
