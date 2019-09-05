@@ -3,9 +3,9 @@
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
-parameters:
-    auth_token: 'F_ilZ_27D17z4VV3i5YREoQoU8ToBYFyUf5VmwM1Umg'
-    upload_dir: 'public/uploads'
+imports:
+    - { resource: './parameters/settings.yaml' }
+    - { resource: './parameters/tasK_update.yaml' }
 services:
     # default configuration for services in *this* file
     _defaults:

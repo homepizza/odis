@@ -1,0 +1,3 @@
+parameters:
+    auth_token: 'F_ilZ_27D17z4VV3i5YREoQoU8ToBYFyUf5VmwM1Umg'
+    upload_dir: 'public/uploads'
