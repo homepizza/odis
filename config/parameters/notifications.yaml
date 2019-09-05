@@ -1,5 +1,6 @@
 parameters:
-    task_events:
+    sender: 'homepizzza@yandex.ru'
+    task.events:
         status: 'У задачи изменен статус'
         priority: 'У задачи изменен приоритет'
         due: 'Срок выполнения задачи изменен'
@@ -8,5 +9,3 @@ parameters:
         attachments: 'К задаче прикреплен новый файл'
         comment: 'Добавлен новый комментарий'
         time_value: 'Установлено время выполнения задачи'
-
-    sender: 'homepizzza@yandex.ru'
