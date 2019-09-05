@@ -1,4 +1,5 @@
 const state = {
+    id: null,
     name: '',
     about: '',
     phone: '',
@@ -6,10 +7,14 @@ const state = {
     jobPosition: '',
     birthday: '',
     emailNotify: false,
-    telegramNotify: false
+    telegramNotify: false,
+    profileWaitUpdate: false
 };
 
 const mutations = {
+    setProfileId (state, id) {
+        state.id = id;
+    },
     setProfileName (state, name) {
         state.name = name;
     },
@@ -33,12 +38,30 @@ const mutations = {
     },
     setProfileTelegramNotify (state, flag) {
         state.telegramNotify = flag;
+    },
+    setProfileWaitUpdate (state, flag) {
+        state.profileWaitUpdate = flag;
+    }
+};
+
+const actions = {
+    initUser(context, user) {
+        context.commit('setProfileId', user.id);
+        context.commit('setProfileName', user.fullname);
+        context.commit('setProfileAbout', user.about);
+        context.commit('setProfilePhone', user.uuid);
+        context.commit('setProfileEmail', user.email);
+        context.commit('setProfileJobPosition', user.jobPosition);
+        context.commit('setProfileBirthday', user.birthday);
+        context.commit('setProfileEmailNotify', user.emailNotify);
+        context.commit('setProfileTelegramNotify', user.telegramNotify);
     }
 };
 
 const getters = {
     getProfile: state => {
         let profile = {
+            id: state.id,
             name: state.name,
             about: state.about,
             phone: state.phone,
@@ -55,5 +78,6 @@ const getters = {
 export default {
     state,
     mutations,
+    actions,
     getters
 }

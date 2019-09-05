@@ -83,20 +83,29 @@ new Vue({el: '#app',
             });
         },
         saveProfile: function () {
-            this.$swal({
-                position: 'center',
-                type: 'success',
-                title: 'Сохранено!',
-                showConfirmButton: false,
-                timer: 1500
+            let profile = store.getters.getProfile;
+            this.$http.put('/profile/save', profile).then(response => {
+                console.log(response.data);
+                if (response.status === 200) {
+                    this.$swal({
+                        position: 'center',
+                        type: 'success',
+                        title: 'Сохранено!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    store.commit('setProfileWaitUpdate', false);
+                }
+                else {
+                    this.$swal({
+                        position: 'center',
+                        type: 'error',
+                        title: 'Ошибка сохранения!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
             });
-            // this.$swal({
-            //     position: 'center',
-            //     type: 'error',
-            //     title: 'Ошибка сохранения!',
-            //     showConfirmButton: false,
-            //     timer: 1500
-            // });
         }
     },
     computed: {
@@ -105,7 +114,8 @@ new Vue({el: '#app',
             return task.title && task.description && task.priority && task.type && task.area;
         },
         accessSaveProfile() {
-            return true;
+            let profile = store.state.Profile;
+            return profile.profileWaitUpdate;
         }
     }
 });
