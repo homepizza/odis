@@ -29,8 +29,28 @@ class TaskChangesService
         return [];
     }
 
-    private function check()
+    private function checkStatus()
     {
 
+    }
+
+    private function checkPriority()
+    {
+        
+    }
+
+    private function checkDueDate()
+    {
+        
+    }
+
+    private function checkTitle()
+    {
+        
+    }
+
+    private function checkBody()
+    {
+        
     }
 }

@@ -72,10 +72,20 @@ new Vue({el: '#app',
                 if (response.status === 200) {
                     store.commit('setWorkflow', true);
                     store.commit('setTaskHistory', true);
+                    store.commit('setAttachments', new Map());
                     this.$swal({
                         position: 'top',
                         type: 'success',
                         title: 'Сохранено!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+                else {
+                    this.$swal({
+                        position: 'top',
+                        type: 'error',
+                        title: 'Не удалось сохранить изменения!',
                         showConfirmButton: false,
                         timer: 1500
                     });

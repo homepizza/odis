@@ -149,7 +149,7 @@ class TasksController extends AbstractController
      * @param Request $request
      * @param NotificationService $notify
      * @return JsonResponse
-     * @throws \Exception
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function updateTask(
         int $id,
@@ -186,6 +186,7 @@ class TasksController extends AbstractController
         $this->em->flush();
 
         $hasAttach = !empty($taskData['attachments']);
+        $addedAttachment = false;
         if ($hasAttach) {
             foreach ($taskData['attachments'] as $link){
                 $filename = explode('/', $link);
@@ -195,6 +196,7 @@ class TasksController extends AbstractController
                 $attachment->setLink($link);
                 $attachment->setFilename($filename);
                 $this->em->persist($attachment);
+                $addedAttachment = true;
             }
             $this->em->flush();
         }
@@ -207,7 +209,9 @@ class TasksController extends AbstractController
             $this->em->persist($history);
         }
         $this->em->flush();
-        $notify->notificationMembersByTask($sourceTask, $task, $hasAttach);
+
+        $user = $this->getUser();
+        $notify->notificationMembersByTask($user, $sourceTask, $task, $addedAttachment);
 
         return $this->json($task, 200);
     }

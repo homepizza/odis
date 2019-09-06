@@ -41,20 +41,22 @@ class NotificationService
     /**
      * Уведомление релевантным участникам об изменении задачи.
      *
+     * @param User $actionAuthor
      * @param Tasks $sourceTask
      * @param Tasks $updatedTask
      * @param bool $attachments
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function notificationMembersByTask(Tasks $sourceTask, Tasks $updatedTask, bool $attachments): void
+    public function notificationMembersByTask(User $actionAuthor, Tasks $sourceTask, Tasks $updatedTask, bool $attachments): void
     {
         $members = $this->getMembersByTask($sourceTask);
         $sourceTask = $this->normalizer->normalize($sourceTask);
         $updatedTask = $this->normalizer->normalize($updatedTask);
         $differenceFields = $this->taskChanges->checkDifference($sourceTask, $updatedTask);
-        dump($sourceTask);
-        dump($updatedTask);
-        die();
+//        dump($sourceTask);
+//        dump($updatedTask);
+//        dump($attachments);
+//        die();
     }
 
     /**
