@@ -26,19 +26,20 @@ class MailService
      *
      * @param string $subject
      * @param string $to
-     * @param string $textMessage
+     * @param string|array $content
      * @param string $taskLink
      * @throws TransportExceptionInterface
      */
-    public function sendEmail(string $subject, string $to, string $textMessage, string $taskLink)
+    public function sendEmail(string $subject, string $to, $content, string $taskLink)
     {
+        if (!is_array($content)) { $content = [$content]; }
         $email = (new TemplatedEmail())
             ->from(new NamedAddress($this->sender, 'Менеджер задач'))
             ->to($to)
             ->subject($subject)
             ->htmlTemplate('/emails/notification.html.twig')
             ->context([
-                'message' => $textMessage,
+                'messages' => $content,
                 'link' => $taskLink,
                 'eventDate' => new \DateTime()
             ])

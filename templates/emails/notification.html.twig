@@ -19,7 +19,9 @@
                         </div>
 
                         <div class="c-invoice__body" style="margin-bottom: 10px;">
-                            <span style="font-style: italic;">{{ message }}</span>
+                            {% for message in messages %}
+                                <span style="font-style: italic;">{{ message }}</span><br/>
+                            {% endfor %}
                         </div>
 
                         <div class="c-invoice__footer">

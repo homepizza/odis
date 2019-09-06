@@ -150,6 +150,8 @@ class TasksController extends AbstractController
      * @param NotificationService $notify
      * @return JsonResponse
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @throws \Exception
      */
     public function updateTask(
         int $id,

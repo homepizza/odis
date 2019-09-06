@@ -36,6 +36,7 @@ class NotificationService
      * @param Tasks $sourceTask
      * @param Tasks $updatedTask
      * @param bool $attachments
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function notificationMembersByTask(User $actionAuthor, Tasks $sourceTask, Tasks $updatedTask, bool $attachments): void
@@ -43,9 +44,40 @@ class NotificationService
         $actionAuthorID = $actionAuthor->getId();
         $members = $this->getMembersByTask($sourceTask, $actionAuthorID);
         $differenceFields = $this->taskChanges->checkDifference($sourceTask, $updatedTask, $attachments);
+        if (!empty($differenceFields)) {
+            $taskID = $sourceTask->getId();
+            $messages = $actionAuthor->getFullname().' внес изменения в задачу'.PHP_EOL;
+            $messages .= implode(PHP_EOL, $differenceFields);
+            $messages = explode(PHP_EOL, $messages);
 
-        dump($members);
-        die();
+            // TODO: Refactoring
+            foreach ($members as $category) {
+                if ($category instanceof User) {
+                    $onEmailNotification = $category->getEmailNotify();
+                    $actionAuthor = $category->getId() === $actionAuthorID;
+                    if ($onEmailNotification && !$actionAuthor) {
+                        $this->mail->sendEmail(
+                            'Задача была обновлена',
+                            $category->getEmail(),
+                            $messages,
+                            $this->domain.'/'.$taskID
+                        );
+                    }
+                }
+                if (is_array($category)) {
+                    foreach ($category as $member) {
+                        if ($member['emailNotify']) {
+                            $this->mail->sendEmail(
+                                'Задача была обновлена',
+                                $member['email'],
+                                $messages,
+                                $this->domain.'/'.$taskID
+                            );
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -61,6 +93,7 @@ class NotificationService
         $commentAuthor = $user->getFullname();
         $taskID = $task->getId();
 
+        // TODO: Refactoring
         foreach ($members as $category) {
             if ($category instanceof User) {
                 $onEmailNotification = $category->getEmailNotify();
