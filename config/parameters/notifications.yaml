@@ -1,5 +1,6 @@
 parameters:
     sender: 'homepizzza@yandex.ru'
+    task.domain: 'http://tasks.local/tasks'
     task.events:
         status: 'У задачи изменен статус'
         priority: 'У задачи изменен приоритет'

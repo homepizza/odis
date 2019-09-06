@@ -5,11 +5,8 @@ namespace App\Service\Notifications;
 
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Mailer\Transport;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\NamedAddress;
 
 class MailService
@@ -30,9 +27,10 @@ class MailService
      * @param string $subject
      * @param string $to
      * @param string $textMessage
+     * @param string $taskLink
      * @throws TransportExceptionInterface
      */
-    public function sendEmail(string $subject, string $to, string $textMessage)
+    public function sendEmail(string $subject, string $to, string $textMessage, string $taskLink)
     {
         $email = (new TemplatedEmail())
             ->from(new NamedAddress($this->sender, 'Менеджер задач'))
@@ -40,7 +38,9 @@ class MailService
             ->subject($subject)
             ->htmlTemplate('/emails/notification.html.twig')
             ->context([
-                'message' => $textMessage
+                'message' => $textMessage,
+                'link' => $taskLink,
+                'eventDate' => new \DateTime()
             ])
         ;
         $this->mailer->send($email);

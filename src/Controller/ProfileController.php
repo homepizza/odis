@@ -68,4 +68,15 @@ class ProfileController extends AbstractController
         }
         return $response;
     }
+
+    /**
+     * @Route("/profile/email", name="example_mail", methods={"GET"})
+     */
+    public function exampleMail()
+    {
+        return $this->render('emails/notification.html.twig', [
+            'eventDate' => new \DateTime(),
+            'message' => 'asdasd'
+        ]);
+    }
 }

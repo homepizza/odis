@@ -9,16 +9,23 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use App\Service\Notifications\MailService;
+use App\Repository\TasksRepository;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Mime\NamedAddress;
 
 class NotifyTestingSendCommand extends Command
 {
     protected static $defaultName = 'notify:testing:send';
     protected $mail;
+    protected $tasks;
+    protected $domain;
 
-    public function __construct(MailService $mail)
+    public function __construct(ContainerInterface $container, MailService $mail, TasksRepository $tasks)
     {
         parent::__construct();
+        $this->domain = $container->getParameter('task.domain');
         $this->mail = $mail;
+        $this->tasks = $tasks;
     }
 
     protected function configure()
@@ -37,7 +44,20 @@ class NotifyTestingSendCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $this->mail->sendEmail('Тестовое сообщение', 'is.malozemov@ya.ru','Какой-то текст.');
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        $tasks = $this->tasks->equalStatuses(['Тестирование']);
+
+        foreach ($tasks as $task) {
+            $author = $task->getAuthor();
+            $emailNotify = $author->getEmailNotify();
+            if ($emailNotify) {
+                // Отправляем уведомление на почту.
+                $this->mail->sendEmail(
+                    'Задача ожидает вашего тестирования',
+                    $author->getEmail(),
+                    'У вас на тестировании находится задача №'.$task->getId(),
+                    $this->domain.'/'.$task->getId()
+                );
+            }
+        }
     }
 }
