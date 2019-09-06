@@ -81,15 +81,14 @@ new Vue({el: '#app',
                         timer: 1500
                     });
                 }
-                else {
-                    this.$swal({
-                        position: 'top',
-                        type: 'error',
-                        title: 'Не удалось сохранить изменения!',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
+            }).catch(reason => {
+                this.$swal({
+                    position: 'top',
+                    type: 'error',
+                    title: 'Не удалось сохранить изменения!',
+                    text: reason.message,
+                    showConfirmButton: false
+                });
             });
         },
         saveProfile: function () {
