@@ -32,7 +32,7 @@ class CommentsRepository extends ServiceEntityRepository
     public function members(int $task, array $owners=[])
     {
         $qb = $this->createQueryBuilder('c');
-        $result = $qb->select('DISTINCT(c.user) AS id, u.fullname')
+        $result = $qb->select('DISTINCT(c.user) AS id, u.fullname, u.email, u.emailNotify, u.telegramNotify')
             ->leftJoin('App:User', 'u', 'WITH', 'c.user=u.id')
             ->where($qb->expr()->notIn('c.user', $owners))
             ->andWhere('c.task = :id')

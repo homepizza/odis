@@ -13,6 +13,7 @@ use App\Repository\TasksRepository;
 use App\Repository\TypesRepository AS Types;
 use App\Repository\DomainAreasRepository AS Areas;
 use App\Repository\UserRepository;
+use App\Service\NotificationService;
 use Doctrine\ORM\EntityManagerInterface AS EM;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -146,6 +147,7 @@ class TasksController extends AbstractController
      * @param Types $types
      * @param Areas $areas
      * @param Request $request
+     * @param NotificationService $notify
      * @return JsonResponse
      * @throws \Exception
      */
@@ -157,12 +159,14 @@ class TasksController extends AbstractController
         Statuses $statuses,
         Types $types,
         DomainAreasRepository $areas,
-        Request $request
+        Request $request,
+        NotificationService $notify
     ): JsonResponse
     {
         // TODO: Часть вынести в TaskService
         $taskData = json_decode($request->getContent(), true);
         $task = $tasks->find($taskData['taskNumber']);
+        $sourceTask = clone $task;
         $user = !empty($taskData['asignee']) ? $u->find($taskData['asignee']['id']) : null;
         $priority = $priorities->find($taskData['priority']['id']);
         $status = $statuses->find($taskData['status']['id']);
@@ -181,7 +185,8 @@ class TasksController extends AbstractController
         $task->setSolutionLink($taskData['solutionLink']);
         $this->em->flush();
 
-        if (!empty($taskData['attachments'])) {
+        $hasAttach = !empty($taskData['attachments']);
+        if ($hasAttach) {
             foreach ($taskData['attachments'] as $link){
                 $filename = explode('/', $link);
                 $filename = $filename[count($filename)-1];
@@ -202,6 +207,7 @@ class TasksController extends AbstractController
             $this->em->persist($history);
         }
         $this->em->flush();
+        $notify->notificationMembersByTask($sourceTask, $task, $hasAttach);
 
         return $this->json($task, 200);
     }

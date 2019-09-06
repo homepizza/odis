@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Comments;
+use App\Service\NotificationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,10 +43,11 @@ class CommentsController extends AbstractController
      *
      * @Route("/comments/save", name="comments_save", methods={"POST"})
      * @param Request $request
+     * @param NotificationService $notify
      * @return JsonResponse
-     * @throws \Exception
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
-    public function saveComment(Request $request): JsonResponse
+    public function saveComment(Request $request, NotificationService $notify): JsonResponse
     {
         $user = $this->getUser();
         $content = json_decode($request->getContent(), true);
@@ -57,6 +59,7 @@ class CommentsController extends AbstractController
         $comment->setComment($content['comment']);
         $this->em->persist($comment);
         $this->em->flush();
+        $notify->notificationAboutNewComment($user, $task);
 
         return $this->json($comment, 200);
     }
