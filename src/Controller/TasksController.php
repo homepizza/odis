@@ -186,7 +186,6 @@ class TasksController extends AbstractController
         $this->em->flush();
 
         $hasAttach = !empty($taskData['attachments']);
-        $addedAttachment = false;
         if ($hasAttach) {
             foreach ($taskData['attachments'] as $link){
                 $filename = explode('/', $link);
@@ -196,7 +195,6 @@ class TasksController extends AbstractController
                 $attachment->setLink($link);
                 $attachment->setFilename($filename);
                 $this->em->persist($attachment);
-                $addedAttachment = true;
             }
             $this->em->flush();
         }
@@ -211,7 +209,7 @@ class TasksController extends AbstractController
         $this->em->flush();
 
         $user = $this->getUser();
-        $notify->notificationMembersByTask($user, $sourceTask, $task, $addedAttachment);
+        $notify->notificationMembersByTask($user, $sourceTask, $task, $hasAttach);
 
         return $this->json($task, 200);
     }

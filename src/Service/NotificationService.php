@@ -5,8 +5,7 @@ namespace App\Service;
 use App\Entity\Tasks;
 use App\Entity\User;
 use App\Repository\CommentsRepository AS Comments;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface AS Normalizer;
+use Symfony\Component\DependencyInjection\ContainerInterface AS Container;
 use App\Service\Tools\TaskChangesService;
 use App\Service\Notifications\MailService;
 
@@ -15,22 +14,14 @@ use App\Service\Notifications\MailService;
  */
 class NotificationService
 {
-    private $normalizer;
     private $taskChanges;
     private $mail;
     private $comments;
     private $eventMessages;
     private $domain;
 
-    public function __construct(
-        Normalizer $normalizer,
-        ContainerInterface $container,
-        TaskChangesService $taskChanges,
-        MailService $mail,
-        Comments $comments
-    )
+    public function __construct(Container $container, TaskChangesService $taskChanges, MailService $mail, Comments $comments)
     {
-        $this->normalizer = $normalizer;
         $this->taskChanges = $taskChanges;
         $this->mail = $mail;
         $this->comments = $comments;
@@ -49,14 +40,12 @@ class NotificationService
      */
     public function notificationMembersByTask(User $actionAuthor, Tasks $sourceTask, Tasks $updatedTask, bool $attachments): void
     {
-        $members = $this->getMembersByTask($sourceTask);
-        $sourceTask = $this->normalizer->normalize($sourceTask);
-        $updatedTask = $this->normalizer->normalize($updatedTask);
-        $differenceFields = $this->taskChanges->checkDifference($sourceTask, $updatedTask);
-//        dump($sourceTask);
-//        dump($updatedTask);
-//        dump($attachments);
-//        die();
+        $actionAuthorID = $actionAuthor->getId();
+        $members = $this->getMembersByTask($sourceTask, $actionAuthorID);
+        $differenceFields = $this->taskChanges->checkDifference($sourceTask, $updatedTask, $attachments);
+
+        dump($members);
+        die();
     }
 
     /**
