@@ -3,23 +3,27 @@
 namespace App\Controller;
 
 use App\Entity\Comments;
+use App\Entity\MailsQueue;
 use App\Service\NotificationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\CommentsRepository;
-use App\Repository\TasksRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\CommentsRepository AS CM;
+use App\Repository\TasksRepository AS Tasks;
+use Doctrine\ORM\EntityManagerInterface AS EM;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface AS Normalizer;
 
 class CommentsController extends AbstractController
 {
+    private $normalizer;
     private $comments;
     private $tasks;
     private $em;
 
-    public function __construct(CommentsRepository $comments, TasksRepository $tasks, EntityManagerInterface $em)
+    public function __construct(Normalizer $normalizer, CM $comments, Tasks $tasks, EM $em)
     {
+        $this->normalizer = $normalizer;
         $this->comments = $comments;
         $this->tasks = $tasks;
         $this->em = $em;
@@ -46,6 +50,7 @@ class CommentsController extends AbstractController
      * @param NotificationService $notify
      * @return JsonResponse
      * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function saveComment(Request $request, NotificationService $notify): JsonResponse
     {
@@ -59,7 +64,13 @@ class CommentsController extends AbstractController
         $comment->setComment($content['comment']);
         $this->em->persist($comment);
         $this->em->flush();
-        $notify->notificationAboutNewComment($user, $task);
+
+        $mq = new MailsQueue();
+        $mq->setEvent('comment.create');
+        $data = json_encode($this->normalizer->normalize([$user, $task]));
+        $mq->setData($data);
+        $this->em->persist($mq);
+        $this->em->flush();
 
         return $this->json($comment, 200);
     }

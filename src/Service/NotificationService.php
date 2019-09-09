@@ -45,7 +45,7 @@ class NotificationService
         $members = $this->getMembersByTask($sourceTask, $actionAuthorID);
         $differenceFields = $this->taskChanges->checkDifference($sourceTask, $updatedTask, $attachments);
         if (!empty($differenceFields)) {
-            $taskID = $sourceTask->getId();
+            $taskID = $updatedTask->getId();
             $messages = $actionAuthor->getFullname().' внес изменения в задачу'.PHP_EOL;
             $messages .= implode(PHP_EOL, $differenceFields);
             $messages = explode(PHP_EOL, $messages);

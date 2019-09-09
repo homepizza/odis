@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Attachments;
-use App\Entity\DomainAreas;
 use App\Entity\HistoryStatuses;
+use App\Entity\MailsQueue;
 use App\Entity\Tasks;
 use App\Repository\DomainAreasRepository;
 use App\Repository\StatusesRepository AS Statuses;
@@ -15,12 +15,12 @@ use App\Repository\DomainAreasRepository AS Areas;
 use App\Repository\UserRepository;
 use App\Service\NotificationService;
 use Doctrine\ORM\EntityManagerInterface AS EM;
-use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class TasksController extends AbstractController
 {
@@ -148,10 +148,9 @@ class TasksController extends AbstractController
      * @param Areas $areas
      * @param Request $request
      * @param NotificationService $notify
+     * @param NormalizerInterface $normalizer
      * @return JsonResponse
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
-     * @throws \Exception
      */
     public function updateTask(
         int $id,
@@ -162,7 +161,8 @@ class TasksController extends AbstractController
         Types $types,
         DomainAreasRepository $areas,
         Request $request,
-        NotificationService $notify
+        NotificationService $notify,
+        NormalizerInterface $normalizer
     ): JsonResponse
     {
         // TODO: Часть вынести в TaskService
@@ -208,10 +208,14 @@ class TasksController extends AbstractController
             $history->setAsignee($user);
             $this->em->persist($history);
         }
-        $this->em->flush();
 
         $user = $this->getUser();
-        $notify->notificationMembersByTask($user, $sourceTask, $task, $hasAttach);
+        $mq = new MailsQueue();
+        $mq->setEvent('task.updated');
+        $data = json_encode($normalizer->normalize([$user, $sourceTask, $task, $hasAttach]));
+        $mq->setData($data);
+        $this->em->persist($mq);
+        $this->em->flush();
 
         return $this->json($task, 200);
     }
