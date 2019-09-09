@@ -16,7 +16,7 @@ use App\Repository\TasksRepository AS TasksR;
 
 class MailsProcessingCommand extends Command
 {
-    protected static $defaultName = 'mails:processing';
+    protected static $defaultName = 'notify:mails:processing';
     protected $mails;
     private $em;
     private $notification;
