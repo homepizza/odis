@@ -1,0 +1,102 @@
+{% extends 'tasks/layout.html.twig' %}
+
+{% block title %}Личный профиль{% endblock %}
+
+{% block toolbar %}
+    <div class="c-toolbar u-mb-medium">
+        <h3 class="c-toolbar__title has-divider">Ваши данные</h3>
+        <h5 class="c-toolbar__meta u-mr-auto">Редактирование личного профиля</h5>
+        {{ include('tasks/blocks/actions_profile.html.twig') }}
+    </div>
+{% endblock %}
+
+{% block content %}
+    <main>
+        <div class="container" style="padding-top: 170px;">
+            <div class="row u-mb-large">
+                <div class="col-12">
+                    <div class="c-tabs">
+
+                        <ul class="c-tabs__list c-tabs__list--splitted nav nav-tabs" id="myTab" role="tablist">
+                            <li class="c-tabs__item"><a class="c-tabs__link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Основная информация</a></li>
+
+                            <li class="c-tabs__item"><a class="c-tabs__link" id="nav-poll-tab" data-toggle="tab" href="#nav-poll" role="tab" aria-controls="nav-poll" aria-selected="false">Участие в опросах</a></li>
+                            <li class="c-tabs__item"><a class="c-tabs__link" id="nav-rating-tab" data-toggle="tab" href="#nav-rating" role="tab" aria-controls="nav-rating" aria-selected="false">Оценки релизов</a></li>
+                        </ul>
+
+                        <div class="c-tabs__content tab-content" id="nav-tabContent">
+                            <div class="c-tabs__pane active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                <profile-info></profile-info>
+                            </div>
+
+                            <div class="c-tabs__pane" id="nav-poll" role="tabpanel" aria-labelledby="nav-poll-tab">
+                                <div class="row">
+                                    В будущем, тут будут анкеты с вашими ответами
+                                </div>
+                            </div>
+                            <div class="c-tabs__pane" id="nav-rating" role="tabpanel" aria-labelledby="nav-rating-tab">
+                                <div class="row">
+                                    В будущем, тут будут ваши оценки
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- // .col-12 -->
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="c-card u-p-medium u-mb-medium">
+
+                        <div class="u-flex u-justify-between u-align-items-center u-mb-small">
+                            <h4 class="u-h5 u-mb-zero u-text-bold">Как пользоваться системой задач?</h4>
+                            <a class="u-text-small" target="_blank" href="http://192.168.1.221:8090/pages/viewpage.action?pageId=10387549">Перейти к Инструкции</a>
+                        </div>
+
+                        <ul>
+                            <li class="u-mb-xsmall">
+                                <a class="u-text-small u-text-dark" target="_blank" href="http://192.168.1.221:8090/pages/viewpage.action?pageId=10387549#id-%D0%9F%D0%BE%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%D0%BE%D0%B2%D0%B2%D0%BE%D0%B4%D0%B5%D0%B8%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D0%B8%D0%B7%D0%B0%D0%B4%D0%B0%D1%87(%D0%B7%D0%B0%D1%8F%D0%B2%D0%BE%D0%BA)%D0%B2%D0%BE%D1%82%D0%B4%D0%B5%D0%BB%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8-%D0%A2%D0%B5%D1%80%D0%BC%D0%B8%D0%BD%D1%8B%D0%B8%D0%BE%D0%BF%D1%80%D0%B5%D0%B4%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F">Термины и определения. Мне кое-что не понятно.</a>
+                            </li>
+
+                            <li class="u-mb-xsmall">
+                                <a class="u-text-small u-text-dark" target="_blank" href="http://192.168.1.221:8090/pages/viewpage.action?pageId=10387549#id-%D0%9F%D0%BE%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%D0%BE%D0%B2%D0%B2%D0%BE%D0%B4%D0%B5%D0%B8%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D0%B8%D0%B7%D0%B0%D0%B4%D0%B0%D1%87(%D0%B7%D0%B0%D1%8F%D0%B2%D0%BE%D0%BA)%D0%B2%D0%BE%D1%82%D0%B4%D0%B5%D0%BB%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8-%D0%92%D0%B2%D0%BE%D0%B4%D0%B7%D0%B0%D0%B4%D0%B0%D1%87">Как создавать задачи?</a>
+                            </li>
+                            <li>
+                                <a class="u-text-small u-text-dark" target="_blank" href="http://192.168.1.221:8090/pages/viewpage.action?pageId=10387549#id-%D0%9F%D0%BE%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%D0%BE%D0%B2%D0%B2%D0%BE%D0%B4%D0%B5%D0%B8%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D0%B8%D0%B7%D0%B0%D0%B4%D0%B0%D1%87(%D0%B7%D0%B0%D1%8F%D0%B2%D0%BE%D0%BA)%D0%B2%D0%BE%D1%82%D0%B4%D0%B5%D0%BB%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8-%D0%9F%D0%BE%D1%80%D1%8F%D0%B4%D0%BE%D0%BA%D0%BF%D1%80%D0%B8%D0%BD%D1%8F%D1%82%D0%B8%D1%8F%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B2%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%83">Какой порядок принятия задач разработчиками?</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="c-card u-p-medium u-mb-medium">
+
+                        <div class="u-flex u-justify-between u-align-items-center u-mb-small">
+                            <h4 class="u-h5 u-mb-zero u-text-bold">Зачем заполнять профиль?</h4>
+                        </div>
+
+                        <ul>
+                            <li class="u-mb-xsmall">
+                                <span class="u-text-small u-text-dark">
+                                    Это поможет вам получать актуальную информацию в срок.
+                                </span>
+                            </li>
+
+                            <li class="u-mb-xsmall">
+                                <span class="u-text-small u-text-dark">
+                                    Учитывать ваше мнение и пожелания в улучшении программы
+                                </span>
+                            </li>
+                            <li>
+                                <span class="u-text-small u-text-dark">
+                                    В перспективе, разработка может делать что-либо персонализированное.
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div><!-- // .container -->
+    </main>
+{% endblock %}

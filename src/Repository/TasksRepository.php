@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use function Doctrine\ORM\QueryBuilder;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
 
 /**
  * @method Tasks|null find($id, $lockMode = null, $lockVersion = null)
@@ -43,5 +44,16 @@ class TasksRepository extends ServiceEntityRepository
 
         $result = $qb->getQuery()->getResult();
         return $result;
+    }
+
+    public function equalStatuses(array $names)
+    {
+        $qb = $this->createQueryBuilder('t');
+        return $qb
+            ->leftJoin('App:Statuses', 's', 'WITH', 't.status=s.id')
+            ->where($qb->expr()->in('s.name', $names))
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

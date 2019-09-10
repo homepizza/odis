@@ -15,6 +15,7 @@ import Details from "./components/Details";
 import Tasks from "./components/Tasks";
 import Filters from "./components/Filters";
 import TaskHistory from "./components/TaskHistory";
+import ProfileGeneral from "./components/ProfileGeneral";
 
 Vue.prototype.$http = Axios;
 Vue.component('v-select', vSelect);
@@ -27,6 +28,7 @@ Vue.component('task-details', Details);
 Vue.component('tasks', Tasks);
 Vue.component('filters', Filters);
 Vue.component('task-history', TaskHistory);
+Vue.component('profile-info', ProfileGeneral);
 
 Vue.use(VueSweetalert2);
 Vue.use(Datepicker);
@@ -70,10 +72,44 @@ new Vue({el: '#app',
                 if (response.status === 200) {
                     store.commit('setWorkflow', true);
                     store.commit('setTaskHistory', true);
+                    store.commit('setAttachments', new Map());
                     this.$swal({
                         position: 'top',
                         type: 'success',
                         title: 'Сохранено!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            }).catch(reason => {
+                this.$swal({
+                    position: 'top',
+                    type: 'error',
+                    title: 'Не удалось сохранить изменения!',
+                    text: reason.message,
+                    showConfirmButton: false
+                });
+            });
+        },
+        saveProfile: function () {
+            let profile = store.getters.getProfile;
+            this.$http.put('/profile/save', profile).then(response => {
+                console.log(response.data);
+                if (response.status === 200) {
+                    this.$swal({
+                        position: 'center',
+                        type: 'success',
+                        title: 'Сохранено!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    store.commit('setProfileWaitUpdate', false);
+                }
+                else {
+                    this.$swal({
+                        position: 'center',
+                        type: 'error',
+                        title: 'Ошибка сохранения!',
                         showConfirmButton: false,
                         timer: 1500
                     });
@@ -85,6 +121,10 @@ new Vue({el: '#app',
         accessCreateTask() {
             let task = store.state.Task;
             return task.title && task.description && task.priority && task.type && task.area;
+        },
+        accessSaveProfile() {
+            let profile = store.state.Profile;
+            return profile.profileWaitUpdate;
         }
     }
 });

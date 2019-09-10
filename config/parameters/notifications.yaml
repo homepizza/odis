@@ -1,0 +1,12 @@
+parameters:
+    sender: 'homepizzza@yandex.ru'
+    task.domain: 'http://tasks.local/tasks'
+    task.events:
+        status: 'У задачи изменен статус'
+        priority: 'У задачи изменен приоритет'
+        dueDate: 'Срок выполнения задачи изменен'
+        title: 'Был изменен заголовок задачи'
+        body: 'Внесены изменения в описание задачи'
+        attachments: 'К задаче прикреплен новый файл'
+        comment: 'Добавлен новый комментарий'
+        time_value: 'Установлено время выполнения задачи'

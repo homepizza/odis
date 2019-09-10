@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Attachments;
-use App\Entity\DomainAreas;
 use App\Entity\HistoryStatuses;
+use App\Entity\MailsQueue;
 use App\Entity\Tasks;
 use App\Repository\DomainAreasRepository;
 use App\Repository\StatusesRepository AS Statuses;
@@ -13,13 +13,14 @@ use App\Repository\TasksRepository;
 use App\Repository\TypesRepository AS Types;
 use App\Repository\DomainAreasRepository AS Areas;
 use App\Repository\UserRepository;
+use App\Service\NotificationService;
 use Doctrine\ORM\EntityManagerInterface AS EM;
-use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class TasksController extends AbstractController
 {
@@ -146,8 +147,10 @@ class TasksController extends AbstractController
      * @param Types $types
      * @param Areas $areas
      * @param Request $request
+     * @param NotificationService $notify
+     * @param NormalizerInterface $normalizer
      * @return JsonResponse
-     * @throws \Exception
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function updateTask(
         int $id,
@@ -157,12 +160,15 @@ class TasksController extends AbstractController
         Statuses $statuses,
         Types $types,
         DomainAreasRepository $areas,
-        Request $request
+        Request $request,
+        NotificationService $notify,
+        NormalizerInterface $normalizer
     ): JsonResponse
     {
         // TODO: Часть вынести в TaskService
         $taskData = json_decode($request->getContent(), true);
         $task = $tasks->find($taskData['taskNumber']);
+        $sourceTask = clone $task;
         $user = !empty($taskData['asignee']) ? $u->find($taskData['asignee']['id']) : null;
         $priority = $priorities->find($taskData['priority']['id']);
         $status = $statuses->find($taskData['status']['id']);
@@ -181,7 +187,8 @@ class TasksController extends AbstractController
         $task->setSolutionLink($taskData['solutionLink']);
         $this->em->flush();
 
-        if (!empty($taskData['attachments'])) {
+        $hasAttach = !empty($taskData['attachments']);
+        if ($hasAttach) {
             foreach ($taskData['attachments'] as $link){
                 $filename = explode('/', $link);
                 $filename = $filename[count($filename)-1];
@@ -201,6 +208,13 @@ class TasksController extends AbstractController
             $history->setAsignee($user);
             $this->em->persist($history);
         }
+
+        $user = $this->getUser();
+        $mq = new MailsQueue();
+        $mq->setEvent('task.updated');
+        $data = json_encode($normalizer->normalize([$user, $sourceTask, $task, $hasAttach]));
+        $mq->setData($data);
+        $this->em->persist($mq);
         $this->em->flush();
 
         return $this->json($task, 200);

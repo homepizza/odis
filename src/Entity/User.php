@@ -43,6 +43,36 @@ class User implements UserInterface
      */
     private $auth_id;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $about;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $jobPosition;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $birthday;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $emailNotify;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $telegramNotify;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -152,5 +182,77 @@ class User implements UserInterface
     public function __toString(): string
     {
         return (string) $this->fullname;
+    }
+
+    public function getAbout(): ?string
+    {
+        return $this->about;
+    }
+
+    public function setAbout(?string $about): self
+    {
+        $this->about = $about;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getJobPosition(): ?string
+    {
+        return $this->jobPosition;
+    }
+
+    public function setJobPosition(?string $jobPosition): self
+    {
+        $this->jobPosition = $jobPosition;
+
+        return $this;
+    }
+
+    public function getBirthday(): ?string
+    {
+        return $this->birthday;
+    }
+
+    public function setBirthday(?string $birthday): self
+    {
+        $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    public function getEmailNotify(): ?bool
+    {
+        return $this->emailNotify;
+    }
+
+    public function setEmailNotify(?bool $emailNotify): self
+    {
+        $this->emailNotify = $emailNotify;
+
+        return $this;
+    }
+
+    public function getTelegramNotify(): ?bool
+    {
+        return $this->telegramNotify;
+    }
+
+    public function setTelegramNotify(?bool $telegramNotify): self
+    {
+        $this->telegramNotify = $telegramNotify;
+
+        return $this;
     }
 }

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <main class="o-page__content">
+        <div class="container">
+            <div class="row u-mb-medium u-justify-center">
+                <div class="col-xl-9">
+                    <div class="c-invoice">
+                        <div class="c-invoice__header">
+                            <div class="c-invoice__brand">
+                                <h1 class="c-invoice__brand-name">Менеджер задач</h1>
+                            </div>
+                            <div class="c-invoice__title">
+                                <div class="c-invoice__date">
+                                    <b style="margin-right: 5px; margin-bottom: 3px;">Дата сообщения:</b>
+                                    {{ eventDate | date('d.m.Y') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="c-invoice__body" style="margin-bottom: 10px;">
+                            {% for message in messages %}
+                                <span style="font-style: italic;">{{ message }}</span><br/>
+                            {% endfor %}
+                        </div>
+
+                        <div class="c-invoice__footer">
+                            <div class="c-invoice__footer-info">
+                                <span><a href="{{ link }}">Посмотреть задачу</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main><!-- // .o-page__content -->
+{% endblock %}
