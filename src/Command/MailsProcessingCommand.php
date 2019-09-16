@@ -76,7 +76,8 @@ class MailsProcessingCommand extends Command
                 $sourceTask->setBody($sourceData['body']);
                 $sourceTask->setSolutionLink($sourceData['solutionLink']);
                 $sourceTask->setValue($sourceData['value']);
-                $asignee = $this->users->find($sourceData['asignee']['id']);
+                $asignee = isset($sourceData['asignee']['id']) ? $sourceData['asignee']['id'] : null;
+                $asignee = $asignee ? $this->users->find($asignee) : $asignee;
                 $priority = $this->em->getRepository('App:Priorities')->find($sourceData['priority']['id']);
                 $status = $this->em->getRepository('App:Statuses')->find($sourceData['status']['id']);
                 $type = $this->em->getRepository('App:Types')->find($sourceData['type']['id']);
