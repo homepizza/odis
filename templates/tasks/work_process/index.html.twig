@@ -1,0 +1,16 @@
+{% extends 'tasks/layout.html.twig' %}
+
+{% block title %}Ход работы - диаграмма{% endblock %}
+
+{% block toolbar %}
+    <div class="c-toolbar u-mb-medium">
+        <h3 class="c-toolbar__title has-divider">Ход выполнения задач</h3>
+        <h5 class="c-toolbar__meta u-mr-auto">Диаграмма Ганта</h5>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div style="padding: 170px 35px 0px 35px; z-index: 0;">
+        <work-process></work-process>
+    </div>
+{% endblock %}

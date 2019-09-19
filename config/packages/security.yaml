@@ -35,3 +35,5 @@ security:
         - { path: ^/tasks, roles: ROLE_USER }
         - { path: ^/task, roles: ROLE_USER }
         - { path: ^/workflow, roles: ROLE_USER }
+        - { path: ^/comments, roles: ROLE_USER }
+        - { path: ^/work-process, roles: ROLE_USER }

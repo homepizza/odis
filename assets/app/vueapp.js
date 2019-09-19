@@ -5,6 +5,8 @@ import moment from "moment";
 import VueSweetalert2 from "vue-sweetalert2";
 import Datepicker from 'vue2-datepicker';
 import VueTimepicker from 'vue2-timepicker';
+import GanttElastic from 'gantt-elastic';
+import GanttHeader from 'gantt-elastic-header';
 import store from "./store/store";
 import DetailsCreate from "./components/DetailsCreate";
 import TaskCreate from "./components/TaskCreate";
@@ -16,6 +18,7 @@ import Tasks from "./components/Tasks";
 import Filters from "./components/Filters";
 import TaskHistory from "./components/TaskHistory";
 import ProfileGeneral from "./components/ProfileGeneral";
+import WorkProcess from "./components/WorkProcess";
 
 Vue.prototype.$http = Axios;
 Vue.component('v-select', vSelect);
@@ -29,10 +32,13 @@ Vue.component('tasks', Tasks);
 Vue.component('filters', Filters);
 Vue.component('task-history', TaskHistory);
 Vue.component('profile-info', ProfileGeneral);
+Vue.component('work-process', WorkProcess);
 
 Vue.use(VueSweetalert2);
 Vue.use(Datepicker);
 Vue.use(VueTimepicker);
+Vue.use(GanttElastic);
+Vue.use(GanttHeader);
 Vue.filter('formatDate', function(value) {
     if (value) {
         return moment(String(value)).format('DD.MM.YYYY HH:mm')
