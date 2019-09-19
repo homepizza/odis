@@ -224,6 +224,76 @@
             duration: 24 * 60 * 60 * 1000,
             percent: 0,
             type: "task"
+        },
+        {
+            id: 16,
+            label: "test task",
+            user:
+                '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
+            start: getDate(24 * 16),
+            duration: 24 * 60 * 60 * 1000,
+            percent: 0,
+            type: "task"
+        },
+        {
+            id: 17,
+            label: "test task",
+            user:
+                '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
+            start: getDate(24 * 16),
+            duration: 24 * 60 * 60 * 1000,
+            percent: 0,
+            type: "task"
+        },
+        {
+            id: 18,
+            label: "test task",
+            user:
+                '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
+            start: getDate(24 * 16),
+            duration: 24 * 60 * 60 * 1000,
+            percent: 0,
+            type: "task"
+        },
+        {
+            id: 19,
+            label: "test task",
+            user:
+                '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
+            start: getDate(24 * 16),
+            duration: 24 * 60 * 60 * 1000,
+            percent: 0,
+            type: "task"
+        },
+        {
+            id: 20,
+            label: "test task",
+            user:
+                '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
+            start: getDate(24 * 16),
+            duration: 24 * 60 * 60 * 1000,
+            percent: 0,
+            type: "task"
+        },
+        {
+            id: 21,
+            label: "test task",
+            user:
+                '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
+            start: getDate(24 * 16),
+            duration: 24 * 60 * 60 * 1000,
+            percent: 0,
+            type: "task"
+        },
+        {
+            id: 22,
+            label: "test task",
+            user:
+                '<a href="https://www.google.com/search?q=Johnattan+Owens" target="_blank" style="color:#0077c0;">Johnattan Owens</a>',
+            start: getDate(24 * 16),
+            duration: 24 * 60 * 60 * 1000,
+            percent: 0,
+            type: "task"
         }
     ];
     let options = {
@@ -323,6 +393,7 @@
             "Display task list": "Показать задачи",
             'weekStart': 0,
             'weekdays': 'Воскресенье_Понедельник_Вторник_Среда_Четверг_Пятница_Суббота'.split('_'),
+            'weekdaysShort': 'Вс_Пн_Вт_Ср_Чт_Пт_Сб'.split('_'),
             'months': 'Январь_Февраль_Март_Апрель_Май_Июнь_Июль_Август_Сентябрь_Октябрь_Ноябрь_Декабрь'.split('_'),
             'monthsShort': 'янв_фев_март_апр_май_июнь_июль_авг_сент_окт_нояб_дек'.split('_'),
         }
@@ -338,7 +409,7 @@
                 tasks,
                 options,
                 dynamicStyle: {},
-                lastId: 16
+                lastId: 22
             };
         },
         methods: {
@@ -357,6 +428,7 @@
             },
             tasksUpdate(tasks) {
                 this.tasks = tasks;
+                console.log(tasks);
             },
             optionsUpdate(options) {
                 this.options = options;
@@ -369,5 +441,7 @@
 </script>
 
 <style>
-
+    .vue-slider {
+        z-index: 0;
+    }
 </style>
