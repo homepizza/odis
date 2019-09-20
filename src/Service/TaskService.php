@@ -39,7 +39,7 @@ class TaskService
         $hasValue = !is_null($value);
         if ($hasValue) {
             $value = json_decode($value, true);
-            $hasValue = !empty($value['D']) && !empty($value['H']) && !empty($value['m']);
+            $hasValue = !empty($value['D']) || !empty($value['H']) || !empty($value['m']);
         }
         return $hasValue;
     }

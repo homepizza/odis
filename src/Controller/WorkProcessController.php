@@ -31,7 +31,9 @@ class WorkProcessController extends AbstractController
     public function chartTasks(TasksRepository $task, GanttService $gantt): JsonResponse
     {
         $tasks = $task->notEqualStatuses(['Завершено', 'Отменено']);
-        $tasks = $gantt->convertingTasks($tasks);
-        return $this->json($tasks, 200);
+        if (!empty($tasks)) {
+            $tasks = $gantt->convertingTasks($tasks);
+        }
+        return $this->json($tasks ?? [], 200);
     }
 }

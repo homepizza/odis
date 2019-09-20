@@ -28,10 +28,12 @@ class GanttService
             $task->setHistory($history);
         }
         $this->tasks = $this->groupedByTimeData($tasks);
-        $start = $this->detectFirstStartPoint();
-        $end = $this->calculateTasks($start);
-        $this->calculateTasks($end, true);
-        $this->setPercentOfValue();
+        if (!empty($this->tasks[0]) || !empty($this->tasks[1])) {
+            $start = $this->detectFirstStartPoint();
+            $end = $this->calculateTasks($start);
+            $this->calculateTasks($end, true);
+            $this->setPercentOfValue();
+        }
 
         return $this->results;
     }
