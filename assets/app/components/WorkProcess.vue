@@ -35,6 +35,23 @@
     let tasks = [
         {
             id: 1,
+            label: "Тестовая задача",
+            user: 'Александр Малоземов',
+            start: 1568960127000,
+            duration: 259200000,
+            percent: 100,
+            type: "task",
+            style: {
+                base: {
+                    fill: "#0287D0",
+                    stroke: "#0077C0"
+                }
+            }
+        }
+    ];
+    let tasks1 = [
+        {
+            id: 1,
             label: "Make some noise",
             user:
                 '<a href="https://www.google.com/search?q=John+Doe" target="_blank" style="color:#0077c0;">John Doe</a>',
@@ -348,9 +365,9 @@
                 },
                 {
                     id: 3,
-                    label: "Исполнитель",
+                    label: "Автор",
                     value: "user",
-                    width: 130,
+                    width: 150,
                     html: true
                 },
                 {

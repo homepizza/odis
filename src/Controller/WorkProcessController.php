@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Repository\TasksRepository;
+use App\Service\Formatters\GanttService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class WorkProcessController extends AbstractController
@@ -15,5 +18,20 @@ class WorkProcessController extends AbstractController
     public function index()
     {
         return $this->render('tasks/work_process/index.html.twig');
+    }
+
+    /**
+     * Получение списка отсортированных задач для графика "Ход выполнения" (диаграмма Ганта)
+     *
+     * @Route("/work-process/tasks", name="work_process_chart", methods={"GET"})
+     * @param TasksRepository $task
+     * @param GanttService $gantt
+     * @return JsonResponse
+     */
+    public function chartTasks(TasksRepository $task, GanttService $gantt): JsonResponse
+    {
+        $tasks = $task->notEqualStatuses(['Завершено', 'Отменено']);
+        $tasks = $gantt->convertingTasks($tasks);
+        return $this->json($tasks, 200);
     }
 }
