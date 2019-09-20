@@ -194,7 +194,9 @@ class GanttService
     private function setPercentOfValue(): void
     {
         foreach ($this->results as $k => $result) {
-            $result['start'] *= 1000;
+            dump(date('Y-m-d H:i:s', $result['start']));
+//            die();
+//            $result['start'] *= 1000;
             $result['percent'] = ($result['duration'] * 100) / $this->durationSUM;
             $this->results[$k] = $result;
         }
