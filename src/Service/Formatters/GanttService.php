@@ -31,6 +31,7 @@ class GanttService
         if (!empty($this->tasks[0]) || !empty($this->tasks[1])) {
             $start = $this->detectFirstStartPoint();
             $end = $this->calculateTasks($start);
+            $this->sortingTasksWithOnlyTime();
             $this->calculateTasks($end, true);
             $this->setPercentOfValue();
         }
@@ -115,6 +116,33 @@ class GanttService
         return $t1 - $t2;
     }
 
+    private function sortingTasksWithOnlyTime()
+    {
+        $tasks = $this->tasks[1];
+        usort($tasks, 'self::prioritiesCompare');
+        $this->tasks[1] = $tasks;
+    }
+
+    /**
+     * Сравнение приоритетов
+     *
+     * @param $task1
+     * @param $task2
+     * @return mixed
+     */
+    static function prioritiesCompare($task1, $task2)
+    {
+        $p = $task1->getPriority()->getId();
+        $p2 = $task2->getPriority()->getId();
+        $similar = $p === $p2;
+        if ($similar) {
+            $d = strtotime($task1->getCreatedAt()->format('Y-m-d H:i:s'));
+            $d2 = strtotime($task2->getCreatedAt()->format('Y-m-d H:i:s'));
+            $result = $d - $d2;
+        }
+        return $similar ? ($result ?? false) : $p2 - $p;
+    }
+
     /**
      * Выстраивание задач у которых указан "Срок выполнения" или "Время выполнения"
      *
@@ -158,7 +186,7 @@ class GanttService
     }
 
     /**
-     * Вычисление времени выполнения в милисекундах.
+     * Вычисление времени выполнения в секундах.
      *
      * @param Tasks $task
      * @return int
@@ -185,7 +213,7 @@ class GanttService
         else {
             $s = $m * 60;
         }
-        return $s * 1000;
+        return $s;
     }
 
     /**
@@ -194,10 +222,9 @@ class GanttService
     private function setPercentOfValue(): void
     {
         foreach ($this->results as $k => $result) {
-            dump(date('Y-m-d H:i:s', $result['start']));
-//            die();
-//            $result['start'] *= 1000;
-            $result['percent'] = ($result['duration'] * 100) / $this->durationSUM;
+            $result['percent'] = number_format(($result['duration'] * 100) / $this->durationSUM, 1);
+            $result['duration'] *= 1000;
+            $result['start'] *= 1000;
             $this->results[$k] = $result;
         }
     }

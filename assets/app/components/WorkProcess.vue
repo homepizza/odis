@@ -16,22 +16,7 @@
     import GanttElastic from "gantt-elastic";
     import GanttHeader from "gantt-elastic-header";
     import dayjs from "dayjs";
-    // just helper to get current dates
-    function getDate(hours) {
-        const currentDate = new Date();
-        const currentYear = currentDate.getFullYear();
-        const currentMonth = currentDate.getMonth();
-        const currentDay = currentDate.getDate();
-        const timeStamp = new Date(
-            currentYear,
-            currentMonth,
-            currentDay,
-            0,
-            0,
-            0
-        ).getTime();
-        return new Date(timeStamp + hours * 60 * 60 * 1000).getTime();
-    }
+    
     let tasks = [
         {
             id: 1,
@@ -111,13 +96,13 @@
                     id: 4,
                     label: "Тип",
                     value: "type",
-                    width: 68
+                    width: 39
                 },
                 {
                     id: 5,
                     label: "%",
                     value: "progress",
-                    width: 35,
+                    width: 55,
                     style: {
                         "task-list-header-label": {
                             "text-align": "center",
