@@ -3,15 +3,14 @@
 namespace App\Command;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use App\Service\Notifications\MailService;
-use App\Repository\TasksRepository;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Mime\NamedAddress;
+use App\Repository\TasksRepository AS Tasks;
+use Symfony\Component\DependencyInjection\ContainerInterface AS Container;
+use App\Service\NotificationService;
+
 
 class NotifyTestingSendCommand extends Command
 {
@@ -19,13 +18,15 @@ class NotifyTestingSendCommand extends Command
     protected $mail;
     protected $tasks;
     protected $domain;
+    protected $notify;
 
-    public function __construct(ContainerInterface $container, MailService $mail, TasksRepository $tasks)
+    public function __construct(Container $container, MailService $mail, Tasks $tasks, NotificationService $notify)
     {
         parent::__construct();
         $this->domain = $container->getParameter('task.domain');
         $this->mail = $mail;
         $this->tasks = $tasks;
+        $this->notify = $notify;
     }
 
     protected function configure()
@@ -46,7 +47,14 @@ class NotifyTestingSendCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $tasks = $this->tasks->equalStatuses(['Тестирование']);
 
+        // TODO: Сравнение срока (существующего или дефолтного)
+        // TODO: Добавить дату в текущие уведомления
+        // TODO: Уведомление участникам при закрытии (метод уведомления участников)
+        
         foreach ($tasks as $task) {
+            $members = $this->notify->getMembersByTask($task);
+            dump($members);
+            die();
             $author = $task->getAuthor();
             $emailNotify = $author->getEmailNotify();
             if ($emailNotify) {
