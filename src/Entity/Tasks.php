@@ -88,6 +88,8 @@ class Tasks
      */
     private $value;
 
+    private $history;
+
     public function __construct()
     {
         $this->attachments = new ArrayCollection();
@@ -271,5 +273,21 @@ class Tasks
         $this->value = $value;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHistory()
+    {
+        return $this->history;
+    }
+
+    /**
+     * @param mixed $history
+     */
+    public function setHistory($history): void
+    {
+        $this->history = $history;
     }
 }
