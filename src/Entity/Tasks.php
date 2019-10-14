@@ -93,6 +93,8 @@ class Tasks
      */
     private $testingDays;
 
+    private $history;
+
     public function __construct()
     {
         $this->attachments = new ArrayCollection();
@@ -288,5 +290,21 @@ class Tasks
         $this->testingDays = $testingDays;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHistory()
+    {
+        return $this->history;
+    }
+
+    /**
+     * @param mixed $history
+     */
+    public function setHistory($history): void
+    {
+        $this->history = $history;
     }
 }

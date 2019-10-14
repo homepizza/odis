@@ -11,6 +11,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface AS EM;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface AS Normalizer;
 use App\Repository\StatusesRepository;
+use App\Repository\HistoryStatusesRepository AS HS;
 
 /*
  * Работа с задачей
@@ -20,10 +21,12 @@ class TaskService
     private $em;
     private $normalizer;
     private $statuses;
+    private $hs;
 
-    public function __construct(EM $em, Normalizer $normalizer, StatusesRepository $statuses)
+    public function __construct(EM $em, Normalizer $normalizer, StatusesRepository $statuses, HS $hs)
     {
         $this->em = $em;
+        $this->hs = $hs;
         $this->normalizer = $normalizer;
         $this->statuses = $statuses;
     }
@@ -100,5 +103,33 @@ class TaskService
         $mq->setData($data);
         $this->em->persist($mq);
         $this->em->flush();
+
+    }
+
+    /**
+     * История статусов задачи
+     *
+     * @param Tasks $task
+     * @return array
+     */
+    public function history(Tasks $task): array
+    {
+        return $this->hs->findBy(['task' => $task->getId()]);
+    }
+
+    /**
+     * Проверка на наличие заполненного поля "Время выполнения"
+     *
+     * @param $value
+     * @return bool
+     */
+    public function checkValue($value): bool
+    {
+        $hasValue = !is_null($value);
+        if ($hasValue) {
+            $value = json_decode($value, true);
+            $hasValue = !empty($value['D']) || !empty($value['H']) || !empty($value['m']);
+        }
+        return $hasValue;
     }
 }
