@@ -2,8 +2,7 @@
 
 namespace App\Command;
 
-use App\Entity\HistoryStatuses;
-use App\Repository\StatusesRepository;
+use App\Service\TaskService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,9 +11,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use App\Service\Notifications\MailService;
 use App\Repository\TasksRepository AS Tasks;
 use Symfony\Component\DependencyInjection\ContainerInterface AS Container;
-use App\Service\NotificationService;
 use App\Service\HistoryService;
-
 
 class NotifyTestingSendCommand extends Command
 {
@@ -22,9 +19,9 @@ class NotifyTestingSendCommand extends Command
     protected $mail;
     protected $tasks;
     protected $domain;
-    protected $notify;
     protected $testingDays;
     protected $history;
+    protected $ts;
 
     /* @var EntityManagerInterface */
     protected $em;
@@ -33,7 +30,7 @@ class NotifyTestingSendCommand extends Command
         Container $container,
         MailService $mail,
         Tasks $tasks,
-        NotificationService $notify,
+        TaskService $ts,
         HistoryService $history
     )
     {
@@ -41,9 +38,9 @@ class NotifyTestingSendCommand extends Command
         $this->domain = $container->getParameter('task.domain');
         $this->testingDays = (int)$container->getParameter('testing_close_days');
         $this->em = $container->get('doctrine.orm.default_entity_manager');
+        $this->ts = $ts;
         $this->mail = $mail;
         $this->tasks = $tasks;
-        $this->notify = $notify;
         $this->history = $history;
     }
 
@@ -59,6 +56,7 @@ class NotifyTestingSendCommand extends Command
      * @param OutputInterface $output
      * @return int|void|null
      * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -66,12 +64,7 @@ class NotifyTestingSendCommand extends Command
         $tasks = $this->tasks->equalStatuses(['Тестирование']);
         $today = time();
 
-        // TODO: Сравнение срока (существующего или дефолтного)
-        // TODO: Добавить дату в текущие уведомления
-        // TODO: Уведомление участникам при закрытии (метод уведомления участников)
-
         foreach ($tasks as $task) {
-            $members = $this->notify->getMembersByTask($task);
             $status = $this->history->statusInfo($task);
             $dateStatus = strtotime($status->getDateStatus()->format('Y-m-d H:i:s'));
             $testingDays = $task->getTestingDays() ?? $this->testingDays;
@@ -84,15 +77,7 @@ class NotifyTestingSendCommand extends Command
 
             if ($todoCloseTask) {
                 // Закрытие задачи с уведомлением участников (task.updated) в очередь сообщение
-
-//                $history = new HistoryStatuses();
-//                $history->setTask($task);
-//                $history->setStatus($status);
-//                $history->setDateStatus(new \DateTime());
-//                $history->setAsignee($author);
-
-                dump([123]);
-
+                $this->ts->closeTask($task);
             }
             else {
                 // Уведомление для автора о задаче на тестировании (Срок и Линк)
