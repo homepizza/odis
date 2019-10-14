@@ -2,6 +2,9 @@
 
 namespace App\Command;
 
+use App\Entity\HistoryStatuses;
+use App\Repository\StatusesRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -10,6 +13,7 @@ use App\Service\Notifications\MailService;
 use App\Repository\TasksRepository AS Tasks;
 use Symfony\Component\DependencyInjection\ContainerInterface AS Container;
 use App\Service\NotificationService;
+use App\Service\HistoryService;
 
 
 class NotifyTestingSendCommand extends Command
@@ -19,14 +23,28 @@ class NotifyTestingSendCommand extends Command
     protected $tasks;
     protected $domain;
     protected $notify;
+    protected $testingDays;
+    protected $history;
 
-    public function __construct(Container $container, MailService $mail, Tasks $tasks, NotificationService $notify)
+    /* @var EntityManagerInterface */
+    protected $em;
+
+    public function __construct(
+        Container $container,
+        MailService $mail,
+        Tasks $tasks,
+        NotificationService $notify,
+        HistoryService $history
+    )
     {
         parent::__construct();
         $this->domain = $container->getParameter('task.domain');
+        $this->testingDays = (int)$container->getParameter('testing_close_days');
+        $this->em = $container->get('doctrine.orm.default_entity_manager');
         $this->mail = $mail;
         $this->tasks = $tasks;
         $this->notify = $notify;
+        $this->history = $history;
     }
 
     protected function configure()
@@ -46,25 +64,48 @@ class NotifyTestingSendCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $tasks = $this->tasks->equalStatuses(['Тестирование']);
+        $today = time();
 
         // TODO: Сравнение срока (существующего или дефолтного)
         // TODO: Добавить дату в текущие уведомления
         // TODO: Уведомление участникам при закрытии (метод уведомления участников)
-        
+
         foreach ($tasks as $task) {
             $members = $this->notify->getMembersByTask($task);
-            dump($members);
-            die();
+            $status = $this->history->statusInfo($task);
+            $dateStatus = strtotime($status->getDateStatus()->format('Y-m-d H:i:s'));
+            $testingDays = $task->getTestingDays() ?? $this->testingDays;
+            $testingDays *= 86400;
+            $dueTesting = $dateStatus + $testingDays;
+            $todoCloseTask = $today > $dueTesting;
+
             $author = $task->getAuthor();
             $emailNotify = $author->getEmailNotify();
-            if ($emailNotify) {
-                // Отправляем уведомление на почту.
-                $this->mail->sendEmail(
-                    'Задача ожидает вашего тестирования',
-                    $author->getEmail(),
-                    'У вас на тестировании находится задача №'.$task->getId(),
-                    $this->domain.'/'.$task->getId()
-                );
+
+            if ($todoCloseTask) {
+                // Закрытие задачи с уведомлением участников (task.updated) в очередь сообщение
+
+//                $history = new HistoryStatuses();
+//                $history->setTask($task);
+//                $history->setStatus($status);
+//                $history->setDateStatus(new \DateTime());
+//                $history->setAsignee($author);
+
+                dump([123]);
+
+            }
+            else {
+                // Уведомление для автора о задаче на тестировании (Срок и Линк)
+                if ($emailNotify) {
+                    $closeDate = date('d.m.Y H:i:s', $dueTesting);
+                    // Отправляем уведомление на почту.
+                    $this->mail->sendEmail(
+                        'Задача ожидает вашего тестирования',
+                        $author->getEmail(),
+                        'У вас на тестировании находится задача №'.$task->getId().', закроется: '.$closeDate,
+                        $this->domain.'/'.$task->getId()
+                    );
+                }
             }
         }
     }
