@@ -184,6 +184,7 @@ class TasksController extends AbstractController
         $task->setTitle($taskData['title']);
         $task->setBody($taskData['description']);
         $task->setSolutionLink($taskData['solutionLink']);
+        $task->setTestingDays($taskData['testingDays']);
         $this->em->flush();
 
         $hasAttach = !empty($taskData['attachments']);
