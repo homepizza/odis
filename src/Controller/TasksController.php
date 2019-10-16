@@ -14,13 +14,13 @@ use App\Repository\TypesRepository AS Types;
 use App\Repository\DomainAreasRepository AS Areas;
 use App\Repository\UserRepository;
 use App\Service\NotificationService;
+use App\Service\TaskService;
 use Doctrine\ORM\EntityManagerInterface AS EM;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class TasksController extends AbstractController
 {
@@ -147,9 +147,9 @@ class TasksController extends AbstractController
      * @param Types $types
      * @param Areas $areas
      * @param Request $request
-     * @param NotificationService $notify
-     * @param NormalizerInterface $normalizer
+     * @param TaskService $ts
      * @return JsonResponse
+     * @throws \Exception
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function updateTask(
@@ -161,8 +161,7 @@ class TasksController extends AbstractController
         Types $types,
         DomainAreasRepository $areas,
         Request $request,
-        NotificationService $notify,
-        NormalizerInterface $normalizer
+        TaskService $ts
     ): JsonResponse
     {
         // TODO: Часть вынести в TaskService
@@ -185,37 +184,15 @@ class TasksController extends AbstractController
         $task->setTitle($taskData['title']);
         $task->setBody($taskData['description']);
         $task->setSolutionLink($taskData['solutionLink']);
+        $task->setTestingDays($taskData['testingDays']);
         $this->em->flush();
 
         $hasAttach = !empty($taskData['attachments']);
-        if ($hasAttach) {
-            foreach ($taskData['attachments'] as $link){
-                $filename = explode('/', $link);
-                $filename = $filename[count($filename)-1];
-                $attachment = new Attachments();
-                $attachment->setTask($task);
-                $attachment->setLink($link);
-                $attachment->setFilename($filename);
-                $this->em->persist($attachment);
-            }
-            $this->em->flush();
-        }
-        if ($statusNew) {
-            $history = new HistoryStatuses();
-            $history->setTask($task);
-            $history->setStatus($status);
-            $history->setDateStatus(new \DateTime());
-            $history->setAsignee($user);
-            $this->em->persist($history);
-        }
+        if ($hasAttach) $ts->attach($taskData['attachments'], $task);
+        if ($statusNew) $ts->updateHistory($task, $status, $user);
 
         $user = $this->getUser();
-        $mq = new MailsQueue();
-        $mq->setEvent('task.updated');
-        $data = json_encode($normalizer->normalize([$user, $sourceTask, $task, $hasAttach]));
-        $mq->setData($data);
-        $this->em->persist($mq);
-        $this->em->flush();
+        $ts->createNotificationMessage($user, $sourceTask, $task, $hasAttach);
 
         return $this->json($task, 200);
     }

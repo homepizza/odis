@@ -129,7 +129,7 @@ class NotificationService
      * @param null $commentAuthorID
      * @return array
      */
-    private function getMembersByTask(Tasks $task, $commentAuthorID=null): array
+    public function getMembersByTask(Tasks $task, $commentAuthorID=null): array
     {
         $members = [];
         $members['author'] = $task->getAuthor();

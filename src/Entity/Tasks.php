@@ -88,6 +88,11 @@ class Tasks
      */
     private $value;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $testingDays;
+
     private $history;
 
     public function __construct()
@@ -271,6 +276,18 @@ class Tasks
     public function setValue(?string $value): self
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    public function getTestingDays(): ?int
+    {
+        return $this->testingDays;
+    }
+
+    public function setTestingDays(?int $testingDays): self
+    {
+        $this->testingDays = $testingDays;
 
         return $this;
     }

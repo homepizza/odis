@@ -83,6 +83,15 @@
 
         <div class="c-divider u-mv-small"></div>
         <div class="u-flex u-justify-between u-align-items-center" style="padding-bottom: 10px;">
+            <p>Время для тестирования</p>
+            <div v-if="(!$store.state.Task.edit || $store.state.Task.isAuthor) && $store.state.Task.asignee">
+                <span class="c-badge c-badge--warning">{{ testingDays }} дней</span>
+            </div>
+            <div v-if="$store.state.Task.edit && !$store.state.Task.isAuthor" style="width: 212px; float: right">
+                <input type="text" class="c-input" v-model="testingDays" @input="setTestingDays">
+            </div>
+        </div>
+        <div class="u-flex u-justify-between u-align-items-center" style="padding-bottom: 10px;">
             <p>Время выполнения</p>
             <div v-if="!$store.state.Task.edit || $store.state.Task.isAuthor">
                 <span class="c-badge c-badge--secondary" v-if="timeValueNotNull()">
@@ -195,7 +204,8 @@
                     H: '0',
                     m: '0'
                 },
-                timeDay: '0'
+                timeDay: '0',
+                testingDays: '0'
             }
         },
         created() {
@@ -213,7 +223,9 @@
                     this.timeDay = this.timeValue ? this.timeValue.D : 0;
                     this.dueDate = task.dueDate ? moment(String(task.dueDate)).format('DD.MM.YYYY') : this.dueDate;
                     this.solutionLink = task.solutionLink;
+                    this.testingDays = task.testingDays;
                     this.setTimeValue();
+                    this.setTestingDays();
                     this.loadData();
                 }
             });
@@ -235,6 +247,9 @@
             setTimeValue: function () {
                 this.timeValue.D = this.timeDay === undefined ? 0 : this.timeDay;
                 this.$store.commit('setTimeValue', this.timeValue);
+            },
+            setTestingDays: function () {
+                this.$store.commit('setTestingDays', this.testingDays);
             },
             linkToggle: function () {
                 this.linkInput = !this.linkInput;

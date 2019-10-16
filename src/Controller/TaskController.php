@@ -6,6 +6,7 @@ use App\Repository\CommentsRepository;
 use App\Repository\StatusesRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -157,14 +158,16 @@ class TaskController extends AbstractController
      * @param int $id
      * @param HistoryStatuses $history
      * @param Statuses $statuses
+     * @param ContainerInterface $container
      * @return JsonResponse
      */
-    public function taskData(int $id, HistoryStatuses $history, Statuses $statuses): JsonResponse
+    public function taskData(int $id, HistoryStatuses $history, Statuses $statuses, ContainerInterface $container): JsonResponse
     {
         $task = $this->tasks->find($id);
         $workStatus = $statuses->findBy(['name' => 'В работе']);
         $hasWork = $history->findBy(['task' => $task, 'status' => $workStatus]);
         $hasWork = !empty($hasWork);
+        $task->setTestingDays($task->getTestingDays() ?? (int)$container->getParameter('testing_close_days'));
         return $this->json(['task' => $task, 'hasWork' => $hasWork], 200);
     }
 
