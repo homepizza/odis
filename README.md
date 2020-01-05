@@ -1,5 +1,5 @@
-# odev
-Task manager for open development.
+# ODIS
+Open development AS IS. (Task manager)
 
 `composer install`
 
